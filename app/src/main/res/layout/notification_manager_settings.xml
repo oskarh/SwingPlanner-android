@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    style="@style/AlmostWhiteBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notifications_title"
+            style="@style/SettingsView"
+            android:text="@string/subscriptions_title"
+            tools:text="@string/subscriptions_title"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notificationSubscriptionsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/notification_subscription_row"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/notificationsFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="@dimen/large_margin"
+        android:layout_marginEnd="@dimen/large_margin"
+        android:tint="@color/black"
+        app:srcCompat="@drawable/ic_add_black_24dp"/>
+</android.support.design.widget.CoordinatorLayout>

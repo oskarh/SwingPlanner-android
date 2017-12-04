@@ -1,0 +1,47 @@
+package com.oskhoj.swingplanner.ui.component
+
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.ViewGroup
+import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.util.inflateView
+import kotlinx.android.synthetic.main.notification_subscription_row.view.*
+import org.jetbrains.anko.sdk21.listeners.onClick
+import timber.log.Timber
+
+class NotificationSubscriptionAdapter(private var subscriptions: MutableList<String>, private val onClick: (String) -> Unit) : RecyclerView.Adapter<NotificationSubscriptionAdapter.ViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+            ViewHolder(parent.inflateView(R.layout.notification_subscription_row))
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(subscriptions[position], onClick)
+    }
+
+    override fun getItemCount() = subscriptions.size
+
+    // TODO: Diffutil this in a better way. Also add animation
+    fun loadSubscriptions(newSubscriptions: List<String>) {
+        Timber.d("Loading new subscriptions with size ${newSubscriptions.size}")
+        subscriptions = newSubscriptions.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun addSubscription(subscription: String) {
+        subscriptions.add(subscription)
+        notifyItemInserted(subscriptions.lastIndex)
+    }
+
+    fun removeSubscription(subscription: String) {
+        subscriptions.remove(subscription)
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind(subscription: String, listener: (String) -> Unit) = with(itemView) {
+            subscription_text.text = subscription
+            clear_icon.onClick { listener(subscription) }
+        }
+    }
+}

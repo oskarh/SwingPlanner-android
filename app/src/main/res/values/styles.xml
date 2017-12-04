@@ -1,0 +1,232 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">sans-serif-light</item>
+        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
+    </style>
+
+    <style name="AppTheme.TextView" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SmallHeader" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme.MaterialAboutActivity" parent="Theme.Mal.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="mal_card_background">@color/brown_300</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="RippleClickView" parent="AppTheme">
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="TitleText" parent="AppTheme">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SettingsView" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingTop">@dimen/card_margin</item>
+        <item name="android:paddingBottom">@dimen/card_margin</item>
+        <item name="android:paddingStart">@dimen/large_margin</item>
+        <item name="android:paddingEnd">@dimen/large_margin</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="ColorPrimaryDarkBackground" parent="AppTheme">
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AlmostWhiteBackground" parent="AppTheme">
+        <item name="android:background">@color/almost_white</item>
+    </style>
+
+    <style name="SwingPlannerCardViewStyle" parent="AppTheme">
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPaddingBottom">24dp</item>
+        <item name="contentPaddingTop">24dp</item>
+        <item name="contentPaddingLeft">16dp</item>
+        <item name="contentPaddingRight">16dp</item>
+        <item name="cardBackgroundColor">@color/brown_300</item>
+    </style>
+
+    <style name="DefaultCardStyle" parent="CardView">
+        <item name="android:layout_marginBottom">@dimen/card_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_margin</item>
+        <item name="android:layout_marginStart">@dimen/card_margin</item>
+        <item name="cardCornerRadius">3dp</item>
+        <item name="cardElevation">3dp</item>
+    </style>
+
+    <!--<style parent="swipestyle" name="Theme.AMOLED">-->
+    <!--<item name="activity_background">#000000</item>-->
+    <!--<item name="card_background">#000000</item>-->
+    <!--<item name="android:colorBackground">#000000</item>-->
+    <!--<item name="md_background_color">#000000</item>-->
+    <!--<item name="list_background">#000000</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>-->
+    <!--<item name="fontColor">#DEFFFFFF</item> &lt;!&ndash; 87% white &ndash;&gt;-->
+    <!--<item name="tintColor">#8AFFFFFF</item> &lt;!&ndash; 54% white &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style parent="swipestyle" name="Theme.AMOLED_lighter">-->
+    <!--<item name="activity_background">#121212</item>-->
+    <!--<item name="card_background">#000000</item>-->
+    <!--<item name="android:colorBackground">#121212</item>-->
+    <!--<item name="md_background_color">#121212</item>-->
+    <!--<item name="list_background">#000000</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>-->
+    <!--<item name="fontColor">#DEFFFFFF</item> &lt;!&ndash; 87% white &ndash;&gt;-->
+    <!--<item name="tintColor">#8AFFFFFF</item> &lt;!&ndash; 54% white &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style parent="swipestyle" name="Theme.DARK">-->
+    <!--<item name="activity_background">#212121</item>-->
+    <!--<item name="card_background">#303030</item>-->
+    <!--<item name="list_background">#212121</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>-->
+    <!--<item name="fontColor">#DEFFFFFF</item> &lt;!&ndash; 87% white &ndash;&gt;-->
+    <!--<item name="tintColor">#8AFFFFFF</item> &lt;!&ndash; 54% white &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style parent="swipestyle" name="Theme.DARK_BLUE">-->
+    <!--<item name="activity_background">#2F3D44</item>-->
+    <!--<item name="card_background">#37474F</item>-->
+    <!--<item name="android:colorBackground">#37474F</item>-->
+    <!--<item name="md_background_color">#37474F</item>-->
+    <!--<item name="list_background">#263238</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>-->
+    <!--<item name="fontColor">#DEFFFFFF</item> &lt;!&ndash; 87% white &ndash;&gt;-->
+    <!--<item name="tintColor">#8AFFFFFF</item> &lt;!&ndash; 54% white &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style parent="swipestyle" name="Theme.PIXEL">-->
+    <!--<item name="activity_background">#3a3a3a</item>-->
+    <!--<item name="card_background">#2d2d2d</item>-->
+    <!--<item name="android:colorBackground">#2d2d2d</item>-->
+    <!--<item name="md_background_color">#2d2d2d</item>-->
+    <!--<item name="list_background">#3a3a3a</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.PIXEL</item>-->
+    <!--<item name="fontColor">#DEFFFFFF</item> &lt;!&ndash; 87% white &ndash;&gt;-->
+    <!--<item name="tintColor">#8AFFFFFF</item> &lt;!&ndash; 54% white &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style parent="swipestyle" name="Theme.NIGHT_RED">-->
+    <!--<item name="activity_background">#312322</item>-->
+    <!--<item name="card_background">#402c2c</item>-->
+    <!--<item name="android:colorBackground">#402c2c</item>-->
+    <!--<item name="md_background_color">#402c2c</item>-->
+    <!--<item name="list_background">#261a1a</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Night_Red</item>-->
+    <!--<item name="fontColor">#defff7ed</item> &lt;!&ndash; 87% white &ndash;&gt;-->
+    <!--<item name="tintColor">#8affebcf</item> &lt;!&ndash; 54% white &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style parent="swipestyle" name="Theme.SEPIA">-->
+    <!--<item name="activity_background">#cac5ad</item>-->
+    <!--<item name="card_background">#e2dfd7</item>-->
+    <!--<item name="list_background">#cac5ad</item>-->
+    <!--<item name="android:colorBackground">#e2dfd7</item>-->
+    <!--<item name="md_background_color">#e2dfd7</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>-->
+    <!--<item name="fontColor">#de3e3d36</item> &lt;!&ndash; 87% black &ndash;&gt;-->
+    <!--<item name="tintColor">#8A3e3d36</item> &lt;!&ndash; 54% black &ndash;&gt;-->
+    <!--<item name="android:textColorPrimary">#DE3e3d36</item> &lt;!&ndash; 87% black &ndash;&gt;-->
+    <!--<item name="android:textColorSecondary">#8A3e3d36</item> &lt;!&ndash; 54% black &ndash;&gt;-->
+    <!--<item name="android:textColor">#DE3e3d36</item> &lt;!&ndash; 87% black &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="actionMenuTextColor">#DE3e3d36</item>-->
+    <!--<item name="android:actionMenuTextColor">#DE3e3d36</item>-->
+    <!--<item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style parent="swipestylelight" name="Theme.LIGHT">-->
+    <!--<item name="activity_background">#e5e5e5</item>-->
+    <!--<item name="card_background">#FFFFFF</item>-->
+    <!--<item name="list_background">#e5e5e5</item>-->
+    <!--<item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>-->
+    <!--<item name="fontColor">#DE000000</item> &lt;!&ndash; 87% black &ndash;&gt;-->
+    <!--<item name="tintColor">#8A000000</item> &lt;!&ndash; 54% black &ndash;&gt;-->
+    <!--<item name="android:textColorPrimary">#DE000000</item> &lt;!&ndash; 87% black &ndash;&gt;-->
+    <!--<item name="android:textColorSecondary">#8A000000</item> &lt;!&ndash; 54% black &ndash;&gt;-->
+    <!--<item name="android:textColor">#DE000000</item> &lt;!&ndash; 87% black &ndash;&gt;-->
+    <!--<item name="android:windowBackground">@null</item>-->
+    <!--<item name="actionMenuTextColor">#DE000000</item>-->
+    <!--<item name="android:actionMenuTextColor">#DE000000</item>-->
+    <!--<item name="android:colorBackground">#e5e5e5</item>-->
+    <!--<item name="tp_selectionColor">?android:colorAccent</item>-->
+    <!--<item name="tp_textColor">?attr/fontColor</item>-->
+    <!--<item name="tp_backgroundColor">?attr/card_background</item>-->
+    <!--</style>-->
+
+    <!--<style name="swipestyle" parent="Theme.AppCompat.NoActionBar">-->
+    <!--<item name="android:windowSharedElementsUseOverlay">false</item>-->
+    <!--<item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>-->
+    <!--<item name="android:alertDialogStyle">@style/Theme.AppCompat.Dialog.Alert</item>-->
+    <!--<item name="colorAccent">@color/md_amber_A400</item>-->
+    <!--</style>-->
+
+    <!--<style name="swipestylelight" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <!--<item name="android:windowSharedElementsUseOverlay">false</item>-->
+    <!--<item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>-->
+    <!--<item name="android:alertDialogStyle">@style/Theme.AppCompat.Light.Dialog.Alert</item>-->
+    <!--<item name="colorAccent">@color/md_amber_A400</item>-->
+    <!--</style>-->
+
+</resources>

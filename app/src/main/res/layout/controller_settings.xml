@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/teacher_item_root"
+    style="@style/AlmostWhiteBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View style="@style/Divider"/>
+
+    <LinearLayout
+        android:id="@+id/enable_animations_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingBottom="@dimen/card_margin"
+        android:paddingTop="@dimen/card_margin">
+
+        <TextView
+            android:id="@+id/enable_animations_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/large_margin"
+            android:text="@string/enable_animations"
+            tools:text="@string/enable_animations"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <CheckBox
+            android:id="@+id/animations_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/large_margin"/>
+    </LinearLayout>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:id="@+id/subscriptions_text"
+        style="@style/SettingsView"
+        android:text="@string/manage_subscriptions"
+        tools:text="@string/manage_subscriptions"/>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:id="@+id/notification_text"
+        style="@style/SettingsView"
+        android:text="@string/notification_window"
+        tools:text="@string/notification_window"/>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:id="@+id/language_text"
+        style="@style/SettingsView"
+        android:text="@string/language"
+        tools:text="@string/language"/>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:id="@+id/theme_text"
+        style="@style/SettingsView"
+        android:text="@string/theme"
+        tools:text="@string/theme"/>
+
+    <View style="@style/Divider"/>
+
+</LinearLayout>

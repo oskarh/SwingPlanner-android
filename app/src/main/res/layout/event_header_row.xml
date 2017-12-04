@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/small_margin"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/message_header"
+        style="@style/SmallHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_corners_background"
+        android:paddingEnd="@dimen/card_margin"
+        android:paddingStart="@dimen/card_margin"
+        android:visibility="gone"
+        tools:text="Found 5 events matching 'Stockholm'"/>
+</LinearLayout>

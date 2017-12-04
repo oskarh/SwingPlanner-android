@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="anim_duration_short">200</integer>
+    <integer name="anim_duration_medium">300</integer>
+    <integer name="anim_duration_long">600</integer>
+    <integer name="about_screen_text_size">18</integer>
+</resources>

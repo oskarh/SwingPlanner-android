@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_content"
+    style="@style/AlmostWhiteBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/event_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:scaleType="fitXY"
+                    tools:src="@drawable/snowball"/>
+
+                <TextView
+                    android:id="@+id/event_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="@dimen/large_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    android:layout_marginTop="12dp"
+                    android:textSize="22sp"
+                    tools:text="Herräng Dance Camp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/calendar_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_calendar"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/large_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/calendar_from_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Thursday, November 23 -"/>
+
+                        <TextView
+                            android:id="@+id/calendar_to_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Sunday, November 26"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/location_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_location"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/large_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/city_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Stockholm"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/country_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="Sweden"/>
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/country_flag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="8dp"
+                                tools:src="@drawable/se"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/dancing_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/dancer_icon2"/>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/dancing_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/large_margin"
+                        tools:text="Balboa, Lindy Hop"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/teachers_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/teachers_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_people_outline_black_24dp"/>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/teachers_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/large_margin"
+                        tools:text="Skye Humphries, Frida Segerdahl, Mimmi Gunnarsson, Fredrik Dahlberg"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/competitions_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/competitions_icon"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="@dimen/details_icon_margin"
+                            android:src="@drawable/medal_icon"/>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/competitions_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/large_margin"
+                        tools:text="Jack and Gill"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/about_title"
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/details_icon_margin"
+                android:layout_marginTop="@dimen/card_margin"
+                android:text="@string/event_details"
+                tools:text="Event details"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/details_icon_margin"
+                android:layout_marginTop="@dimen/card_margin">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/website_link"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="@dimen/large_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:src="@drawable/ic_link_black_24dp"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/facebook_link"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:src="@drawable/facebook_icon"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/about_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/details_icon_margin"
+                android:layout_marginEnd="@dimen/details_icon_margin"
+                android:layout_marginStart="@dimen/details_icon_margin"
+                android:layout_marginTop="@dimen/card_margin"
+                android:autoLink="web"
+
+                tools:text="DATES
+November 24-26, 2017
+CLASSES
+Friday: Solo Jazz, Tap, Mambo and African dancing; all classes are in the afternoon.
+Saturday: Three Lindy Hop classes (70 minutes each).
+Sunday: Three Lindy Hop classes (70 minutes each).
+TEACHERS
+Lindy Hop: Åsa &amp; Daniel Heedman, Alexandra Alhimovich &amp; Lennart Westerlund, Marie N'diaye &amp; Fredrik Dahlberg.
+Solo classes: to be announced.
+LEVELS
+The Friday classes are held on a one-level-only basis. The Saturday and Sunday classes are available on three different levels: BeginnersIntermediate, Intermediate and IntermediateAdvanced/Advanced (combined level). Group division will be done once in Herräng.
+PARTIES
+Friday night will offer a deejay (Frida Häggström Gert &amp; Patrik Pettersson) social dance starting at 22.00 and finish late. Saturday night will offer a Hornsgatan Ramblers social dance starting at 22.00 and finishing late.
+ACCOMODATION
+Two alternatives will be available: general accommodation (mattresses on the floor in the School) and private accommodation (bunkbeds in Woodside).
+FOOD
+Breakfast, lunch and dinner will be availble. Night-time service will include bar &amp; café.
+TRANSPORTATION
+Own car, public transportation (SL) or our own Arlanda Airport shuttle service. The later will have one departure times from Arlanda to Herräng on Friday: 12.00. The Sunday afternoon will offer one departure time from Herräng to Arlanda: 16.00.
+PRICES:
+Three days passport including all classes plus two parties: SEK 1600
+Two day passport Saturday-Sunday, including all Lindy Hop classes plus two parties: SEK 1200
+One day passport Friday, including all solo classes plus the Friday party: SEK 600
+Individual classes: SEK 200
+Parties: SEK 150 per night
+General Accommodation: SEK 100 per night in dormitory.
+Private Accommodation: SEK 300 per night in shared double room.
+Meal deal: SEK 450 including two breakfasts (Saturday and Sunday), two lunches (Saturday and Sunday) and two dinners (Friday and Saturday).
+Individual prices are SEK 60 (breakfast), SEK 80 (lunch) and SEK 120 (dinner).
+Transportation:
+SEK 250 for a one-way transportation either way."/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favoritesFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="@dimen/large_margin"
+        android:layout_marginEnd="@dimen/large_margin"
+        android:tint="@color/black"
+        app:srcCompat="@drawable/ic_favorite_border_black_24dp"/>
+</android.support.design.widget.CoordinatorLayout>
