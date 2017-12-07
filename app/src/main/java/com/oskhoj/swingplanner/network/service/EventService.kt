@@ -1,5 +1,6 @@
 package com.oskhoj.swingplanner.network.service
 
+import com.oskhoj.swingplanner.model.BrowseEventsResponse
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import io.reactivex.Single
@@ -10,7 +11,7 @@ interface EventService {
 
     //    @GET("event/search/stockholm")
     @GET("event/")
-    fun findAllEvents(): Single<List<EventSummary>>
+    fun findAllEvents(): Single<BrowseEventsResponse>
 
     @GET("event/search/{query}")
     fun searchEvents(@Path("query") query: String): Single<List<EventSummary>>

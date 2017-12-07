@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.controller_search.*
 import kotlinx.android.synthetic.main.controller_search.view.*
 import timber.log.Timber
 
+
 class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchContract.View, SearchContract.Presenter>(args), SearchContract.View {
     override val presenter: SearchContract.Presenter by instance()
 
@@ -124,6 +125,14 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 Timber.d("Restoring list state...")
                 layoutManager.onRestoreInstanceState(it)
             }
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (!recyclerView.canScrollVertically(RecyclerView.VERTICAL)) {
+                        Timber.d("End of list...")
+                    }
+                }
+            })
         }
     }
 
