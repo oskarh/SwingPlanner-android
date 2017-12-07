@@ -2,13 +2,14 @@ package com.oskhoj.swingplanner.ui.search
 
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
+import com.oskhoj.swingplanner.model.SearchEventsPage
 import com.oskhoj.swingplanner.ui.base.Attachable
 import com.oskhoj.swingplanner.ui.base.BaseView
 
 object SearchContract {
 
     interface View : BaseView {
-        fun displayEvents(events: List<EventSummary>)
+        fun displayEvents(searchPage: SearchEventsPage)
 
         fun toggleViewMode(isCardView: Boolean)
 
@@ -17,6 +18,8 @@ object SearchContract {
         fun clearText()
 
         fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails)
+
+        fun displayEmptyView()
 
         fun displayErrorView()
 

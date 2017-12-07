@@ -1,10 +1,12 @@
 package com.oskhoj.swingplanner.model
 
+import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.oskhoj.swingplanner.util.SimpleDate
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@SuppressLint("ParcelCreator")
 data class EventSummary(
         val id: Int,
         val eventDetailsId: Int,

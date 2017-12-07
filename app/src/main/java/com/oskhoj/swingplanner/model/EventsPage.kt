@@ -1,8 +1,13 @@
 package com.oskhoj.swingplanner.model
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class BrowseEventsResponse(
+@Parcelize
+@SuppressLint("ParcelCreator")
+data class EventsPage(
         @SerializedName("content")
         val events: List<EventSummary>,
         @SerializedName("number")
@@ -14,4 +19,7 @@ data class BrowseEventsResponse(
         val totalPages: Int,
         val totalElements: Int,
         val numberOfElements: Int,
-        val size: Int)
+        val size: Int) : Parcelable {
+
+    fun hasNoEvents() = totalElements == 0
+}

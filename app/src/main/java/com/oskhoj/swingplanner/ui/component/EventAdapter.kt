@@ -56,6 +56,8 @@ open class EventAdapter(var events: List<EventSummary>, protected val onClick: (
         notifyDataSetChanged()
     }
 
+    fun isEmpty() = events.isEmpty()
+
     inner class EventHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(event: EventSummary, listener: (EventSummary) -> Unit) = with(itemView) {

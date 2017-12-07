@@ -14,11 +14,11 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.R
-import com.oskhoj.swingplanner.R.id.eventsRecyclerView
 import com.oskhoj.swingplanner.ViewType
 import com.oskhoj.swingplanner.ViewType.SEARCH_VIEW
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
+import com.oskhoj.swingplanner.model.SearchEventsPage
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.component.HeaderEventAdapter
@@ -34,7 +34,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_search.*
 import kotlinx.android.synthetic.main.controller_search.view.*
 import timber.log.Timber
-
 
 class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchContract.View, SearchContract.Presenter>(args), SearchContract.View {
     override val presenter: SearchContract.Presenter by instance()
@@ -69,13 +68,13 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     private var storedText: String = ""
 
-    override fun displayEvents(events: List<EventSummary>) {
-        eventAdapter.loadEvents(events)
+    override fun displayEvents(searchPage: SearchEventsPage) {
+        eventAdapter.loadEventsPage(searchPage.eventsPage)
     }
 
     override fun toggleViewMode(isCardView: Boolean) {
-        updateMenuItemIcon(isCardView)
-        with(eventsRecyclerView) {
+        recyclerView?.run {
+            updateMenuItemIcon(isCardView)
             eventAdapter.toggleItemViewType()
             eventAdapter.notifyDataSetChanged()
         }
@@ -94,9 +93,12 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         router.pushController(RouterTransaction.with(DetailsController(eventSummary, eventDetails)))
     }
 
+    override fun displayEmptyView() {
+        Timber.d("Displaying empty view...")
+    }
+
     override fun displayErrorView() {
         Timber.d("Displaying error view...")
-        // TODO: Display tired hamsters
     }
 
     override fun clearText() {
@@ -119,7 +121,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     private fun setUpRecyclerView(view: View) {
         with(view.eventsRecyclerView) {
-            layoutAnimation = view.context.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
+            layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
             adapter = eventAdapter
             listState?.let {
                 Timber.d("Restoring list state...")
@@ -128,6 +130,9 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (dy != 0) {
+                        activity?.closeKeyboard()
+                    }
                     if (!recyclerView.canScrollVertically(RecyclerView.VERTICAL)) {
                         Timber.d("End of list...")
                     }
@@ -144,8 +149,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        Timber.d("Creating view..")
-        presenter.searchEvents()
+        Timber.d("Attaching view..")
         activity?.run {
             recyclerView = eventsRecyclerView
             backIcon = search_back
@@ -161,6 +165,9 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 setOnFocusChangeListener { _, hasFocus ->
                     backIcon.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
                     clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
+                }
+                if (eventAdapter.isEmpty()) {
+                    presenter.searchEvents(storedText)
                 }
             }
         }

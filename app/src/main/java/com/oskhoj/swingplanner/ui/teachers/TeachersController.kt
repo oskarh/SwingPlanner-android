@@ -85,7 +85,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
 
     private fun setUpRecyclerView(view: View) {
         teacherRecyclerView = view.teachersRecyclerView.apply {
-            layoutAnimation = view.context.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
+            layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
             val dividerItemDecoration = DividerItemDecoration(context, VERTICAL)
             addItemDecoration(dividerItemDecoration)
             adapter = teacherAdapter

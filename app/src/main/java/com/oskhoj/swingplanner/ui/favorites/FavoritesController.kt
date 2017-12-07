@@ -77,7 +77,7 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
 
     private fun setUpRecyclerView(view: View) {
         with(view.eventsRecyclerView) {
-            layoutAnimation = view.context.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
+            layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
             adapter = eventAdapter
         }
     }

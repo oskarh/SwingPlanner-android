@@ -57,8 +57,7 @@ fun BottomNavigationView.setItemChecked(@IdRes itemId: Int) {
 
 fun Activity.closeKeyboard() {
     currentFocus?.let {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(it.windowToken, 0)
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(it.windowToken, 0)
     }
 }
 
@@ -115,7 +114,7 @@ fun ImageView.loadFlagIconOrDisappear(isoCode: String?, context: Context) {
     } ?: gone()
 }
 
-fun Context.loadLayoutAnimation(@AnimRes animationId: Int): LayoutAnimationController = AnimationUtils.loadLayoutAnimation(this, animationId)
+fun View.loadLayoutAnimation(@AnimRes animationId: Int): LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context, animationId)
 
 fun Context.loadAnimation(@AnimRes animationId: Int): Animation = AnimationUtils.loadAnimation(this, animationId)
 

@@ -1,16 +1,16 @@
 package com.oskhoj.swingplanner.ui.search
 
 import com.oskhoj.swingplanner.AppPreferences
-import com.oskhoj.swingplanner.model.BrowseEventsResponse
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
+import com.oskhoj.swingplanner.model.EventsPage
+import com.oskhoj.swingplanner.model.SearchEventsPage
 import com.oskhoj.swingplanner.network.EventApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
@@ -20,17 +20,21 @@ class SearchPresenter(private val eventsApiManager: EventApiManager) : BasePrese
 
     override fun searchEvents(query: CharSequence) {
         Timber.d("Searching for $query")
-        eventsApiManager.allEvents()
+        eventsApiManager.searchEvents(query)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith<SingleObserver<BrowseEventsResponse>>(object : SingleObserver<BrowseEventsResponse> {
+                .subscribe(object : SingleObserver<EventsPage> {
                     override fun onSubscribe(disposable: Disposable) {
                         compositeDisposable.add(disposable)
                     }
 
-                    override fun onSuccess(pageRequest: BrowseEventsResponse) {
-                        Timber.d("Request succeeded, got [${pageRequest.events}] pageRequest")
-                        view?.displayEvents(pageRequest.events)
+                    override fun onSuccess(eventsPage: EventsPage) {
+                        Timber.d("Request succeeded, got [${eventsPage.events}] eventsPage")
+                        if (eventsPage.hasNoEvents()) {
+                            view?.displayEmptyView()
+                        } else {
+                            view?.displayEvents(SearchEventsPage(query, eventsPage))
+                        }
                     }
 
                     override fun onError(throwable: Throwable) {
@@ -42,10 +46,14 @@ class SearchPresenter(private val eventsApiManager: EventApiManager) : BasePrese
 
     override fun onEventClicked(eventSummary: EventSummary) {
         Timber.d("Got event click for id ${eventSummary.id}")
-        compositeDisposable.add(eventsApiManager.eventDetailsById(eventSummary.eventDetailsId)
+        eventsApiManager.eventDetailsById(eventSummary.eventDetailsId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith<DisposableSingleObserver<EventDetails>>(object : DisposableSingleObserver<EventDetails>() {
+                .subscribe(object : SingleObserver<EventDetails> {
+                    override fun onSubscribe(disposable: Disposable) {
+                        compositeDisposable.add(disposable)
+                    }
+
                     override fun onSuccess(eventDetails: EventDetails) {
                         Timber.d("Request succeeded, got $eventDetails events")
                         view?.openEventDetails(eventSummary, eventDetails)
@@ -55,7 +63,7 @@ class SearchPresenter(private val eventsApiManager: EventApiManager) : BasePrese
                         Timber.w(error, "Request failed")
                         view?.displayErrorView()
                     }
-                }))
+                })
     }
 
     override fun onSearchBack() {
