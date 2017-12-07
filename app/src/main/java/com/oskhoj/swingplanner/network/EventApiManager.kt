@@ -1,6 +1,6 @@
 package com.oskhoj.swingplanner.network
 
-import com.oskhoj.swingplanner.model.EventSummary
+import com.oskhoj.swingplanner.model.BrowseEventsResponse
 import com.oskhoj.swingplanner.network.service.EventService
 import io.reactivex.Single
 import timber.log.Timber
@@ -11,7 +11,7 @@ class EventApiManager(private val eventService: EventService) {
         Timber.d("Creating EventApiManager...")
     }
 
-    fun allEvents(): Single<List<EventSummary>> =
+    fun allEvents(): Single<BrowseEventsResponse> =
             eventService.findAllEvents()
 
     fun searchEvents(query: String) =

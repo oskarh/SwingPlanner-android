@@ -1,19 +1,19 @@
 package com.oskhoj.swingplanner.model
 
+import android.os.Parcelable
 import com.oskhoj.swingplanner.util.SimpleDate
-import paperparcel.PaperParcel
-import paperparcel.PaperParcelable
+import kotlinx.android.parcel.Parcelize
 
-@PaperParcel
+@Parcelize
 data class EventSummary(
         val id: Int,
         val eventDetailsId: Int,
         val name: String,
         val city: String,
         val country: Country,
-        val startDay: String,
-        val endDay: String?,
-        val imageUrl: String?) : PaperParcelable, Comparable<EventSummary> {
+        private val startDay: String,
+        private val endDay: String?,
+        val imageUrl: String?) : Parcelable, Comparable<EventSummary> {
 
     val startDate: SimpleDate
         get() = SimpleDate.from(startDay)
@@ -31,9 +31,4 @@ data class EventSummary(
     override fun compareTo(other: EventSummary) =
             startDate.compareTo(other.startDate).takeUnless { startDate == other.startDate }
                     ?: name.compareTo(other.name, true)
-
-    companion object {
-        @JvmField
-        val CREATOR = PaperParcelEventSummary.CREATOR
-    }
 }

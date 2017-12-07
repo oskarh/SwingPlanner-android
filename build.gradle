@@ -21,7 +21,6 @@ buildscript {
         loggingInterceptorVersion = '3.9.1'
         materialAboutLibraryVersion = '2.2.3'
         materialTypefaceVersion = '2.0.46.1'
-        paperParcelVersion = '2.0.4'
         playServicesVersion = '11.4.2'
         retrofitVersion = '2.3.0'
         rxAndroidVersion = '2.0.1'

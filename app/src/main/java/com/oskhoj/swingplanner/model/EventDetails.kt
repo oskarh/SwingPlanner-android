@@ -1,9 +1,9 @@
 package com.oskhoj.swingplanner.model
 
-import paperparcel.PaperParcel
-import paperparcel.PaperParcelable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-@PaperParcel
+@Parcelize
 data class EventDetails(
         val id: Int,
         val description: String,
@@ -14,9 +14,4 @@ data class EventDetails(
         val competitionsText: String?,
         val danceStyles: String,
         val teachers: List<Teacher>?,
-        val teachersDescription: String?) : PaperParcelable {
-    companion object {
-        @JvmField
-        val CREATOR = PaperParcelEventDetails.CREATOR
-    }
-}
+        val teachersDescription: String?) : Parcelable
