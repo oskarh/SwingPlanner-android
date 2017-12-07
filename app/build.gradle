@@ -38,6 +38,10 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:cardview-v7:$supportVersion"
@@ -64,10 +68,6 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$glideVersion"
 //    kapt "com.github.bumptech.glide:compiler:$glideVersion"
-
-    compile "nz.bradcampbell:paperparcel:$paperParcelVersion"
-    compile "nz.bradcampbell:paperparcel-kotlin:$paperParcelVersion"
-    kapt "nz.bradcampbell:paperparcel-compiler:$paperParcelVersion"
 
     implementation "com.github.daniel-stoneuk:material-about-library:$materialAboutLibraryVersion"
     implementation "com.mikepenz:community-material-typeface:$materialTypefaceVersion@aar"

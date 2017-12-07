@@ -1,19 +1,14 @@
 package com.oskhoj.swingplanner.model
 
-import paperparcel.PaperParcel
-import paperparcel.PaperParcelable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-@PaperParcel
+@Parcelize
 data class Teacher(
         val id: Int,
-        val name: String) : PaperParcelable, Comparable<Teacher> {
+        val name: String) : Parcelable, Comparable<Teacher> {
     
     override fun compareTo(other: Teacher): Int {
         return name.compareTo(other.name, true)
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR = PaperParcelTeacher.CREATOR
     }
 }

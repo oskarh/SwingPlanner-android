@@ -20,9 +20,6 @@ data class SimpleDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comp
         year != other.year -> year.compareTo(other.year)
         month != other.month -> month.compareTo(other.month)
         else -> dayOfMonth.compareTo(other.dayOfMonth)
-//        year != other.year -> year - other.year
-//        month != other.month -> month - other.month
-//        else -> dayOfMonth - other.dayOfMonth
     }
 
     fun getShortMonth(context: Context) = Month.getMonth(month, context).take(3)
