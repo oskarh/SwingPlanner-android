@@ -1,8 +1,13 @@
 package com.oskhoj.swingplanner.model
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.Locale
 
-data class SearchEventsPage(private val _query: String, val eventsPage: EventsPage) {
+@Parcelize
+@SuppressLint("ParcelCreator")
+data class SearchEventsPage(private val _query: String, val eventsPage: EventsPage) : Parcelable {
 
     constructor(query: CharSequence, eventsPage: EventsPage) : this(query.toString(), eventsPage)
 
@@ -10,4 +15,6 @@ data class SearchEventsPage(private val _query: String, val eventsPage: EventsPa
         get() = field.trim().toLowerCase(Locale.ENGLISH)
 
     val events = eventsPage.events
+
+    val hasNextPage = !eventsPage.isLastPage
 }

@@ -68,8 +68,11 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     private var storedText: String = ""
 
+    private var searchEventsPage: SearchEventsPage? = null
+
     override fun displayEvents(searchPage: SearchEventsPage) {
         eventAdapter.loadEventsPage(searchPage.eventsPage)
+        searchEventsPage = searchPage
     }
 
     override fun toggleViewMode(isCardView: Boolean) {
@@ -166,7 +169,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                     backIcon.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
                     clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
                 }
-                if (eventAdapter.isEmpty()) {
+                if (searchEventsPage == null) {
                     presenter.searchEvents(storedText)
                 }
             }
@@ -183,19 +186,18 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     // TODO: Check if searchText has been initialized
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArrayList(KEY_STATE_EVENTS_LIST, ArrayList<EventSummary>(eventAdapter.events))
-        val searchString = searchText?.text?.toString() ?: ""
-        outState.putString(KEY_STATE_SEARCH_TEXT, searchString)
-        val listState = recyclerView?.layoutManager?.onSaveInstanceState()
-        outState.putParcelable(KEY_STATE_LIST_POSITION, listState)
-        Timber.d("onSaveInstanceState, saving ${eventAdapter.events.size} events")
+        Timber.d("Saving $searchEventsPage")
+        outState.putParcelable(KEY_STATE_EVENTS_LIST, searchEventsPage)
+        outState.putString(KEY_STATE_SEARCH_TEXT, searchText?.text?.toString() ?: "")
+        outState.putParcelable(KEY_STATE_LIST_POSITION, recyclerView?.layoutManager?.onSaveInstanceState())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        Timber.d("Size was ${savedInstanceState.getParcelableArrayList<EventSummary>(KEY_STATE_EVENTS_LIST).size}")
         storedText = savedInstanceState.getString(KEY_STATE_SEARCH_TEXT)
-        val storedEvents = savedInstanceState.getParcelableArrayList<EventSummary>(KEY_STATE_EVENTS_LIST) as ArrayList<EventSummary>
-        eventAdapter.loadEvents(storedEvents)
+        savedInstanceState.getParcelable<SearchEventsPage>(KEY_STATE_EVENTS_LIST)?.let {
+            searchEventsPage = it
+            displayEvents(it)
+        }
         listState = savedInstanceState.getParcelable(KEY_STATE_LIST_POSITION)
     }
 
