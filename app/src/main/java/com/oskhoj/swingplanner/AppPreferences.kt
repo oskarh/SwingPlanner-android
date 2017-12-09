@@ -65,7 +65,7 @@ object AppPreferences : KotprefModel() {
 
     private var filterOptionsString by stringPref(DanceStyle.values().joinToString(","))
 
-    private var filterOptions: Set<DanceStyle> = setOf()
+    var filterOptions: Set<DanceStyle> = setOf()
         get() = filterOptionsString
                 .split(",")
                 .filter { it.isNotBlank() }
@@ -84,4 +84,8 @@ object AppPreferences : KotprefModel() {
     }
 
     fun hasFavoriteDanceStyle(danceStyle: DanceStyle) = filterOptions.contains(danceStyle)
+
+    var filteredDanceStyles = filterOptions.joinToString(",")
+        get() = filterOptions.joinToString(",")
+        private set
 }

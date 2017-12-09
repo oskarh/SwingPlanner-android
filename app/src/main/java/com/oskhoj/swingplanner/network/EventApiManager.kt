@@ -9,12 +9,9 @@ class EventApiManager(private val eventService: EventService) {
         Timber.d("Creating EventApiManager...")
     }
 
-    fun searchEvents(query: CharSequence) =
-            eventService.searchEvents(query.toString())
+    fun searchEvents(query: CharSequence, styles: String) = eventService.searchEvents(query.toString(), styles)
 
-    fun eventsByIds(eventIds: List<Int>) =
-            eventService.eventsByIds(eventIds.joinToString(","))
+    fun eventsByIds(eventIds: List<Int>) = eventService.eventsByIds(eventIds.joinToString(","))
 
-    fun eventDetailsById(eventId: Int) =
-            eventService.eventDetailsById(eventId)
+    fun eventDetailsById(eventId: Int) = eventService.eventDetailsById(eventId)
 }

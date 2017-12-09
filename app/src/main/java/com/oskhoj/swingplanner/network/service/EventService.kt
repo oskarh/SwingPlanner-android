@@ -11,10 +11,10 @@ import retrofit2.http.Query
 interface EventService {
 
     @GET("event/")
-    fun searchEvents(@Query("q") q: String): Single<EventsPage>
+    fun searchEvents(@Query("q") q: String, @Query("styles") styles: String): Single<EventsPage>
 
-    @GET("event/list/{eventIds}")
-    fun eventsByIds(@Path("eventIds") eventIds: String): Single<List<EventSummary>>
+    @GET("event/list/")
+    fun eventsByIds(@Query("ids") eventIds: String): Single<List<EventSummary>>
 
     @GET("event/details/{eventId}")
     fun eventDetailsById(@Path("eventId") eventId: Int): Single<EventDetails>

@@ -4,7 +4,6 @@ import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
-import com.oskhoj.swingplanner.model.SearchEventsPage
 import com.oskhoj.swingplanner.network.EventApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import io.reactivex.SingleObserver
@@ -18,27 +17,30 @@ class SearchPresenter(private val eventsApiManager: EventApiManager) : BasePrese
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    override fun searchEvents(query: CharSequence) {
-        Timber.d("Searching for $query")
-        eventsApiManager.searchEvents(query)
+    override fun searchEvents(query: CharSequence, styles: String) {
+        Timber.d("Searching for $query $styles")
+        eventsApiManager.searchEvents(query, styles)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleObserver<EventsPage> {
                     override fun onSubscribe(disposable: Disposable) {
                         compositeDisposable.add(disposable)
+                        view?.showLoading()
                     }
 
                     override fun onSuccess(eventsPage: EventsPage) {
-                        Timber.d("Request succeeded, got [${eventsPage.events}] eventsPage")
+                        Timber.d("Request succeeded, got [${eventsPage.events}] events")
+                        view?.hideLoading()
                         if (eventsPage.hasNoEvents()) {
                             view?.displayEmptyView()
                         } else {
-                            view?.displayEvents(SearchEventsPage(query, eventsPage))
+                            view?.displayEvents(eventsPage)
                         }
                     }
 
                     override fun onError(throwable: Throwable) {
                         Timber.w(throwable, "Request failed")
+                        view?.hideLoading()
                         view?.displayErrorView()
                     }
                 })

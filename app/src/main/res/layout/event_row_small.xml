@@ -44,14 +44,16 @@
                 android:id="@+id/small_event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textStyle="bold"
                 tools:text="Herräng Dance Camp"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal|end"
                 android:orientation="horizontal">
 
                 <FrameLayout

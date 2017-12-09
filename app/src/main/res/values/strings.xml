@@ -59,4 +59,6 @@
     <string name="search_header_found">Found %1$d events</string>
     <string name="search_header_empty">Found no events matching \'%1$s\'</string>
     <string name="no_favorites_found">You don\'t have any events added as favorites yet</string>
+    <string name="no_events_found">No events found</string>
+    <string name="no_favorites_added">No favorites added</string>
 </resources>

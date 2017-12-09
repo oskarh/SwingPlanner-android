@@ -136,3 +136,13 @@ fun Context.getLong(@IntegerRes id: Int) = resources.getInteger(id).toLong()
 
 inline val Context.clipboardManager: ClipboardManager
     get() = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+
+inline fun <reified T : Enum<T>> enumContains(candidate: String) =
+        T::class.java.enumConstants.any { it.name == candidate }
+
+inline fun <reified T : Enum<T>> enumSetFrom(danceStyles: String) =
+        danceStyles.split(",")
+                .map { it.trim().toUpperCase() }
+                .filter { enumContains<T>(it) }
+                .map { enumValueOf<T>(it) }
+                .toSet()

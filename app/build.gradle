@@ -73,6 +73,9 @@ dependencies {
     implementation "com.mikepenz:community-material-typeface:$materialTypefaceVersion@aar"
     implementation "com.mikepenz:iconics-core:$iconicsCoreVersion@aar"
 
+    compile "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
+    compile "com.jakewharton.rxbinding2:rxbinding-design:$rxBindingVersion"
+
     implementation "org.jetbrains.anko:anko-sdk21:$ankoVersion"
     implementation "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
     implementation "org.jetbrains.anko:anko-sdk21-listeners:$ankoVersion"

@@ -5,10 +5,11 @@ import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.ui.base.Attachable
 import com.oskhoj.swingplanner.ui.base.BaseView
+import com.oskhoj.swingplanner.ui.base.Loadable
 
 object TeachersContract {
 
-    interface View : BaseView {
+    interface View : BaseView, Loadable {
         fun displayTeachers(teachers: List<Teacher>)
 
         fun abortSearch()

@@ -4,10 +4,11 @@ import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.ui.base.Attachable
 import com.oskhoj.swingplanner.ui.base.BaseView
+import com.oskhoj.swingplanner.ui.base.Loadable
 
 object FavoritesContract {
 
-    interface View : BaseView {
+    interface View : BaseView, Loadable {
         fun displayEvents(events: List<EventSummary>)
 
         fun toggleViewMode(isCardView: Boolean)
