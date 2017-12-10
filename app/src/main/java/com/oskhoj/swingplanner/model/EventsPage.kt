@@ -39,4 +39,6 @@ data class EventsPage(
     }
 
     fun EventsPage?.hasEvents() = this != null && totalEvents > 0
+
+    fun toShortString() = "$query $stylesFilter $pageNumber"
 }

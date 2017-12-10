@@ -77,6 +77,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun displayEvents(searchPage: EventsPage) {
         Timber.d("Displaying $searchPage")
+        Timber.d("Comparing ${searchEventsPage?.toShortString()} and ${searchPage.toShortString()}")
         if (searchEventsPage?.isSameSearchNextPage(searchPage) == true) {
             Timber.d("Was same search for next page")
             eventAdapter.addEvents(searchPage.events)
