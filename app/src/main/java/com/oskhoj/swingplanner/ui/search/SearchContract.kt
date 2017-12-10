@@ -29,7 +29,7 @@ object SearchContract {
     }
 
     interface Presenter : Attachable<View> {
-        fun searchEvents(query: CharSequence = "", styles: String = AppPreferences.filteredDanceStyles)
+        fun searchEvents(query: CharSequence = "", styles: String = AppPreferences.filteredDanceStyles, page: Int = 0)
 
         fun onSearchBack()
 

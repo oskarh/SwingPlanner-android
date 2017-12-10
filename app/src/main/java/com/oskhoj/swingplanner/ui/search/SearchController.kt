@@ -30,6 +30,7 @@ import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.closeKeyboard
 import com.oskhoj.swingplanner.util.gone
+import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -76,10 +77,16 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun displayEvents(searchPage: EventsPage) {
         Timber.d("Displaying $searchPage")
-        eventAdapter.loadEventsPage(searchPage)
+        if (searchEventsPage?.isSameSearchNextPage(searchPage) == true) {
+            Timber.d("Was same search for next page")
+            eventAdapter.addEvents(searchPage.events)
+        } else {
+            Timber.d("New search")
+            eventAdapter.loadEventsPage(searchPage)
+            hideEmptyErrorView()
+            recyclerView?.layoutManager?.scrollToPosition(0)
+        }
         searchEventsPage = searchPage
-        hideEmptyErrorView()
-        recyclerView?.layoutManager?.scrollToPosition(0)
     }
 
     override fun toggleViewMode(isCardView: Boolean) {
@@ -183,6 +190,12 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                     }
                     if (!recyclerView.canScrollVertically(RecyclerView.VERTICAL)) {
                         Timber.d("End of list...")
+                        searchEventsPage?.run {
+                            if (!isLastPage) {
+                                Timber.d("Found another page to load, loading page ${pageNumber + 1}")
+                                presenter.searchEvents(query, stylesFilter, pageNumber + 1)
+                            }
+                        }
                     }
                 }
             })

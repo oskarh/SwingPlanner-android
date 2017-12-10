@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface EventService {
 
     @GET("event/")
-    fun searchEvents(@Query("q") q: String, @Query("styles") styles: String): Single<EventsPage>
+    fun searchEvents(@Query("q") q: String, @Query("styles") styles: String, @Query("p") p: Int): Single<EventsPage>
 
     @GET("event/list/")
     fun eventsByIds(@Query("ids") eventIds: String): Single<List<EventSummary>>

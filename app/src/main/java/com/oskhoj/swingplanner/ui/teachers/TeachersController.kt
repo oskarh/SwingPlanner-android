@@ -24,10 +24,12 @@ import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.closeKeyboard
 import com.oskhoj.swingplanner.util.gone
+import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_teachers.view.*
+import org.jetbrains.anko.sdk21.listeners.onClick
 import timber.log.Timber
 
 class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<TeachersContract.View, TeachersContract.Presenter>(args), TeachersContract.View, ViewHolderList {

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
+import com.oskhoj.swingplanner.util.getLong
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.inflateView
 import com.oskhoj.swingplanner.util.visible

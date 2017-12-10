@@ -14,12 +14,11 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class SearchPresenter(private val eventsApiManager: EventApiManager) : BasePresenter<SearchContract.View>(), SearchContract.Presenter {
-
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    override fun searchEvents(query: CharSequence, styles: String) {
+    override fun searchEvents(query: CharSequence, styles: String, page: Int) {
         Timber.d("Searching for $query $styles")
-        eventsApiManager.searchEvents(query, styles)
+        eventsApiManager.searchEvents(query, styles, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleObserver<EventsPage> {
