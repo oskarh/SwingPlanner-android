@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:orientation="vertical">
 
             <TextView
@@ -37,55 +37,41 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="@dimen/card_margin"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/small_event_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
+                android:layout_gravity="center_vertical"
                 android:ellipsize="end"
+                android:gravity="end"
                 android:singleLine="true"
                 android:textStyle="bold"
                 tools:text="Herräng Dance Camp"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|end"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="end"
                 android:orientation="horizontal">
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/small_event_city"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="@dimen/card_margin"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        tools:text="Stockholm"/>
-                </FrameLayout>
 
                 <TextView
                     android:id="@+id/small_event_country"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/card_margin"
-                    tools:text="Sweden"/>
+                    android:layout_gravity="center_vertical"
+                    tools:text="Stockholm, Sweden"/>
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/small_country_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="25dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginEnd="@dimen/card_margin"
+                    android:layout_marginStart="@dimen/card_margin"
+                    android:layout_marginTop="2dp"
                     tools:src="@drawable/se"/>
             </LinearLayout>
         </LinearLayout>
