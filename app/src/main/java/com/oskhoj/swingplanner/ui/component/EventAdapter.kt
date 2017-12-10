@@ -71,8 +71,7 @@ open class EventAdapter(var events: List<EventSummary>, protected val onClick: (
                 card_country_flag.loadFlagIconOrDisappear(event.country.isoCode, context)
             } else {
                 small_event_name.text = event.name
-                small_event_city.text = "${event.city},"
-                small_event_country.text = event.country.name
+                small_event_country.text = "${event.city}, ${event.country.name}"
                 month_small_text.text = Month.getMonth(event.startDate.month, itemView.context).take(3)
                 day_small_text.text = event.dayOfMonth
                 small_country_flag.loadFlagIconOrDisappear(event.country.isoCode, context)
