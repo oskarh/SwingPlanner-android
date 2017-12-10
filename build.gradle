@@ -1,11 +1,11 @@
 buildscript {
     ext {
-        buildToolsVersion = "27.0.1"
+        buildToolsVersion = "27.0.2"
         compileSdkVersion = 27
         minSdkVersion = 21
         targetSdkVersion = 27
 
-        gradlePluginVersion = '3.1.0-alpha04'
+        gradlePluginVersion = '3.1.0-alpha05'
 
         androidTestVersion = '1.0.1'
         ankoVersion = '0.10.3'
@@ -16,7 +16,7 @@ buildscript {
         iconicsCoreVersion = '3.0.0'
         junitVersion = '4.12'
         kodeinVersion = '4.1.0'
-        kotlinVersion = '1.1.51'
+        kotlinVersion = '1.1.61'
         kotprefVersion = '2.2.0'
         loggingInterceptorVersion = '3.9.1'
         materialAboutLibraryVersion = '2.2.3'
@@ -24,6 +24,7 @@ buildscript {
         playServicesVersion = '11.4.2'
         retrofitVersion = '2.3.0'
         rxAndroidVersion = '2.0.1'
+        rxBindingVersion = '2.0.0'
         rxJavaVersion = '2.1.7'
         storeVersion = '3.0.0-beta'
         supportVersion = '27.0.2'

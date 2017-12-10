@@ -1,8 +1,6 @@
 package com.oskhoj.swingplanner.network
 
-import com.oskhoj.swingplanner.model.BrowseEventsResponse
 import com.oskhoj.swingplanner.network.service.EventService
-import io.reactivex.Single
 import timber.log.Timber
 
 class EventApiManager(private val eventService: EventService) {
@@ -11,15 +9,9 @@ class EventApiManager(private val eventService: EventService) {
         Timber.d("Creating EventApiManager...")
     }
 
-    fun allEvents(): Single<BrowseEventsResponse> =
-            eventService.findAllEvents()
+    fun searchEvents(query: CharSequence, styles: String, page: Int) = eventService.searchEvents(query.toString(), styles, page)
 
-    fun searchEvents(query: String) =
-            eventService.searchEvents(query)
+    fun eventsByIds(eventIds: List<Int>) = eventService.eventsByIds(eventIds.joinToString(","))
 
-    fun eventsByIds(eventIds: List<Int>) =
-            eventService.eventsByIds(eventIds.joinToString(","))
-
-    fun eventDetailsById(eventId: Int) =
-            eventService.eventDetailsById(eventId)
+    fun eventDetailsById(eventId: Int) = eventService.eventDetailsById(eventId)
 }

@@ -1,6 +1,7 @@
 package com.oskhoj.swingplanner.ui.component
 
 import android.content.Context
+import android.content.DialogInterface
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.AppCompatImageView
 import android.util.TypedValue
@@ -30,7 +31,7 @@ class BottomSheetDialogHelper private constructor() {
         private val largeMargin = 16
         private val cardMargin = 8
 
-        fun showFilterDialog(context: Context?) {
+        fun showFilterDialog(context: Context?, listener: DialogInterface.() -> Unit) {
             context?.run {
                 val filterDialog = BottomSheetDialog(context)
                 val rootLayout = LinearLayout(context).apply {
@@ -81,8 +82,11 @@ class BottomSheetDialogHelper private constructor() {
                 }
                 rootLayout.addView(okButton)
 
-                filterDialog.setContentView(rootLayout)
-                filterDialog.show()
+                filterDialog.run {
+                    setContentView(rootLayout)
+                    setOnDismissListener(listener)
+                    show()
+                }
             }
         }
 

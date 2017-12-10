@@ -23,15 +23,16 @@ import com.oskhoj.swingplanner.ui.component.TextChangedListener
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.closeKeyboard
+import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
+import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_teachers.view.*
 import org.jetbrains.anko.sdk21.listeners.onClick
 import timber.log.Timber
 
 class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<TeachersContract.View, TeachersContract.Presenter>(args), TeachersContract.View, ViewHolderList {
-
     override val presenter: TeachersContract.Presenter by instance()
 
     override val layoutRes = R.layout.controller_teachers
@@ -83,12 +84,28 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         Timber.d("Opening event details...")
     }
 
+    override fun showLoading() {
+        view?.teachers_progressbar?.visible()
+    }
+
+    override fun hideLoading() {
+        view?.teachers_progressbar?.gone()
+    }
+
     private fun setUpRecyclerView(view: View) {
         teacherRecyclerView = view.teachersRecyclerView.apply {
-            layoutAnimation = view.context.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
+            layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
             val dividerItemDecoration = DividerItemDecoration(context, VERTICAL)
             addItemDecoration(dividerItemDecoration)
             adapter = teacherAdapter
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (dy != 0) {
+                        activity?.closeKeyboard()
+                    }
+                }
+            })
         }
     }
 
@@ -121,7 +138,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
             clearIcon = search_clear
             clearIcon.setOnClickListener { presenter.onSearchClear() }
 
-            search_text?.run {
+            searchText = search_text?.apply {
                 setText(storedText)
                 setSelection(storedText.length)
                 addTextChangedListener(textListener)

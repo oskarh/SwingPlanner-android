@@ -23,15 +23,18 @@ class FavoritesPresenter(private val eventsApiManager: EventApiManager) : BasePr
         } else {
             val subscribeWith: DisposableSingleObserver<List<EventSummary>> = eventsApiManager.eventsByIds(favoriteIds)
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { view?.showLoading() }
                     .subscribeOn(Schedulers.io())
                     .subscribeWith(object : DisposableSingleObserver<List<EventSummary>>() {
                         override fun onSuccess(events: List<EventSummary>) {
                             Timber.d("Request succeeded, got ${events.size} events")
+                            view?.hideLoading()
                             view?.displayEvents(events)
                         }
 
                         override fun onError(error: Throwable) {
                             Timber.w(error, "Request failed")
+                            view?.hideLoading()
                             view?.displayErrorView()
                         }
                     })
