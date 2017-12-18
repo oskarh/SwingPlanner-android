@@ -1,9 +1,9 @@
 package com.oskhoj.swingplanner.ui.search
 
-import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
+import com.oskhoj.swingplanner.network.EventSearchParams
 import com.oskhoj.swingplanner.ui.base.Attachable
 import com.oskhoj.swingplanner.ui.base.BaseView
 import com.oskhoj.swingplanner.ui.base.Loadable
@@ -29,7 +29,7 @@ object SearchContract {
     }
 
     interface Presenter : Attachable<View> {
-        fun searchEvents(query: CharSequence = "", styles: String = AppPreferences.filteredDanceStyles, page: Int = 0)
+        fun searchEvents(eventSearchParams: EventSearchParams)
 
         fun onSearchBack()
 

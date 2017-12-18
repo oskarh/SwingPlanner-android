@@ -37,7 +37,7 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
     })
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<FavoritesContract.Presenter>() with provider { FavoritesPresenter(instance()) }
+        bind<FavoritesContract.Presenter>() with provider { FavoritesPresenter(instance(), instance()) }
     }
 
     override fun displayEvents(events: List<EventSummary>) {

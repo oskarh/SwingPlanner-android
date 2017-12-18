@@ -11,8 +11,20 @@ import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
+import com.google.gson.Gson
+import com.nytimes.android.external.fs3.FileSystemPersisterFactory
+import com.nytimes.android.external.store3.base.impl.BarCode
+import com.nytimes.android.external.store3.base.impl.Store
+import com.nytimes.android.external.store3.base.impl.StoreBuilder
+import com.nytimes.android.external.store3.middleware.GsonParserFactory
+import com.oskhoj.swingplanner.model.EventDetails
+import com.oskhoj.swingplanner.model.EventsPage
+import com.oskhoj.swingplanner.model.FavoritesResponse
+import com.oskhoj.swingplanner.model.TeachersResponse
 import com.oskhoj.swingplanner.network.ApiManagerFactory
 import com.oskhoj.swingplanner.network.EventApiManager
+import com.oskhoj.swingplanner.network.EventSearchBarcode
+import com.oskhoj.swingplanner.network.FavoritesBarcode
 import com.oskhoj.swingplanner.network.TeacherApiManager
 import com.oskhoj.swingplanner.network.service.EventService
 import com.oskhoj.swingplanner.network.service.TeacherService
@@ -21,6 +33,7 @@ import com.oskhoj.swingplanner.util.find
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
+import okio.BufferedSource
 
 class MainActivity : AppCompatActivity(), ToolbarProvider {
 
@@ -39,12 +52,52 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
             bind<EventService>() with singleton { ApiManagerFactory.eventService }
             bind<TeacherApiManager>() with singleton { TeacherApiManager(instance()) }
             bind<TeacherService>() with singleton { ApiManagerFactory.teacherService }
+            bind<Store<EventsPage, EventSearchBarcode>>() with singleton { eventSummariesStore(instance()) }
+            bind<Store<EventDetails, BarCode>>() with singleton { eventDetailsStore(instance()) }
+            bind<Store<FavoritesResponse, FavoritesBarcode>>() with singleton { favoritesStore(instance()) }
+            bind<Store<TeachersResponse, BarCode>>() with singleton { teacherStore(instance()) }
         })
 
         router = Conductor.attachRouter(this, controller_container, savedInstanceState)
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(BottomNavigationController()))
         }
+    }
+
+    private fun eventSummariesStore(eventApiManager: EventApiManager): Store<EventsPage, EventSearchBarcode> {
+        return StoreBuilder
+                .parsedWithKey<EventSearchBarcode, BufferedSource, EventsPage>()
+                .fetcher { eventApiManager.searchEvents(it.params).map { it.source() } }
+                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .parser(GsonParserFactory.createSourceParser(Gson(), EventsPage::class.java))
+                .open()
+    }
+
+    private fun eventDetailsStore(eventApiManager: EventApiManager): Store<EventDetails, BarCode> {
+        return StoreBuilder
+                .parsedWithKey<BarCode, BufferedSource, EventDetails>()
+                .fetcher { eventApiManager.eventDetailsById(it.key.toInt()).map { it.source() } }
+                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .parser(GsonParserFactory.createSourceParser(Gson(), EventDetails::class.java))
+                .open()
+    }
+
+    private fun favoritesStore(eventApiManager: EventApiManager): Store<FavoritesResponse, FavoritesBarcode> {
+        return StoreBuilder
+                .parsedWithKey<FavoritesBarcode, BufferedSource, FavoritesResponse>()
+                .fetcher { eventApiManager.eventsByIds(it.favoritesParameters.ids).map { it.source() } }
+                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .parser(GsonParserFactory.createSourceParser(Gson(), FavoritesResponse::class.java))
+                .open()
+    }
+
+    private fun teacherStore(teacherApiManager: TeacherApiManager): Store<TeachersResponse, BarCode> {
+        return StoreBuilder
+                .parsedWithKey<BarCode, BufferedSource, TeachersResponse>()
+                .fetcher { teacherApiManager.allTeachers().map { it.source() } }
+                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .parser(GsonParserFactory.createSourceParser(Gson(), TeachersResponse::class.java))
+                .open()
     }
 
     override fun updateToolbar(viewType: ViewType) = when (viewType) {

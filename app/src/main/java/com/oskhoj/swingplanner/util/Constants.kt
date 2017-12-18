@@ -12,3 +12,8 @@ const val KEY_STATE_SEARCH_TEXT = "key_state_search_text"
 const val SUBSCRIPTION_MIN_LENGTH = 4
 
 const val DATE_SEPARATOR = "-"
+
+const val TEACHER = "Teacher"
+const val EVENT_DETAILS = "EventDetails"
+const val EVENTS_PAGE = "EventsPage"
+const val FAVORITES_PAGE = "FavoritesPage"

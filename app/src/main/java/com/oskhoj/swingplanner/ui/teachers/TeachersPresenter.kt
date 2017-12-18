@@ -1,12 +1,15 @@
 package com.oskhoj.swingplanner.ui.teachers
 
+import com.nytimes.android.external.store3.base.impl.BarCode
+import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
-import com.oskhoj.swingplanner.network.EventApiManager
-import com.oskhoj.swingplanner.network.TeacherApiManager
+import com.oskhoj.swingplanner.model.TeachersResponse
 import com.oskhoj.swingplanner.ui.base.BasePresenter
+import com.oskhoj.swingplanner.util.EVENT_DETAILS
+import com.oskhoj.swingplanner.util.TEACHER
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,24 +18,26 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class TeachersPresenter(private val eventsApiManager: EventApiManager, private val teacherApiManager: TeacherApiManager) : BasePresenter<TeachersContract.View>(), TeachersContract.Presenter {
+class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>, private val eventDetailsStore: Store<EventDetails, BarCode>) :
+        BasePresenter<TeachersContract.View>(), TeachersContract.Presenter {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun loadTeachers(query: String) {
-        teacherApiManager.allTeachers()
+
+        store.get(BarCode(TEACHER, ""))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleObserver<List<Teacher>> {
+                .subscribe(object : SingleObserver<TeachersResponse> {
                     override fun onSubscribe(disposable: Disposable) {
                         compositeDisposable.add(disposable)
                         view?.showLoading()
                     }
 
-                    override fun onSuccess(teachers: List<Teacher>) {
-                        Timber.d("Request succeeded, got [${teachers.size}] teachers")
+                    override fun onSuccess(response: TeachersResponse) {
+                        Timber.d("Request succeeded, got [${response.teachers.size}] teachers")
                         view?.hideLoading()
-                        view?.displayTeachers(teachers.filter { it.name.contains(query.trim(), true) })
+                        view?.displayTeachers(response.teachers.filter { it.name.contains(query.trim(), true) })
                     }
 
                     override fun onError(throwable: Throwable) {
@@ -59,10 +64,10 @@ class TeachersPresenter(private val eventsApiManager: EventApiManager, private v
 
     override fun openEventDetails(eventSummary: EventSummary) {
         Timber.d("Got event click for id ${eventSummary.id}")
-        compositeDisposable.add(eventsApiManager.eventDetailsById(eventSummary.eventDetailsId)
+        eventDetailsStore.get(BarCode(EVENT_DETAILS, eventSummary.id.toString()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith<DisposableSingleObserver<EventDetails>>(object : DisposableSingleObserver<EventDetails>() {
+                .subscribe(object : DisposableSingleObserver<EventDetails>() {
                     override fun onSuccess(eventDetails: EventDetails) {
                         Timber.d("Request succeeded, got $eventDetails events")
                         view?.openEventDetails(eventSummary, eventDetails)
@@ -72,7 +77,7 @@ class TeachersPresenter(private val eventsApiManager: EventApiManager, private v
                         Timber.w(error, "Request failed")
                         view?.displayErrorView()
                     }
-                }))
+                })
     }
 
     override fun onSearchBack() {
