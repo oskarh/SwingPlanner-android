@@ -21,10 +21,12 @@ import com.oskhoj.swingplanner.ViewType.SEARCH_VIEW
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
+import com.oskhoj.swingplanner.network.EventSearchParams
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.component.HeaderEventAdapter
 import com.oskhoj.swingplanner.ui.details.DetailsController
+import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_LIST
 import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
@@ -59,7 +61,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     private var disposable: Disposable? = null
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<SearchContract.Presenter>() with provider { SearchPresenter(instance()) }
+        bind<SearchContract.Presenter>() with provider { SearchPresenter(instance(), instance()) }
     }
 
     private lateinit var clearIcon: AppCompatImageView
@@ -150,12 +152,16 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
             searchEventsPage?.run {
                 if (stylesFilterSet != AppPreferences.filterOptions) {
                     Timber.d("Filter changed from $stylesFilterSet to ${AppPreferences.filterOptions}, searching again")
-                    presenter.searchEvents(searchText?.text?.toString() ?: "")
+                    searchEvents(searchText?.text?.toString())
                 } else {
                     Timber.d("Filter styles is the same")
                 }
             }
         }
+    }
+
+    private fun searchEvents(query: String?, styles: Set<DanceStyle> = AppPreferences.filterOptions, page: Int = 0) {
+        presenter.searchEvents(EventSearchParams(query ?: "", styles, page))
     }
 
     override fun showLoading() {
@@ -194,7 +200,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                         searchEventsPage?.run {
                             if (!isLastPage) {
                                 Timber.d("Found another page to load, loading page ${pageNumber + 1}")
-                                presenter.searchEvents(query, stylesFilter, pageNumber + 1)
+                                searchEvents(query, stylesFilterSet, pageNumber + 1)
                             }
                         }
                     }
@@ -210,15 +216,9 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
             if (searchEventsPage?.hasNoEvents() == true) {
                 Timber.d("Has no events")
                 showEmptyErrorView()
-//                search_events_recycler?.gone()
-//                search_empty_error_text?.visible()
-//                search_empty_error_image?.visible()
             } else {
                 Timber.d("Has events")
                 hideEmptyErrorView()
-//                search_events_recycler?.visible()
-//                search_empty_error_text?.gone()
-//                search_empty_error_image?.gone()
             }
         }
         setUpRecyclerView(view)
@@ -242,7 +242,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                     clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
                 }
                 if (searchEventsPage == null) {
-                    presenter.searchEvents(storedText)
+                    searchEvents(storedText)
                 }
                 disposable = RxTextView.textChanges(this)
                         .skip(1)
@@ -250,10 +250,10 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                         .filter { query -> query.length > 3 }
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { string ->
-                            Timber.d("Debounced $string")
-                            clearIcon.visibility = if (string.isEmpty()) View.INVISIBLE else View.VISIBLE
-                            presenter.searchEvents(string)
+                        .subscribe { query ->
+                            Timber.d("Debounced $query")
+                            clearIcon.visibility = if (query.isEmpty()) View.INVISIBLE else View.VISIBLE
+                            searchEvents(query)
                         }
             }
         }

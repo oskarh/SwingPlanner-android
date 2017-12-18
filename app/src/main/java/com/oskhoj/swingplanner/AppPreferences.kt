@@ -24,12 +24,12 @@ object AppPreferences : KotprefModel() {
 
     private var favoriteEventIdsString by stringPref()
 
-    var favoriteEventIds: Set<Int> = setOf()
+    var favoriteEventIds: Set<Int> = sortedSetOf()
         get() = favoriteEventIdsString
                 .split(",")
                 .filter { it.isNotBlank() }
                 .map { it.toInt() }
-                .toSet()
+                .toSortedSet()
         private set
 
     fun toggleFavoriteEvent(eventId: Int) {

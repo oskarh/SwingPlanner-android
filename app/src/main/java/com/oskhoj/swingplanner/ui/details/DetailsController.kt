@@ -214,13 +214,14 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
         val beginTime = eventSummary.startDate.toCalendar()
         val endTime = eventSummary.endDate.toCalendar()
 
-        val intent = Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.timeInMillis)
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.timeInMillis)
-                .putExtra(CalendarContract.Events.TITLE, eventSummary.name)
-                .putExtra(CalendarContract.Events.ALL_DAY, true)
-                .putExtra(CalendarContract.Events.EVENT_LOCATION, "${eventSummary.city}, ${eventSummary.country.name}")
-        startActivity(intent)
+        val calendarIntent = Intent(Intent.ACTION_INSERT).apply {
+            data = CalendarContract.Events.CONTENT_URI
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.timeInMillis)
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.timeInMillis)
+            putExtra(CalendarContract.Events.TITLE, eventSummary.name)
+            putExtra(CalendarContract.Events.ALL_DAY, true)
+            putExtra(CalendarContract.Events.EVENT_LOCATION, "${eventSummary.city}, ${eventSummary.country.name}")
+        }
+        startActivity(calendarIntent)
     }
 }

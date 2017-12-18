@@ -1,19 +1,23 @@
 package com.oskhoj.swingplanner.ui.favorites
 
+import com.nytimes.android.external.store3.base.impl.BarCode
+import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
-import com.oskhoj.swingplanner.network.EventApiManager
+import com.oskhoj.swingplanner.model.FavoritesResponse
+import com.oskhoj.swingplanner.network.FavoritesBarcode
+import com.oskhoj.swingplanner.network.FavoritesParameters
 import com.oskhoj.swingplanner.ui.base.BasePresenter
+import com.oskhoj.swingplanner.util.EVENT_DETAILS
+import com.oskhoj.swingplanner.util.FAVORITES_PAGE
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class FavoritesPresenter(private val eventsApiManager: EventApiManager) : BasePresenter<FavoritesContract.View>(), FavoritesContract.Presenter {
-
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+class FavoritesPresenter(private val favoritesStore: Store<FavoritesResponse, FavoritesBarcode>, private val eventDetailsStore: Store<EventDetails, BarCode>)
+    : BasePresenter<FavoritesContract.View>(), FavoritesContract.Presenter {
 
     override fun loadFavorites() {
         val favoriteIds = AppPreferences.favoriteEventIds.toList()
@@ -21,15 +25,18 @@ class FavoritesPresenter(private val eventsApiManager: EventApiManager) : BasePr
             Timber.d("No favorite ids to show...")
             view?.displayEmptyView()
         } else {
-            val subscribeWith: DisposableSingleObserver<List<EventSummary>> = eventsApiManager.eventsByIds(favoriteIds)
+            favoritesStore.get(FavoritesBarcode(FAVORITES_PAGE, FavoritesParameters(favoriteIds)))
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { view?.showLoading() }
                     .subscribeOn(Schedulers.io())
-                    .subscribeWith(object : DisposableSingleObserver<List<EventSummary>>() {
-                        override fun onSuccess(events: List<EventSummary>) {
-                            Timber.d("Request succeeded, got ${events.size} events")
+                    .subscribe(object : DisposableSingleObserver<FavoritesResponse>() {
+                        override fun onSuccess(favoritesResponse: FavoritesResponse) {
+                            Timber.d("Request succeeded, got ${favoritesResponse.events.size} events")
                             view?.hideLoading()
-                            view?.displayEvents(events)
+                            when {
+                                favoritesResponse.events.isEmpty() -> view?.displayEmptyView()
+                                else -> view?.displayEvents(favoritesResponse.events)
+                            }
                         }
 
                         override fun onError(error: Throwable) {
@@ -38,7 +45,6 @@ class FavoritesPresenter(private val eventsApiManager: EventApiManager) : BasePr
                             view?.displayErrorView()
                         }
                     })
-            compositeDisposable.add(subscribeWith)
         }
     }
 
@@ -49,10 +55,10 @@ class FavoritesPresenter(private val eventsApiManager: EventApiManager) : BasePr
 
     override fun onEventClicked(eventSummary: EventSummary) {
         Timber.d("Got event click for id ${eventSummary.id}")
-        val subscribeWith: DisposableSingleObserver<EventDetails> = eventsApiManager.eventDetailsById(eventSummary.eventDetailsId)
+        eventDetailsStore.get(BarCode(EVENT_DETAILS, eventSummary.id.toString()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith(object : DisposableSingleObserver<EventDetails>() {
+                .subscribe(object : DisposableSingleObserver<EventDetails>() {
                     override fun onSuccess(eventDetails: EventDetails) {
                         Timber.d("Request succeeded, got $eventDetails events")
                         view?.openEventDetails(eventSummary, eventDetails)
@@ -63,7 +69,6 @@ class FavoritesPresenter(private val eventsApiManager: EventApiManager) : BasePr
                         view?.displayErrorView()
                     }
                 })
-        compositeDisposable.add(subscribeWith)
     }
 
     override fun aboutAction() {

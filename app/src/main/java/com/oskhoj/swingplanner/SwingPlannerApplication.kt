@@ -8,7 +8,9 @@ import com.github.salomonbrys.kodein.KodeinAware
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.conf.ConfigurableKodein
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.singleton
 import timber.log.Timber
+import java.io.File
 
 class SwingPlannerApplication : Application(), KodeinAware {
 
@@ -32,7 +34,8 @@ class SwingPlannerApplication : Application(), KodeinAware {
 
     private fun appDependencies(): Module {
         return Module(allowSilentOverride = true) {
-            bind<String>(tag = "tag") with instance("SwingPlannerApplication")
+            bind<Context>() with singleton { this@SwingPlannerApplication }
+            bind<File>(tag = "cache") with singleton { instance<Context>().cacheDir }
         }
     }
 
