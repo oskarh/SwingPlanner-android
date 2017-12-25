@@ -11,8 +11,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiManagerFactory {
-//    private val serverUrl: String = "http://newtest-env.tvsxkf4uuc.eu-central-1.elasticbeanstalk.com/api/"
-    private val serverUrl: String = "http://10.0.2.2:8080/api/"
+    private val serverUrl: String = "http://newtest-env.tvsxkf4uuc.eu-central-1.elasticbeanstalk.com/api/"
+//    private val serverUrl: String = "http://10.0.2.2:8080/api/"
 
     private val retrofit: Retrofit by lazy { initializeRetrofit() }
 

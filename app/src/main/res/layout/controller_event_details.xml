@@ -151,7 +151,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/dancer_icon2"/>
+                            android:src="@drawable/dancing_icon"/>
 
                     </FrameLayout>
 

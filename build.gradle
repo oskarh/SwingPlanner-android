@@ -26,6 +26,7 @@ buildscript {
         rxAndroidVersion = '2.0.1'
         rxBindingVersion = '2.0.0'
         rxJavaVersion = '2.1.7'
+        saschpeCustomTabsVersion = '1.1.0'
         storeVersion = '3.0.0-beta'
         supportVersion = '27.0.2'
         tapTargetViewVersion = '1.9.1'

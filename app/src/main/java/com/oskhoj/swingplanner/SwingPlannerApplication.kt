@@ -9,6 +9,7 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.conf.ConfigurableKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
+import saschpe.android.customtabs.CustomTabsActivityLifecycleCallbacks
 import timber.log.Timber
 import java.io.File
 
@@ -24,6 +25,7 @@ class SwingPlannerApplication : Application(), KodeinAware {
             Timber.plant(Timber.DebugTree())
         }
         resetInjection()
+        registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallbacks())
     }
 
     // TODO: Do I need to clear kodein?
