@@ -12,6 +12,10 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_drawable</item>
+    </style>
+
     <style name="SmallHeader" parent="@android:style/Widget.TextView">
         <item name="android:textSize">16sp</item>
     </style>

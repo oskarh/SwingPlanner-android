@@ -90,7 +90,7 @@ class AboutActivity : MaterialAboutActivity() {
                 .setOnLongClickAction { copyEmailToClipboard() })
 
         val toolbar = findViewById<Toolbar>(com.danielstone.materialaboutlibrary.R.id.mal_toolbar)
-        toolbar.setTitleTextColor(getCompatColor(R.color.white))
+//        toolbar.setTitleTextColor(getCompatColor(R.color.white))
         supportActionBar?.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back))
         return MaterialAboutList(appInfoBuilder.build(), appActionsBuilder.build())
     }
