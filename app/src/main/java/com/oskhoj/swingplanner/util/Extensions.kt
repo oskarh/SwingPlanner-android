@@ -108,6 +108,12 @@ fun ImageView.loadImageOrDisappear(url: String?, context: Context) {
     } ?: gone()
 }
 
+fun ImageView.loadImage(drawable: Int, context: Context) {
+    Glide.with(context)
+            .load(drawable)
+            .into(this)
+}
+
 fun ImageView.loadFlagIconOrDisappear(isoCode: String?, context: Context) {
     isoCode?.let {
         loadFlagIcon(it, context)

@@ -17,6 +17,7 @@ import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.component.EventAdapter
 import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.gone
+import com.oskhoj.swingplanner.util.loadImage
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.controller_favorites.view.*
@@ -59,18 +60,23 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
 
     override fun displayEmptyView() {
         Timber.d("Displaying empty view...")
-        showEmptyErrorView()
+        showEmptyErrorView(true)
     }
 
     override fun displayErrorView() {
         Timber.d("Show error image")
-        showEmptyErrorView()
+        showEmptyErrorView(false)
     }
 
-    private fun showEmptyErrorView() {
+    private fun showEmptyErrorView(isEmptyView: Boolean) {
         view?.run {
-            favorite_empty_error_text?.visible()
+            favorite_empty_error_text?.run {
+                text = if (isEmptyView) context.getString(R.string.no_favorites_found) else context.getString(R.string.favorite_error_text)
+                visible()
+            }
             favorite_empty_error_image?.visible()
+            val drawable = if (isEmptyView) R.drawable.empty_image else R.drawable.error_image
+            favorite_empty_error_image?.loadImage(drawable, context)
             favorites_events_recycler?.gone()
         }
     }
