@@ -8,29 +8,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/card_margin">
 
         <TextView
             android:id="@+id/favorite_empty_error_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_favorites_added"
-            android:visibility="gone"
-            tools:text="No events found"/>
-
-        <TextView
-            android:id="@+id/message_header"
             style="@style/SmallHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/card_margin"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/rounded_corners_background"
-            android:paddingEnd="@dimen/card_margin"
-            android:paddingStart="@dimen/card_margin"
             android:text="@string/no_favorites_found"
             android:visibility="gone"
             tools:text="@string/no_favorites_found"/>
@@ -39,18 +28,18 @@
             android:id="@+id/favorites_events_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/event_row_card"/>
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/favorite_empty_error_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_clear_black_24dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/empty_image"
             android:visibility="gone"
-            tools:src="@drawable/ic_clear_black_24dp"/>
-    </LinearLayout>
+            tools:src="@drawable/empty_image"/>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/favorites_progressbar"
