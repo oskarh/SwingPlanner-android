@@ -1,5 +1,7 @@
 package com.oskhoj.swingplanner.ui.component
 
+import android.os.Bundle
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -7,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.android.youtube.player.YouTubeIntents
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.model.Teacher
@@ -30,7 +33,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
 
     override fun getItemCount() = teachers.size
 
-    // TODO: Diffutil this in a better way. Also add animation
+    // TODO: Diffutil this in a better way
     fun loadTeachers(newTeachers: List<Teacher>) {
         closeExpandedRow()
         Timber.d("Loading new teachers with size ${newTeachers.size}")
@@ -73,8 +76,10 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                     favoriteImage.gone()
                 }
             }
-            // TODO: Implement this
-            youTubeButton.setOnClickListener { Timber.d("Redirecting to YouTube...") }
+            youTubeButton.setOnClickListener {
+                Timber.d("Redirecting to YouTube for [${teacher.name}]")
+                startActivity(context, YouTubeIntents.createSearchIntent(context, teacher.name), Bundle.EMPTY)
+            }
         }
 
         override fun onClick(view: View?) {
