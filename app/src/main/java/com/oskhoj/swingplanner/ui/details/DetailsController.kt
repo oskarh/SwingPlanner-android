@@ -1,9 +1,12 @@
 package com.oskhoj.swingplanner.ui.details
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
@@ -24,6 +27,7 @@ import com.oskhoj.swingplanner.util.Day
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_DETAILS
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_SUMMARY
 import com.oskhoj.swingplanner.util.Month
+import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.loadFlagIconOrDisappear
 import com.oskhoj.swingplanner.util.loadImageOrDisappear
@@ -31,6 +35,8 @@ import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_event_details.view.*
 import org.jetbrains.anko.sdk21.listeners.onClick
+import saschpe.android.customtabs.CustomTabsHelper
+import saschpe.android.customtabs.WebViewFallback
 import timber.log.Timber
 
 class DetailsController(args: Bundle = Bundle.EMPTY) :
@@ -55,6 +61,8 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     override val isAddToCalendarItemVisible = true
     private lateinit var favoriteButton: FloatingActionButton
+
+    private lateinit var customTabsIntent: CustomTabsIntent
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
         bind<DetailsContract.Presenter>() with instance(DetailsPresenter())
@@ -89,6 +97,11 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     override fun onAttach(view: View) {
         super.onAttach(view)
         view.run {
+            customTabsIntent = CustomTabsIntent.Builder()
+                    .setToolbarColor(context?.getCompatColor(R.color.colorPrimary) ?: Color.WHITE)
+                    .setShowTitle(true)
+                    .build()
+            CustomTabsHelper.addKeepAliveExtra(context, customTabsIntent.intent)
             //            enableCollapsingToolbar(true)
 //            val mAppBarLayout = context.findViewById<AppBarLayout>(R.id.app_bar_layout)
 //            mAppBarLayout.setExpanded(true)
@@ -145,8 +158,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                 facebook_link.apply {
                     visible()
                     onClick {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl))
-                        startActivity(intent)
+                        openCustomTab(context, facebookUrl)
                     }
                 }
             }
@@ -156,8 +168,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                     visible()
                     setOnClickListener {
                         val website: String = websiteUrl.takeIf { websiteUrl.startsWith("http://", true) } ?: "http://$websiteUrl"
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
-                        startActivity(intent)
+                        openCustomTab(context, website)
                     }
                 }
             }
@@ -168,6 +179,12 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                     else -> favoriteButton.show()
                 }
             })
+        }
+    }
+
+    private fun openCustomTab(context: Context?, url: String) {
+        context?.let {
+            CustomTabsHelper.openCustomTab(it, customTabsIntent, Uri.parse(url), WebViewFallback())
         }
     }
 
