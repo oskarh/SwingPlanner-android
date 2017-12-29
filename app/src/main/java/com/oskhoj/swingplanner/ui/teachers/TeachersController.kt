@@ -142,6 +142,8 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
                 setText(storedText)
                 setSelection(storedText.length)
                 addTextChangedListener(textListener)
+                backIcon.visibility = if (isFocused) View.VISIBLE else View.INVISIBLE
+                clearIcon.visibility = if (isFocused && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
                 setOnFocusChangeListener { _, hasFocus ->
                     backIcon.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
                     clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
@@ -159,10 +161,12 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        Timber.d("Saving instance state... ${(searchText?.text ?: "")}")
         outState.putString(KEY_STATE_SEARCH_TEXT, (searchText?.text ?: "").toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         storedText = savedInstanceState.getString(KEY_STATE_SEARCH_TEXT)
+        Timber.d("Restored $storedText")
     }
 }
