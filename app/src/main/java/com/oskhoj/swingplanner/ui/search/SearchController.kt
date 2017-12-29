@@ -44,7 +44,6 @@ import kotlinx.android.synthetic.main.controller_search.view.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-
 class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchContract.View, SearchContract.Presenter>(args), SearchContract.View {
     override val presenter: SearchContract.Presenter by instance()
 
@@ -252,15 +251,14 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 }
                 disposable = RxTextView.textChanges(this)
                         .skip(1)
-                        .map { charSequence -> charSequence.trim().toString() }
+                        .map { charSequence ->
+                            clearIcon.visibility = if (charSequence.isEmpty()) View.INVISIBLE else View.VISIBLE
+                            charSequence.trim().toString()
+                        }
                         .filter { query -> query.length > 3 }
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { query ->
-                            Timber.d("Debounced $query")
-                            clearIcon.visibility = if (query.isEmpty()) View.INVISIBLE else View.VISIBLE
-                            searchEvents(query)
-                        }
+                        .subscribe { query -> searchEvents(query) }
             }
         }
     }
@@ -273,7 +271,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         searchText?.onFocusChangeListener = null
     }
 
-    // TODO: Check if searchText has been initialized
     override fun onSaveInstanceState(outState: Bundle) {
         Timber.d("Saving $searchEventsPage")
         outState.putParcelable(KEY_STATE_EVENTS_LIST, searchEventsPage)
