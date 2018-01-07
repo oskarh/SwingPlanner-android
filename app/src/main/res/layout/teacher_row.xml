@@ -16,6 +16,7 @@
         android:layout_marginBottom="@dimen/large_margin"
         android:layout_marginTop="@dimen/large_margin"
         android:clickable="true"
+        android:focusable="true"
         android:orientation="horizontal">
 
         <TextView
@@ -56,31 +57,77 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         app:el_duration="300"
-        app:el_expanded="false">
+        app:el_expanded="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/teacher_youtube_button"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:elevation="4dp"
-                android:focusable="true"
-                android:padding="16dp"
-                android:src="@drawable/ic_youtube_icon"/>
+                android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/teacher_favorite_button"
-                android:layout_width="wrap_content"
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/teacher_youtube_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:focusable="true"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_youtube_icon"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/teacher_favorite_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:focusable="true"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_favorite_border_black_24dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:elevation="4dp"
-                android:focusable="true"
-                android:padding="16dp"
-                android:src="@drawable/ic_favorite_border_black_24dp"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/attending"
+                    tools:text="Attending"/>
+
+                <ProgressBar
+                    android:id="@+id/teacher_events_progressbar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:indeterminate="true"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/teacher_events_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/failed_retrieve_events"
+                    android:visibility="gone"
+                    tools:text="Failed to retrieve events"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/teacher_events_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:listitem="@layout/event_row_small"/>
+            </LinearLayout>
         </LinearLayout>
     </net.cachapa.expandablelayout.ExpandableLayout>
 </LinearLayout>
