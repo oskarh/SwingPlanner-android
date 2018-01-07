@@ -1,6 +1,5 @@
 package com.oskhoj.swingplanner.network.service
 
-import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import io.reactivex.Single
 import okhttp3.ResponseBody
@@ -16,5 +15,5 @@ interface TeacherService {
     fun searchTeachers(@Path("query") query: String): Single<List<Teacher>>
 
     @GET("teacher/{teacherId}/events")
-    fun eventsByTeacher(@Path("teacherId") teacherId: Int): Single<List<EventSummary>>
+    fun eventsByTeacher(@Path("teacherId") teacherId: Int): Single<ResponseBody>
 }

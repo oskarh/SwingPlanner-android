@@ -56,11 +56,13 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
         private val favoriteButton: AppCompatImageView = itemView.teacher_favorite_button
         private val youTubeButton: AppCompatImageView = itemView.teacher_youtube_button
         private val teacherHeader: LinearLayout = itemView.teacher_item_header
+        private lateinit var teacher: Teacher
 
         val teacherNameView: TextView = itemView.teacher_name
         val expandableLayout: ExpandableLayout = itemView.expanded_teacher_layout
 
         fun bind(teacher: Teacher, listener: (Teacher) -> Unit) = with(itemView) {
+            this@ViewHolder.teacher = teacher
             teacher_name.text = teacher.name
             teacherHeader.setOnClickListener(this@ViewHolder)
             expandableLayout.setInterpolator(OvershootInterpolator())
@@ -92,6 +94,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                     if (layoutPosition == selectedItem) {
                         noItemSelected
                     } else {
+                        this@TeacherAdapter.onClick.invoke(teacher)
                         teacherNameView.isSelected = true
                         expandableLayout.expand()
                         layoutPosition

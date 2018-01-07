@@ -17,6 +17,7 @@ import com.oskhoj.swingplanner.ViewType.TEACHERS_VIEW
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
+import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.component.TeacherAdapter
 import com.oskhoj.swingplanner.ui.component.TextChangedListener
@@ -38,7 +39,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     override val layoutRes = R.layout.controller_teachers
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance()) }
+        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance(), instance()) }
     }
 
     override val viewType: ViewType = TEACHERS_VIEW
@@ -64,8 +65,8 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         teacherAdapter.loadTeachers(teachers)
     }
 
-    override fun openTeacherDetails(events: List<EventSummary>) {
-        Timber.d("Showing teacher details...")
+    override fun displayTeacherEvents(teacherEventsResponse: TeacherEventsResponse) {
+        Timber.d("Showing teacher events $teacherEventsResponse")
     }
 
     override fun displayEmptyView() {
