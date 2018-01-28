@@ -67,6 +67,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
 
     override fun displayTeacherEvents(teacherEventsResponse: TeacherEventsResponse) {
         Timber.d("Showing teacher events $teacherEventsResponse")
+        teacherAdapter.showTeacherEvents(teacherEventsResponse)
     }
 
     override fun displayEmptyView() {

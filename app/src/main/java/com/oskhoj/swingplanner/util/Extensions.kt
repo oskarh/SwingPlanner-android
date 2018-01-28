@@ -38,11 +38,13 @@ inline fun <reified T : View?> Activity.findNullable(@IdRes resId: Int): T? = fi
 
 inline fun <reified T : View> View.findView(@IdRes resId: Int): T = findViewById(resId)
 
-fun String.toBundle(value: Int): Bundle {
-    val bundle = Bundle()
-    bundle.putInt(this, value)
-    return bundle
-}
+fun String.toBundle(value: Int) =
+    Bundle().apply {
+        putInt(this@toBundle, value)
+    }
+
+fun String.compareToIgnoreWhitespace(other: String, ignoreCase: Boolean = false): Int =
+        trim().compareTo(other.trim(), ignoreCase)
 
 fun <T> SparseArray<T>.isEmpty() = size() == 0
 

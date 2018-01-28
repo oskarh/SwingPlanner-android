@@ -2,6 +2,7 @@ package com.oskhoj.swingplanner.model
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
+import com.oskhoj.swingplanner.util.compareToIgnoreWhitespace
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -11,6 +12,6 @@ data class Teacher(
         val name: String) : Parcelable, Comparable<Teacher> {
     
     override fun compareTo(other: Teacher): Int {
-        return name.compareTo(other.name, true)
+        return name.compareToIgnoreWhitespace(other.name, true)
     }
 }

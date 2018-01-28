@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.android.youtube.player.YouTubeIntents
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.model.Teacher
+import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.inflateView
@@ -41,6 +43,12 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
         notifyDataSetChanged()
     }
 
+    fun showTeacherEvents(teacherEventsResponse: TeacherEventsResponse) {
+        viewHolderList.findViewHolderForPosition(selectedItem)?.run {
+            displayEvents(teacherEventsResponse)
+        }
+    }
+
     private fun closeExpandedRow() {
         viewHolderList.findViewHolderForPosition(selectedItem)?.run {
             teacherNameView.isSelected = false
@@ -56,7 +64,12 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
         private val favoriteButton: AppCompatImageView = itemView.teacher_favorite_button
         private val youTubeButton: AppCompatImageView = itemView.teacher_youtube_button
         private val teacherHeader: LinearLayout = itemView.teacher_item_header
+        private val progressBar: ProgressBar = itemView.teacher_events_progressbar
+        private val teacherEvents: RecyclerView = itemView.teacher_events_recycler
         private lateinit var teacher: Teacher
+        private val teacherEventsAdapter: EventAdapter = EventAdapter(emptyList(), {
+            Timber.d("Clicked on event with id ${it.id}")
+        })
 
         val teacherNameView: TextView = itemView.teacher_name
         val expandableLayout: ExpandableLayout = itemView.expanded_teacher_layout
@@ -82,6 +95,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                 Timber.d("Redirecting to YouTube for [${teacher.name}]")
                 startActivity(context, YouTubeIntents.createSearchIntent(context, teacher.name), Bundle.EMPTY)
             }
+            teacherEvents.adapter = teacherEventsAdapter
         }
 
         override fun onClick(view: View?) {
@@ -99,6 +113,13 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                         expandableLayout.expand()
                         layoutPosition
                     }
+        }
+
+        fun displayEvents(teacherEventsResponse: TeacherEventsResponse) {
+            Timber.d("Teacher events now visible ${teacherEventsResponse.events.firstOrNull()}")
+            teacherEventsAdapter.loadEvents(teacherEventsResponse.events)
+            progressBar.gone()
+            teacherEvents.visible()
         }
 
         override fun onExpansionUpdate(expansionFraction: Float, state: Int) {
