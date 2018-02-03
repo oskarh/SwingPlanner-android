@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.notification_manager_settings.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.customView
-import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.editText
 import org.jetbrains.anko.horizontalMargin
@@ -61,7 +61,7 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
         subscription?.let {
             if (it.trim().length < SUBSCRIPTION_MIN_LENGTH) {
                 view?.let {
-                    snackbar(it, it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
+                    longSnackbar(it, it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
                 }
             } else {
                 AppPreferences.addSubscription(it)
@@ -74,8 +74,8 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
         AppPreferences.removeSubscription(subscription)
         subscriptionAdapter.removeSubscription(subscription)
         view?.let {
-            snackbar(it, it.context.getString(R.string.deleted_message, subscription), it.context.getString(R.string.undo_action),
-                    { addSubscription(subscription) })
+            longSnackbar(it, it.context.getString(R.string.deleted_message, subscription),
+                    it.context.getString(R.string.undo_action), { addSubscription(subscription) })
         }
     }
 

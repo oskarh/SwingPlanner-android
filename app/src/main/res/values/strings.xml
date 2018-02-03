@@ -65,4 +65,6 @@
     <string name="failed_get_events">Oh no, we failed to complete your request!</string>
     <string name="attending">Attending</string>
     <string name="failed_retrieve_events">Failed to retrieve events</string>
+    <string name="themes_not_implemented">Themes not yet implemented</string>
+    <string name="notification_window_not_implemented">Notification window not yet implemented</string>
 </resources>

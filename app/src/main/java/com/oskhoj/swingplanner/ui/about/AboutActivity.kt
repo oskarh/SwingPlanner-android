@@ -3,7 +3,6 @@ package com.oskhoj.swingplanner.ui.about
 import android.content.ClipData
 import android.content.Context
 import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -19,6 +18,7 @@ import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.util.clipboardManager
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.loadAnimation
+import org.jetbrains.anko.design.snackbar
 import timber.log.Timber
 
 class AboutActivity : MaterialAboutActivity() {
@@ -97,16 +97,14 @@ class AboutActivity : MaterialAboutActivity() {
 
     private fun copyEmailToClipboard() {
         clipboardManager.primaryClip = ClipData.newPlainText(getString(R.string.swing_planner_label), getString(R.string.swing_planner_email))
-        (this as? MaterialAboutActivity)?.findViewById<CoordinatorLayout>(R.id.mal_material_about_activity_coordinator_layout)?.let {
-            Snackbar.make(it, getString(R.string.email_copied), Snackbar.LENGTH_SHORT).show()
+        findViewById<CoordinatorLayout>(R.id.mal_material_about_activity_coordinator_layout)?.let {
+            snackbar(it, getString(R.string.email_copied))
         }
     }
 
     override fun onStart() {
         super.onStart()
-        findViewById<RecyclerView>(R.id.mal_recyclerview).run {
-            startAnimation(loadAnimation(R.anim.about_activity_enter_animation))
-        }
+        findViewById<RecyclerView>(R.id.mal_recyclerview).startAnimation(loadAnimation(R.anim.about_activity_enter_animation))
     }
 
     override fun getActivityTitle(): String = getString(R.string.about)
