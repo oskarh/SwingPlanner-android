@@ -59,7 +59,7 @@
     <string name="undo_action">UNDO</string>
     <string name="search_header_found">Found %1$d events</string>
     <string name="search_header_empty">Found no events matching \'%1$s\'</string>
-    <string name="no_favorites_found">You don\'teacher have any events added as favorites yet</string>
+    <string name="no_favorites_found">You don\'t have any events added as favorites yet</string>
     <string name="no_events_found">No events found</string>
     <string name="favorite_error_text">Oh no, something went wrong while we tried to retrieve your favorite events!</string>
     <string name="failed_get_events">Oh no, we failed to complete your request!</string>
