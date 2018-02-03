@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.google.android.youtube.player.YouTubeIntents
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.util.ViewHolderList
@@ -26,7 +27,8 @@ import org.jetbrains.anko.design.snackbar
 import timber.log.Timber
 
 // TODO: Add a presenter that handles expand events and loading / displaying new events from the list
-class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: ViewHolderList, private val onClick: (Teacher) -> Unit) : RecyclerView.Adapter<TeacherAdapter.ViewHolder>() {
+class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: ViewHolderList,
+                     private val onTeacherClick: (Teacher) -> Unit, private val onEventClick: (EventSummary) -> Unit) : RecyclerView.Adapter<TeacherAdapter.ViewHolder>() {
 
     private val noItemSelected = -1
 
@@ -34,14 +36,14 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflateView(R.layout.teacher_row))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(teachers[position], onClick)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(teachers[position], onTeacherClick)
 
     override fun getItemCount() = teachers.size
 
     // TODO: Diffutil this in a better way
     fun loadTeachers(newTeachers: List<Teacher>) {
-        closeExpandedRow()
         Timber.d("Loading new teachers with size ${newTeachers.size}")
+        closeExpandedRow()
         teachers = newTeachers.sorted()
         notifyDataSetChanged()
     }
@@ -72,6 +74,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
         private lateinit var teacher: Teacher
         private val teacherEventsAdapter: EventAdapter = EventAdapter(emptyList(), {
             Timber.d("Clicked on event with id ${it.id}")
+            onEventClick(it)
         })
 
         val teacherNameView: TextView = itemView.teacher_name
@@ -110,7 +113,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                     if (layoutPosition == selectedItem) {
                         noItemSelected
                     } else {
-                        this@TeacherAdapter.onClick(teacher)
+                        this@TeacherAdapter.onTeacherClick(teacher)
                         teacherNameView.isSelected = true
                         expandableLayout.expand()
                         layoutPosition

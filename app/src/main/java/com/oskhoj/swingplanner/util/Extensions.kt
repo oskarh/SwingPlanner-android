@@ -66,7 +66,7 @@ fun Activity.closeKeyboard() {
 fun TextView.addTextListener(listener: (CharSequence) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
-            listener.invoke(charSequence)
+            listener(charSequence)
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

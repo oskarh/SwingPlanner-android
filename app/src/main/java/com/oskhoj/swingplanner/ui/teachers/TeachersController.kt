@@ -7,6 +7,7 @@ import android.support.v7.widget.OrientationHelper.VERTICAL
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
+import com.bluelinelabs.conductor.RouterTransaction
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
@@ -21,6 +22,7 @@ import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.component.TeacherAdapter
 import com.oskhoj.swingplanner.ui.component.TextChangedListener
+import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.closeKeyboard
@@ -60,6 +62,9 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     private val teacherAdapter: TeacherAdapter = TeacherAdapter(emptyList(), this, {
         Timber.d("Clicked on teacher with id ${it.id}")
         presenter.openTeacherDetails(it)
+    }, {
+        Timber.d("Clicked on event with name ${it.name}")
+        presenter.openEventDetails(it)
     })
 
     override fun displayTeachers(teachers: List<Teacher>) {
@@ -85,6 +90,8 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
 
     override fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails) {
         Timber.d("Opening event details...")
+        activity?.closeKeyboard()
+        router.pushController(RouterTransaction.with(DetailsController(eventSummary, eventDetails)))
     }
 
     override fun showLoading() {
