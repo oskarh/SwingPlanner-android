@@ -20,6 +20,7 @@ import com.nytimes.android.external.store3.middleware.GsonParserFactory
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.model.FavoritesResponse
+import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.model.TeachersResponse
 import com.oskhoj.swingplanner.network.ApiManagerFactory
 import com.oskhoj.swingplanner.network.EventApiManager
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
             bind<Store<EventDetails, BarCode>>() with singleton { eventDetailsStore(instance()) }
             bind<Store<FavoritesResponse, FavoritesBarcode>>() with singleton { favoritesStore(instance()) }
             bind<Store<TeachersResponse, BarCode>>() with singleton { teacherStore(instance()) }
+            bind<Store<TeacherEventsResponse, BarCode>>() with singleton { teacherEventsStore(instance()) }
         })
 
         router = Conductor.attachRouter(this, controller_container, savedInstanceState)
@@ -97,6 +99,15 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { teacherApiManager.allTeachers().map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), TeachersResponse::class.java))
+                .open()
+    }
+
+    private fun teacherEventsStore(teacherApiManager: TeacherApiManager): Store<TeacherEventsResponse, BarCode> {
+        return StoreBuilder
+                .parsedWithKey<BarCode, BufferedSource, TeacherEventsResponse>()
+                .fetcher { teacherApiManager.eventsByTeacher(it.key.toInt()).map { it.source() } }
+                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .parser(GsonParserFactory.createSourceParser(Gson(), TeacherEventsResponse::class.java))
                 .open()
     }
 

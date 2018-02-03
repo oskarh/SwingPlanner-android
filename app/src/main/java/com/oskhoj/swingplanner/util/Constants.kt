@@ -13,7 +13,8 @@ const val SUBSCRIPTION_MIN_LENGTH = 4
 
 const val DATE_SEPARATOR = "-"
 
-const val TEACHER = "Teacher"
 const val EVENT_DETAILS = "EventDetails"
 const val EVENTS_PAGE = "EventsPage"
 const val FAVORITES_PAGE = "FavoritesPage"
+const val TEACHER = "Teacher"
+const val TEACHER_EVENTS = "TeacherEvents"

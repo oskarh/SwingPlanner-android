@@ -79,6 +79,7 @@ class SearchPresenter(private val eventSummariesStore: Store<EventsPage, EventSe
 
     override fun onSearchClear() {
         view?.clearText()
+        searchEvents()
     }
 
     override fun toggleListAction() {

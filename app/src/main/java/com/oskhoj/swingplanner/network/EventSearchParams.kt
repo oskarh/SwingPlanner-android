@@ -10,7 +10,7 @@ data class EventSearchParams(val query: String = "", val styles: Set<DanceStyle>
 
     override fun equals(other: Any?): Boolean {
         val eventParams = (other as? EventSearchParams) ?: return false
-        return query.equals(eventParams.query, true) && styles. equals(eventParams.styles) && page == eventParams.page
+        return query.equals(eventParams.query, true) && styles == eventParams.styles && page == eventParams.page
     }
 
     override fun hashCode() = query.toLowerCase(Locale.ENGLISH).hashCode() + 7 * styles.hashCode() + 23 * page.hashCode()

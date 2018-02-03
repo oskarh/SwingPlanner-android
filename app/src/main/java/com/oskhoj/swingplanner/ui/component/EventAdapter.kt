@@ -81,10 +81,9 @@ open class EventAdapter(var events: List<EventSummary>, protected val onClick: (
         }
     }
 
-    private fun setAnimation(viewToAnimate: View, position: Int) {
+    private fun setAnimation(view: View, position: Int) {
         if (position > lastAnimatedPosition) {
-            val enterAnimation = viewToAnimate.context.loadAnimation(R.anim.recycler_item_enter_animation)
-            viewToAnimate.startAnimation(enterAnimation)
+            view.startAnimation(view.context.loadAnimation(R.anim.recycler_item_enter_animation))
             lastAnimatedPosition = position
         }
     }

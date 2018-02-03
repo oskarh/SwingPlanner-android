@@ -36,6 +36,7 @@ import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadImage
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
+import com.oskhoj.swingplanner.util.visibleGiven
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,7 +44,6 @@ import kotlinx.android.synthetic.main.controller_search.*
 import kotlinx.android.synthetic.main.controller_search.view.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-
 
 class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchContract.View, SearchContract.Presenter>(args), SearchContract.View {
     override val presenter: SearchContract.Presenter by instance()
@@ -244,23 +244,22 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 setText(storedText)
                 setSelection(storedText.length)
                 setOnFocusChangeListener { _, hasFocus ->
-                    backIcon.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
-                    clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
+                    backIcon.visibleGiven { hasFocus }
+                    clearIcon.visibleGiven { hasFocus && text.isNotBlank() }
                 }
                 if (searchEventsPage == null) {
                     searchEvents(storedText)
                 }
                 disposable = RxTextView.textChanges(this)
                         .skip(1)
-                        .map { charSequence -> charSequence.trim().toString() }
+                        .map { charSequence ->
+                            clearIcon.visibleGiven { charSequence.isNotEmpty() }
+                            charSequence.trim().toString()
+                        }
                         .filter { query -> query.length > 3 }
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { query ->
-                            Timber.d("Debounced $query")
-                            clearIcon.visibility = if (query.isEmpty()) View.INVISIBLE else View.VISIBLE
-                            searchEvents(query)
-                        }
+                        .subscribe { query -> searchEvents(query) }
             }
         }
     }
@@ -273,7 +272,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         searchText?.onFocusChangeListener = null
     }
 
-    // TODO: Check if searchText has been initialized
     override fun onSaveInstanceState(outState: Bundle) {
         Timber.d("Saving $searchEventsPage")
         outState.putParcelable(KEY_STATE_EVENTS_LIST, searchEventsPage)

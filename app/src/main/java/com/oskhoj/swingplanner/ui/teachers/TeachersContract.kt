@@ -3,6 +3,7 @@ package com.oskhoj.swingplanner.ui.teachers
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
+import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.ui.base.Attachable
 import com.oskhoj.swingplanner.ui.base.BaseView
 import com.oskhoj.swingplanner.ui.base.Loadable
@@ -12,11 +13,11 @@ object TeachersContract {
     interface View : BaseView, Loadable {
         fun displayTeachers(teachers: List<Teacher>)
 
+        fun displayTeacherEvents(teacherEventsResponse: TeacherEventsResponse)
+
         fun abortSearch()
 
         fun clearText()
-
-        fun openTeacherDetails(events: List<EventSummary>)
 
         fun displayEmptyView()
 

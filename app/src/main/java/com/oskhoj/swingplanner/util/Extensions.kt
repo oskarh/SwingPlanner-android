@@ -38,11 +38,13 @@ inline fun <reified T : View?> Activity.findNullable(@IdRes resId: Int): T? = fi
 
 inline fun <reified T : View> View.findView(@IdRes resId: Int): T = findViewById(resId)
 
-fun String.toBundle(value: Int): Bundle {
-    val bundle = Bundle()
-    bundle.putInt(this, value)
-    return bundle
-}
+fun String.toBundle(value: Int) =
+    Bundle().apply {
+        putInt(this@toBundle, value)
+    }
+
+fun String.compareToIgnoreWhitespace(other: String, ignoreCase: Boolean = false): Int =
+        trim().compareTo(other.trim(), ignoreCase)
 
 fun <T> SparseArray<T>.isEmpty() = size() == 0
 
@@ -64,7 +66,7 @@ fun Activity.closeKeyboard() {
 fun TextView.addTextListener(listener: (CharSequence) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
-            listener.invoke(charSequence)
+            listener(charSequence)
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -102,6 +104,14 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+inline fun View.visibleGiven(predicate: () -> Boolean) {
+    if (predicate()) {
+        visible()
+    } else {
+        invisible()
+    }
+}
+
 fun ImageView.loadImageOrDisappear(url: String?, context: Context) {
     url?.let {
         loadImage(it, context)
@@ -128,12 +138,13 @@ fun Context.getCompatColor(@ColorRes colorid: Int) = ContextCompat.getColor(this
 
 fun View.getCompatColor(@ColorRes colorid: Int) = ContextCompat.getColor(context, colorid)
 
-fun View.animateToSize(size: Float, duration: Long) {
-    val animator = ObjectAnimator.ofPropertyValuesHolder(this,
+fun View.animateToSize(size: Float, animationDuration: Long) {
+    ObjectAnimator.ofPropertyValuesHolder(this,
             PropertyValuesHolder.ofFloat(View.SCALE_X, size),
-            PropertyValuesHolder.ofFloat(View.SCALE_Y, size))
-    animator.duration = duration
-    animator.start()
+            PropertyValuesHolder.ofFloat(View.SCALE_Y, size)).run {
+        duration = animationDuration
+        start()
+    }
 }
 
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)

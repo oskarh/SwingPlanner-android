@@ -25,86 +25,76 @@ import org.jetbrains.anko.padding
 import org.jetbrains.anko.sdk21.listeners.onClick
 import org.jetbrains.anko.textColor
 
-class BottomSheetDialogHelper private constructor() {
+object BottomSheetDialogHelper {
 
-    companion object {
-        private val largeMargin = 16
-        private val cardMargin = 8
+    private const val LARGE_MARGIN = 16
+    private const val CARD_MARGIN = 8
 
-        fun showFilterDialog(context: Context?, listener: DialogInterface.() -> Unit) {
-            context?.run {
-                val filterDialog = BottomSheetDialog(context)
-                val rootLayout = LinearLayout(context).apply {
-                    padding = dip(largeMargin)
-                    orientation = VERTICAL
-                    layoutParams = linearLayoutParams(MATCH_PARENT, MATCH_PARENT)
+    fun showFilterDialog(context: Context?, listener: DialogInterface.() -> Unit) {
+        context?.run {
+            val rootLayout = LinearLayout(context).apply {
+                padding = dip(LARGE_MARGIN)
+                orientation = VERTICAL
+                layoutParams = linearLayoutParams(MATCH_PARENT, MATCH_PARENT)
+            }
+
+            val titleText = TextView(context).apply {
+                text = getString(R.string.filter_options_description)
+                layoutParams = linearLayoutParams(bottomMargin = dip(LARGE_MARGIN))
+            }
+            rootLayout.addView(titleText)
+
+            val rowLayoutParams = linearLayoutParams(width = MATCH_PARENT, gravity = Gravity.CENTER_VERTICAL or Gravity.START)
+
+            DanceStyle.values().forEach { danceStyle ->
+                val languageCheckBox = CheckBox(context).apply {
+                    layoutParams = linearLayoutParams()
+                    isChecked = AppPreferences.hasFavoriteDanceStyle(danceStyle)
+                    onClick { AppPreferences.toggleFilterOption(danceStyle) }
                 }
-                val rowLayoutParams = linearLayoutParams(width = MATCH_PARENT, gravity = Gravity.CENTER_VERTICAL or Gravity.START)
-                val viewParams = linearLayoutParams()
-
-                val titleText = TextView(context).apply {
-                    text = getString(R.string.filter_options_description)
-                    layoutParams = linearLayoutParams(bottomMargin = dip(largeMargin))
+                val languageText = TextView(context).apply {
+                    layoutParams = linearLayoutParams()
+                    text = danceStyle.description
                 }
-                rootLayout.addView(titleText)
-
-                val rippleBackground = TypedValue()
-                theme.resolveAttribute(android.R.attr.selectableItemBackground, rippleBackground, true)
-
-                DanceStyle.values().forEach { danceStyle ->
-                    val languageCheckBox = CheckBox(context).apply {
-                        layoutParams = viewParams
-                        isChecked = AppPreferences.hasFavoriteDanceStyle(danceStyle)
-                        onClick { AppPreferences.toggleFilterOption(danceStyle) }
-                    }
-                    val languageText = TextView(context).apply {
-                        layoutParams = viewParams
-                        text = danceStyle.description
-                    }
-                    val rowLayout = LinearLayout(context).apply {
-                        layoutParams = rowLayoutParams
-                        setBackgroundResource(rippleBackground.resourceId)
-                        addView(languageCheckBox)
-                        addView(languageText)
-                        onClick { languageCheckBox.performClick() }
-                    }
-                    rootLayout.addView(rowLayout)
+                val rowLayout = LinearLayout(context).apply {
+                    layoutParams = rowLayoutParams
+                    setBackgroundResource(getRippleBackground(this@run))
+                    addView(languageCheckBox)
+                    addView(languageText)
+                    onClick { languageCheckBox.performClick() }
                 }
+                rootLayout.addView(rowLayout)
+            }
 
-                val buttonBackground = TypedValue()
-                theme.resolveAttribute(R.attr.selectableItemBackground, buttonBackground, true)
+            BottomSheetDialog(context).run {
                 val okButton = Button(context).apply {
                     layoutParams = linearLayoutParams(gravity = Gravity.END)
                     text = getString(R.string.dialog_ok)
-                    setBackgroundResource(buttonBackground.resourceId)
+                    setBackgroundResource(getRippleBackground(context))
                     textColor = getCompatColor(R.color.colorAccent)
-                    onClick { filterDialog.dismiss() }
+                    onClick { dismiss() }
                 }
                 rootLayout.addView(okButton)
 
-                filterDialog.run {
-                    setContentView(rootLayout)
-                    setOnDismissListener(listener)
-                    show()
-                }
+                setContentView(rootLayout)
+                setOnDismissListener(listener)
+                show()
             }
         }
+    }
 
-        fun showLanguageDialog(context: Context) {
-            val largeMargins = context.dip(largeMargin)
-            val smallMargins = context.dip(cardMargin)
+    fun showLanguageDialog(context: Context) {
+        val largeMargins = context.dip(LARGE_MARGIN)
+        val smallMargins = context.dip(CARD_MARGIN)
 
-            val languagesDialog = BottomSheetDialog(context)
-            val rootLayout = LinearLayout(context).apply {
-                orientation = VERTICAL
-                layoutParams = linearLayoutParams(width = MATCH_PARENT, height = WRAP_CONTENT)
-            }
-            val viewParams = linearLayoutParams(width = WRAP_CONTENT, height = MATCH_PARENT, startMargin = largeMargins,
-                    endMargin = smallMargins, topMargin = smallMargins, bottomMargin = smallMargins)
+        val rootLayout = LinearLayout(context).apply {
+            orientation = VERTICAL
+            layoutParams = linearLayoutParams(width = MATCH_PARENT, height = WRAP_CONTENT)
+        }
+        val viewParams = linearLayoutParams(width = WRAP_CONTENT, height = MATCH_PARENT, startMargin = largeMargins,
+                endMargin = smallMargins, topMargin = smallMargins, bottomMargin = smallMargins)
 
-            val rippleBackground = TypedValue()
-            context.theme.resolveAttribute(android.R.attr.selectableItemBackground, rippleBackground, true)
-
+        BottomSheetDialog(context).run {
             Language.values().forEach { language ->
                 val languageFlag = AppCompatImageView(context).apply {
                     layoutParams = viewParams
@@ -115,30 +105,34 @@ class BottomSheetDialogHelper private constructor() {
                     text = language.nativeName
                 }
                 val rowLayout = LinearLayout(context).apply {
-                    setBackgroundResource(rippleBackground.resourceId)
+                    setBackgroundResource(getRippleBackground(context))
                     addView(languageFlag)
                     addView(languageText)
                     onClick {
                         AppPreferences.selectedLanguage = language.name
-                        it?.postDelayed({ languagesDialog.dismiss() }, 150)
+                        it?.postDelayed({ dismiss() }, 150)
                     }
                 }
                 rootLayout.addView(rowLayout)
             }
-
-            languagesDialog.setContentView(rootLayout)
-            languagesDialog.show()
+            setContentView(rootLayout)
+            show()
         }
-
-        private fun linearLayoutParams(width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT,
-                                       gravity: Int = Gravity.TOP or Gravity.START, startMargin: Int = 0,
-                                       endMargin: Int = 0, topMargin: Int = 0, bottomMargin: Int = 0) =
-                LayoutParams(width, height).apply {
-                    this.gravity = gravity
-                    this.marginStart = startMargin
-                    this.marginEnd = endMargin
-                    this.topMargin = topMargin
-                    this.bottomMargin = bottomMargin
-                }
     }
+
+    private fun linearLayoutParams(width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT,
+                                   gravity: Int = Gravity.TOP or Gravity.START, startMargin: Int = 0,
+                                   endMargin: Int = 0, topMargin: Int = 0, bottomMargin: Int = 0) =
+            LayoutParams(width, height).apply {
+                this.gravity = gravity
+                this.marginStart = startMargin
+                this.marginEnd = endMargin
+                this.topMargin = topMargin
+                this.bottomMargin = bottomMargin
+            }
+
+    private fun getRippleBackground(context: Context) =
+            TypedValue().also {
+                context.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+            }.resourceId
 }

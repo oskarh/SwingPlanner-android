@@ -29,7 +29,7 @@ object SearchContract {
     }
 
     interface Presenter : Attachable<View> {
-        fun searchEvents(eventSearchParams: EventSearchParams)
+        fun searchEvents(eventSearchParams: EventSearchParams = EventSearchParams())
 
         fun onSearchBack()
 

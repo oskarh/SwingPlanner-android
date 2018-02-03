@@ -54,6 +54,7 @@
     <string name="subscribe_query_title">Query to subscribe to</string>
     <string name="subscribe_query_hint">City, Country or free text</string>
     <string name="deleted_message">Deleted \'%1$s\'</string>
+    <string name="youtube_not_available">YouTube app required for this</string>
     <string name="subscription_validation_failed_message">Subscriptions must be at least %1$d characters</string>
     <string name="undo_action">UNDO</string>
     <string name="search_header_found">Found %1$d events</string>
@@ -62,4 +63,6 @@
     <string name="no_events_found">No events found</string>
     <string name="favorite_error_text">Oh no, something went wrong while we tried to retrieve your favorite events!</string>
     <string name="failed_get_events">Oh no, we failed to complete your request!</string>
+    <string name="attending">Attending</string>
+    <string name="failed_retrieve_events">Failed to retrieve events</string>
 </resources>

@@ -61,7 +61,6 @@ class HeaderEventAdapter(events: List<EventSummary>, onClick: (EventSummary) -> 
     inner class HeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind() = with(itemView) {
             Timber.d("Created header...")
-            // TODO: Remove this
             if (events.isEmpty()) {
                 message_header.gone()
             } else {

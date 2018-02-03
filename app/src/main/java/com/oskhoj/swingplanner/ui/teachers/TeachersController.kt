@@ -7,6 +7,7 @@ import android.support.v7.widget.OrientationHelper.VERTICAL
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
+import com.bluelinelabs.conductor.RouterTransaction
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
@@ -17,9 +18,11 @@ import com.oskhoj.swingplanner.ViewType.TEACHERS_VIEW
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
+import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.component.TeacherAdapter
 import com.oskhoj.swingplanner.ui.component.TextChangedListener
+import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.closeKeyboard
@@ -27,6 +30,7 @@ import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
+import com.oskhoj.swingplanner.util.visibleGiven
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_teachers.view.*
 import org.jetbrains.anko.sdk21.listeners.onClick
@@ -38,7 +42,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     override val layoutRes = R.layout.controller_teachers
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance()) }
+        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance(), instance()) }
     }
 
     override val viewType: ViewType = TEACHERS_VIEW
@@ -51,21 +55,25 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     private var storedText: String = ""
 
     private val textListener = TextChangedListener {
-        clearIcon.visibility = if (it.isEmpty()) View.INVISIBLE else View.VISIBLE
+        clearIcon.visibleGiven { it.isNotEmpty() }
         presenter.loadTeachers(it.toString())
     }
 
     private val teacherAdapter: TeacherAdapter = TeacherAdapter(emptyList(), this, {
         Timber.d("Clicked on teacher with id ${it.id}")
         presenter.openTeacherDetails(it)
+    }, {
+        Timber.d("Clicked on event with name ${it.name}")
+        presenter.openEventDetails(it)
     })
 
     override fun displayTeachers(teachers: List<Teacher>) {
         teacherAdapter.loadTeachers(teachers)
     }
 
-    override fun openTeacherDetails(events: List<EventSummary>) {
-        Timber.d("Showing teacher details...")
+    override fun displayTeacherEvents(teacherEventsResponse: TeacherEventsResponse) {
+        Timber.d("Showing teacher events $teacherEventsResponse")
+        teacherAdapter.showTeacherEvents(teacherEventsResponse)
     }
 
     override fun displayEmptyView() {
@@ -82,6 +90,8 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
 
     override fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails) {
         Timber.d("Opening event details...")
+        activity?.closeKeyboard()
+        router.pushController(RouterTransaction.with(DetailsController(eventSummary, eventDetails)))
     }
 
     override fun showLoading() {
@@ -95,8 +105,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     private fun setUpRecyclerView(view: View) {
         teacherRecyclerView = view.teachersRecyclerView.apply {
             layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
-            val dividerItemDecoration = DividerItemDecoration(context, VERTICAL)
-            addItemDecoration(dividerItemDecoration)
+            addItemDecoration(DividerItemDecoration(context, VERTICAL))
             adapter = teacherAdapter
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -133,18 +142,22 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         super.onAttach(view)
         presenter.loadTeachers(storedText)
         activity?.run {
-            backIcon = search_back
-            backIcon.onClick { presenter.onSearchBack() }
-            clearIcon = search_clear
-            clearIcon.setOnClickListener { presenter.onSearchClear() }
+            backIcon = search_back.apply {
+                onClick { presenter.onSearchBack() }
+            }
+            clearIcon = search_clear.apply {
+                setOnClickListener { presenter.onSearchClear() }
+            }
 
             searchText = search_text?.apply {
                 setText(storedText)
                 setSelection(storedText.length)
                 addTextChangedListener(textListener)
+                backIcon.visibleGiven { isFocused }
+                clearIcon.visibleGiven { isFocused && text.isNotBlank() }
                 setOnFocusChangeListener { _, hasFocus ->
-                    backIcon.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
-                    clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
+                    backIcon.visibleGiven { hasFocus }
+                    clearIcon.visibleGiven { hasFocus && text.isNotBlank() }
                 }
             }
         }
@@ -159,10 +172,12 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        Timber.d("Saving instance state... ${(searchText?.text ?: "")}")
         outState.putString(KEY_STATE_SEARCH_TEXT, (searchText?.text ?: "").toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         storedText = savedInstanceState.getString(KEY_STATE_SEARCH_TEXT)
+        Timber.d("Restored $storedText")
     }
 }

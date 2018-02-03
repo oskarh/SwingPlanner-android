@@ -28,7 +28,6 @@ class SwingPlannerApplication : Application(), KodeinAware {
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallbacks())
     }
 
-    // TODO: Do I need to clear kodein?
     private fun resetInjection() {
         kodein.clear()
         kodein.addImport(appDependencies(), true)

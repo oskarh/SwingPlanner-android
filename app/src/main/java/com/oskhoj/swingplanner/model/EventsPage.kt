@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.enumSetFrom
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import timber.log.Timber
 
@@ -25,9 +26,11 @@ data class EventsPage(
 
     fun hasNoEvents() = totalEvents == 0
 
+    @IgnoredOnParcel
     @Transient
     val hasNextPage = !isLastPage
 
+    @IgnoredOnParcel
     @Transient
     var stylesFilterSet = enumSetFrom<DanceStyle>(stylesFilter)
         get() = enumSetFrom<DanceStyle>(stylesFilter)

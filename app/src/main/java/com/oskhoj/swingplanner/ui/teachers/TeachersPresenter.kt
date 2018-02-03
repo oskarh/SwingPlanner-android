@@ -6,10 +6,12 @@ import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
+import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.model.TeachersResponse
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import com.oskhoj.swingplanner.util.EVENT_DETAILS
 import com.oskhoj.swingplanner.util.TEACHER
+import com.oskhoj.swingplanner.util.TEACHER_EVENTS
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,13 +20,13 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>, private val eventDetailsStore: Store<EventDetails, BarCode>) :
+class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>,
+                        private val teacherEventStore: Store<TeacherEventsResponse, BarCode>,
+                        private val eventDetailsStore: Store<EventDetails, BarCode>) :
         BasePresenter<TeachersContract.View>(), TeachersContract.Presenter {
-
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun loadTeachers(query: String) {
-
         store.get(BarCode(TEACHER, ""))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -50,7 +52,27 @@ class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>, pri
 
     override fun openTeacherDetails(teacher: Teacher) {
         Timber.d("Opening ${teacher.name} details")
-        view?.openTeacherDetails(emptyList())
+        teacherEventStore.get(BarCode(TEACHER_EVENTS, teacher.id.toString()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : SingleObserver<TeacherEventsResponse> {
+                    override fun onSubscribe(disposable: Disposable) {
+                        compositeDisposable.add(disposable)
+                        view?.showLoading()
+                    }
+
+                    override fun onSuccess(response: TeacherEventsResponse) {
+                        Timber.d("Request succeeded, got [$response]")
+                        view?.hideLoading()
+                        view?.displayTeacherEvents(response)
+                    }
+
+                    override fun onError(throwable: Throwable) {
+                        Timber.w(throwable, "Request failed ${throwable.message}")
+                        view?.hideLoading()
+                        view?.displayErrorView()
+                    }
+                })
     }
 
     override fun toggleTeacherLike(teacher: Teacher) {
