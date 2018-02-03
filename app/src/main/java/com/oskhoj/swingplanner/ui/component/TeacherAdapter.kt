@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.teacher_row.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import timber.log.Timber
 
+// TODO: Add a presenter that handles expand events and loading / displaying new events from the list
 class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: ViewHolderList, private val onClick: (Teacher) -> Unit) : RecyclerView.Adapter<TeacherAdapter.ViewHolder>() {
 
     private val noItemSelected = -1

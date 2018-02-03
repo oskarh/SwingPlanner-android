@@ -104,9 +104,9 @@ class AboutActivity : MaterialAboutActivity() {
 
     override fun onStart() {
         super.onStart()
-        val enterAnimation = loadAnimation(R.anim.about_activity_enter_animation)
-        val cardList = findViewById<RecyclerView>(R.id.mal_recyclerview)
-        cardList.startAnimation(enterAnimation)
+        findViewById<RecyclerView>(R.id.mal_recyclerview).run {
+            startAnimation(loadAnimation(R.anim.about_activity_enter_animation))
+        }
     }
 
     override fun getActivityTitle(): String = getString(R.string.about)

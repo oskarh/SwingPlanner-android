@@ -44,13 +44,12 @@ abstract class BaseController<in V : BaseView, out T : Attachable<V>> protected 
     }
 
     @CallSuper
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflateView(inflater, container)
-        onViewBound(view)
-        view.context.asApp().addModule(controllerModule)
-        injector.inject(view.appKodein())
-        return view
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup) =
+        inflateView(inflater, container).apply {
+            onViewBound(this)
+            context.asApp().addModule(controllerModule)
+            injector.inject(appKodein())
+        }
 
     private fun updateHomeArrow() {
         (activity as? AppCompatActivity)?.supportActionBar?.run {

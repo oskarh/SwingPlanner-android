@@ -46,12 +46,14 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
 
     override fun onViewBound(view: View) {
         super.onViewBound(view)
-        val enableAnimationsCheckbox = view.animations_checkbox.apply {
-            isChecked = AppPreferences.isAnimationsEnabled
-            onClick { presenter.onAnimationsEnabledClicked(isChecked) }
+        view.run {
+            val enableAnimationsCheckbox = animations_checkbox.apply {
+                isChecked = AppPreferences.isAnimationsEnabled
+                onClick { presenter.onAnimationsEnabledClicked(isChecked) }
+            }
+            enable_animations_layout.onClick { enableAnimationsCheckbox.performClick() }
+            language_text.onClick { showLanguageDialog(context) }
+            subscriptions_text.onClick { presenter.onSubscriptionsClicked() }
         }
-        view.enable_animations_layout.apply { onClick { enableAnimationsCheckbox.performClick() } }
-        view.language_text.apply { onClick { showLanguageDialog(view.context) } }
-        view.subscriptions_text.apply { onClick { presenter.onSubscriptionsClicked() } }
     }
 }
