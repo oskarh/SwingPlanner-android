@@ -22,6 +22,7 @@ buildscript {
         materialAboutLibraryVersion = '2.2.3'
         materialTypefaceVersion = '2.0.46.1'
         playServicesVersion = '11.4.2'
+        referrerLibraryVersion = '1.0'
         retrofitVersion = '2.3.0'
         rxAndroidVersion = '2.0.1'
         rxBindingVersion = '2.1.0'

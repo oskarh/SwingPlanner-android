@@ -15,6 +15,7 @@ import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.settings.notificationmanager.NotificationManagerController
 import kotlinx.android.synthetic.main.controller_settings.view.*
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.sdk21.listeners.onClick
 
 class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<SettingsContract.View, SettingsContract.Presenter>(args), SettingsContract.View {
@@ -47,13 +48,15 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
     override fun onViewBound(view: View) {
         super.onViewBound(view)
         view.run {
-            val enableAnimationsCheckbox = animations_checkbox.apply {
+            val toggleAnimationsCheckbox = animations_checkbox.apply {
                 isChecked = AppPreferences.isAnimationsEnabled
                 onClick { presenter.onAnimationsEnabledClicked(isChecked) }
             }
-            enable_animations_layout.onClick { enableAnimationsCheckbox.performClick() }
-            language_text.onClick { showLanguageDialog(context) }
+            toggle_animations_layout.onClick { toggleAnimationsCheckbox.performClick() }
             subscriptions_text.onClick { presenter.onSubscriptionsClicked() }
+            notification_window_text.onClick { snackbar(this, context.getString(R.string.notification_window_not_implemented)) }
+            language_text.onClick { showLanguageDialog(context) }
+            theme_text.onClick { snackbar(this, context.getString(R.string.themes_not_implemented)) }
         }
     }
 }
