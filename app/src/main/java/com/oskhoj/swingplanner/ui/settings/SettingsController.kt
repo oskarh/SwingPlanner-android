@@ -52,9 +52,9 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
                 isChecked = AppPreferences.isAnimationsEnabled
                 onClick { presenter.onAnimationsEnabledClicked(isChecked) }
             }
-            enable_animations_layout.onClick { toggleAnimationsCheckbox.performClick() }
+            toggle_animations_layout.onClick { toggleAnimationsCheckbox.performClick() }
             subscriptions_text.onClick { presenter.onSubscriptionsClicked() }
-            notification_text.onClick { snackbar(this, context.getString(R.string.notification_window_not_implemented)) }
+            notification_window_text.onClick { snackbar(this, context.getString(R.string.notification_window_not_implemented)) }
             language_text.onClick { showLanguageDialog(context) }
             theme_text.onClick { snackbar(this, context.getString(R.string.themes_not_implemented)) }
         }
