@@ -19,8 +19,10 @@ import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.inflateView
 import com.oskhoj.swingplanner.util.visible
+import com.oskhoj.swingplanner.util.visibleGiven
 import kotlinx.android.synthetic.main.teacher_row.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
+import org.jetbrains.anko.design.snackbar
 import timber.log.Timber
 
 // TODO: Add a presenter that handles expand events and loading / displaying new events from the list
@@ -81,20 +83,19 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
             teacherHeader.setOnClickListener(this@ViewHolder)
             expandableLayout.setInterpolator(OvershootInterpolator())
             expandableLayout.setOnExpansionUpdateListener(this@ViewHolder)
-            if (AppPreferences.hasFavoriteTeacher(teacher.id)) {
-                favoriteImage.visible()
-            }
+            favoriteImage.visibleGiven { AppPreferences.hasFavoriteTeacher(teacher.id) }
             favoriteButton.setOnClickListener {
                 AppPreferences.toggleFavoriteTeacher(teacher.id)
-                if (AppPreferences.hasFavoriteTeacher(teacher.id)) {
-                    favoriteImage.visible()
-                } else {
-                    favoriteImage.gone()
-                }
+                favoriteImage.visibleGiven { AppPreferences.hasFavoriteTeacher(teacher.id) }
             }
             youTubeButton.setOnClickListener {
-                Timber.d("Redirecting to YouTube for [${teacher.name}]")
-                startActivity(context, YouTubeIntents.createSearchIntent(context, teacher.name), Bundle.EMPTY)
+                if (YouTubeIntents.canResolveSearchIntent(context)) {
+                    Timber.d("Redirecting to YouTube for [${teacher.name}]")
+                    startActivity(context, YouTubeIntents.createSearchIntent(context, teacher.name), Bundle.EMPTY)
+                } else {
+                    Timber.d("YouTube not installed on device")
+                    snackbar(this, context.getString(R.string.youtube_not_available))
+                }
             }
             teacherEvents.adapter = teacherEventsAdapter
         }
@@ -109,7 +110,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                     if (layoutPosition == selectedItem) {
                         noItemSelected
                     } else {
-                        this@TeacherAdapter.onClick.invoke(teacher)
+                        this@TeacherAdapter.onClick(teacher)
                         teacherNameView.isSelected = true
                         expandableLayout.expand()
                         layoutPosition

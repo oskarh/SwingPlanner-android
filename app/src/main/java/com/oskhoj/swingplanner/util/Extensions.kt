@@ -104,6 +104,14 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+inline fun View.visibleGiven(predicate: () -> Boolean) {
+    if (predicate()) {
+        visible()
+    } else {
+        invisible()
+    }
+}
+
 fun ImageView.loadImageOrDisappear(url: String?, context: Context) {
     url?.let {
         loadImage(it, context)

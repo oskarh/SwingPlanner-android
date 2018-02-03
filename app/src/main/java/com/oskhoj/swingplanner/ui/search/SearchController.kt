@@ -36,6 +36,7 @@ import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadImage
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
+import com.oskhoj.swingplanner.util.visibleGiven
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -243,8 +244,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 setText(storedText)
                 setSelection(storedText.length)
                 setOnFocusChangeListener { _, hasFocus ->
-                    backIcon.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
-                    clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
+                    backIcon.visibleGiven { hasFocus }
+                    clearIcon.visibleGiven { hasFocus && text.isNotBlank() }
                 }
                 if (searchEventsPage == null) {
                     searchEvents(storedText)
@@ -252,7 +253,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 disposable = RxTextView.textChanges(this)
                         .skip(1)
                         .map { charSequence ->
-                            clearIcon.visibility = if (charSequence.isEmpty()) View.INVISIBLE else View.VISIBLE
+                            clearIcon.visibleGiven { charSequence.isNotEmpty() }
                             charSequence.trim().toString()
                         }
                         .filter { query -> query.length > 3 }

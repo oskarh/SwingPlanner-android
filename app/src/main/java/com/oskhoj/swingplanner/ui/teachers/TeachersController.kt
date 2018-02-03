@@ -28,6 +28,7 @@ import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
+import com.oskhoj.swingplanner.util.visibleGiven
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_teachers.view.*
 import org.jetbrains.anko.sdk21.listeners.onClick
@@ -52,7 +53,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     private var storedText: String = ""
 
     private val textListener = TextChangedListener {
-        clearIcon.visibility = if (it.isEmpty()) View.INVISIBLE else View.VISIBLE
+        clearIcon.visibleGiven { it.isNotEmpty() }
         presenter.loadTeachers(it.toString())
     }
 
@@ -144,11 +145,11 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
                 setText(storedText)
                 setSelection(storedText.length)
                 addTextChangedListener(textListener)
-                backIcon.visibility = if (isFocused) View.VISIBLE else View.INVISIBLE
-                clearIcon.visibility = if (isFocused && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
+                backIcon.visibleGiven { isFocused }
+                clearIcon.visibleGiven { isFocused && text.isNotBlank() }
                 setOnFocusChangeListener { _, hasFocus ->
-                    backIcon.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
-                    clearIcon.visibility = if (hasFocus && text.isNotBlank()) View.VISIBLE else View.INVISIBLE
+                    backIcon.visibleGiven { hasFocus }
+                    clearIcon.visibleGiven { hasFocus && text.isNotBlank() }
                 }
             }
         }
