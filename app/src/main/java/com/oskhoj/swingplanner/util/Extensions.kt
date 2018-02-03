@@ -138,12 +138,13 @@ fun Context.getCompatColor(@ColorRes colorid: Int) = ContextCompat.getColor(this
 
 fun View.getCompatColor(@ColorRes colorid: Int) = ContextCompat.getColor(context, colorid)
 
-fun View.animateToSize(size: Float, duration: Long) {
-    val animator = ObjectAnimator.ofPropertyValuesHolder(this,
+fun View.animateToSize(size: Float, animationDuration: Long) {
+    ObjectAnimator.ofPropertyValuesHolder(this,
             PropertyValuesHolder.ofFloat(View.SCALE_X, size),
-            PropertyValuesHolder.ofFloat(View.SCALE_Y, size))
-    animator.duration = duration
-    animator.start()
+            PropertyValuesHolder.ofFloat(View.SCALE_Y, size)).run {
+        duration = animationDuration
+        start()
+    }
 }
 
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)

@@ -98,8 +98,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     private fun setUpRecyclerView(view: View) {
         teacherRecyclerView = view.teachersRecyclerView.apply {
             layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
-            val dividerItemDecoration = DividerItemDecoration(context, VERTICAL)
-            addItemDecoration(dividerItemDecoration)
+            addItemDecoration(DividerItemDecoration(context, VERTICAL))
             adapter = teacherAdapter
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -136,10 +135,12 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         super.onAttach(view)
         presenter.loadTeachers(storedText)
         activity?.run {
-            backIcon = search_back
-            backIcon.onClick { presenter.onSearchBack() }
-            clearIcon = search_clear
-            clearIcon.setOnClickListener { presenter.onSearchClear() }
+            backIcon = search_back.apply {
+                onClick { presenter.onSearchBack() }
+            }
+            clearIcon = search_clear.apply {
+                setOnClickListener { presenter.onSearchClear() }
+            }
 
             searchText = search_text?.apply {
                 setText(storedText)
