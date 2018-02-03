@@ -68,20 +68,22 @@ dependencies {
 
     //    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
+    implementation "com.android.installreferrer:installreferrer:$referrerLibraryVersion"
+
     implementation "com.github.daniel-stoneuk:material-about-library:$materialAboutLibraryVersion"
     implementation "com.mikepenz:community-material-typeface:$materialTypefaceVersion@aar"
     implementation "com.mikepenz:iconics-core:$iconicsCoreVersion@aar"
-    compile "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
-    compile "com.jakewharton.rxbinding2:rxbinding-design:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-design:$rxBindingVersion"
     implementation "org.jetbrains.anko:anko-sdk21:$ankoVersion"
     implementation "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
     implementation "org.jetbrains.anko:anko-sdk21-listeners:$ankoVersion"
     implementation "org.jetbrains.anko:anko-design:$ankoVersion"
     implementation "saschpe.android:customtabs:$saschpeCustomTabsVersion"
-    compile "com.github.salomonbrys.kodein:kodein:$kodeinVersion"
-    compile "com.github.salomonbrys.kodein:kodein-conf:$kodeinVersion"
-    compile "com.github.salomonbrys.kodein:kodein-core:$kodeinVersion"
-    compile "com.github.salomonbrys.kodein:kodein-android:$kodeinVersion"
+    implementation "com.github.salomonbrys.kodein:kodein:$kodeinVersion"
+    implementation "com.github.salomonbrys.kodein:kodein-conf:$kodeinVersion"
+    implementation "com.github.salomonbrys.kodein:kodein-core:$kodeinVersion"
+    implementation "com.github.salomonbrys.kodein:kodein-android:$kodeinVersion"
     implementation "net.cachapa.expandablelayout:expandablelayout:$expandableLayoutVersion"
 
     // test
