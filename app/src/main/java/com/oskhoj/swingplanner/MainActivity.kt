@@ -29,6 +29,7 @@ import com.oskhoj.swingplanner.network.FavoritesBarcode
 import com.oskhoj.swingplanner.network.TeacherApiManager
 import com.oskhoj.swingplanner.network.service.EventService
 import com.oskhoj.swingplanner.network.service.TeacherService
+import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.navigation.BottomNavigationController
 import com.oskhoj.swingplanner.util.find
 import com.oskhoj.swingplanner.util.gone

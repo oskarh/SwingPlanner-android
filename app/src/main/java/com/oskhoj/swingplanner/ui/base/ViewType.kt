@@ -1,4 +1,4 @@
-package com.oskhoj.swingplanner
+package com.oskhoj.swingplanner.ui.base
 
 enum class ViewType {
     SEARCH_VIEW,

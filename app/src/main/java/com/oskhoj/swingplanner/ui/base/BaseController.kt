@@ -13,6 +13,8 @@ import com.github.salomonbrys.kodein.KodeinInjected
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.appKodein
 import com.oskhoj.swingplanner.asApp
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import timber.log.Timber
 
 abstract class BaseController<in V : BaseView, out T : Attachable<V>> protected constructor(args: Bundle = Bundle.EMPTY) : Controller(args), BaseView, KodeinInjected {
@@ -24,6 +26,8 @@ abstract class BaseController<in V : BaseView, out T : Attachable<V>> protected 
     @get:LayoutRes
     protected abstract val layoutRes: Int
 
+    protected open val screenType: ScreenType? = null
+
     override val injector = KodeinInjector()
 
     private fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
@@ -34,6 +38,12 @@ abstract class BaseController<in V : BaseView, out T : Attachable<V>> protected 
         super.onAttach(view)
         presenter.onAttach(this as V)
         updateHomeArrow()
+        activity?.let { activity ->
+            screenType?.let { screenType ->
+                Timber.d("Setting screen type ${screenType.screenName}")
+                AnalyticsHelper.setCurrentScreen(activity, screenType)
+            }
+        }
     }
 
     @CallSuper
@@ -45,11 +55,11 @@ abstract class BaseController<in V : BaseView, out T : Attachable<V>> protected 
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup) =
-        inflateView(inflater, container).apply {
-            onViewBound(this)
-            context.asApp().addModule(controllerModule)
-            injector.inject(appKodein())
-        }
+            inflateView(inflater, container).apply {
+                onViewBound(this)
+                context.asApp().addModule(controllerModule)
+                injector.inject(appKodein())
+            }
 
     private fun updateHomeArrow() {
         (activity as? AppCompatActivity)?.supportActionBar?.run {

@@ -10,7 +10,6 @@ import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.ToolbarProvider
-import com.oskhoj.swingplanner.ViewType
 import com.oskhoj.swingplanner.ui.about.AboutActivity
 import org.jetbrains.anko.startActivity
 

@@ -13,13 +13,14 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.R
-import com.oskhoj.swingplanner.ViewType
-import com.oskhoj.swingplanner.ViewType.TEACHERS_VIEW
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.ui.base.ToolbarController
+import com.oskhoj.swingplanner.ui.base.ViewType
+import com.oskhoj.swingplanner.ui.base.ViewType.TEACHERS_VIEW
 import com.oskhoj.swingplanner.ui.component.TeacherAdapter
 import com.oskhoj.swingplanner.ui.component.TextChangedListener
 import com.oskhoj.swingplanner.ui.details.DetailsController
@@ -46,6 +47,8 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     }
 
     override val viewType: ViewType = TEACHERS_VIEW
+
+    override val screenType: ScreenType = ScreenType.TEACHER
 
     private lateinit var teacherRecyclerView: RecyclerView
     private var searchText: EditText? = null
@@ -146,7 +149,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
                 onClick { presenter.onSearchBack() }
             }
             clearIcon = search_clear.apply {
-                setOnClickListener { presenter.onSearchClear() }
+                onClick { presenter.onSearchClear() }
             }
 
             searchText = search_text?.apply {

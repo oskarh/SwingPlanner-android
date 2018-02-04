@@ -16,13 +16,14 @@ import com.github.salomonbrys.kodein.provider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
-import com.oskhoj.swingplanner.ViewType
-import com.oskhoj.swingplanner.ViewType.SEARCH_VIEW
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.network.EventSearchParams
 import com.oskhoj.swingplanner.ui.base.ToolbarController
+import com.oskhoj.swingplanner.ui.base.ViewType
+import com.oskhoj.swingplanner.ui.base.ViewType.SEARCH_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.component.HeaderEventAdapter
 import com.oskhoj.swingplanner.ui.details.DetailsController
@@ -42,6 +43,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_search.*
 import kotlinx.android.synthetic.main.controller_search.view.*
+import org.jetbrains.anko.sdk21.listeners.onClick
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -54,6 +56,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     override val layoutRes = R.layout.controller_search
 
     override val viewType: ViewType = SEARCH_VIEW
+
+    override val screenType: ScreenType = ScreenType.SEARCH
 
     private var recyclerView: RecyclerView? = null
     private lateinit var backIcon: AppCompatImageView
@@ -235,10 +239,12 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         Timber.d("Attaching view..")
         activity?.run {
             recyclerView = search_events_recycler
-            backIcon = search_back
-            backIcon.setOnClickListener { presenter.onSearchBack() }
-            clearIcon = search_clear
-            clearIcon.setOnClickListener { presenter.onSearchClear() }
+            backIcon = search_back.apply {
+                onClick { presenter.onSearchBack() }
+            }
+            clearIcon = search_clear.apply {
+                onClick { presenter.onSearchClear() }
+            }
 
             searchText = search_text?.apply {
                 setText(storedText)
