@@ -20,7 +20,7 @@ import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.inflateView
 import com.oskhoj.swingplanner.util.visible
-import com.oskhoj.swingplanner.util.visibleGiven
+import com.oskhoj.swingplanner.util.visibleIf
 import kotlinx.android.synthetic.main.teacher_row.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.jetbrains.anko.design.snackbar
@@ -86,10 +86,10 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
             teacherHeader.setOnClickListener(this@ViewHolder)
             expandableLayout.setInterpolator(OvershootInterpolator())
             expandableLayout.setOnExpansionUpdateListener(this@ViewHolder)
-            favoriteImage.visibleGiven { AppPreferences.hasFavoriteTeacher(teacher.id) }
+            favoriteImage.visibleIf { AppPreferences.hasFavoriteTeacher(teacher.id) }
             favoriteButton.setOnClickListener {
                 AppPreferences.toggleFavoriteTeacher(teacher.id)
-                favoriteImage.visibleGiven { AppPreferences.hasFavoriteTeacher(teacher.id) }
+                favoriteImage.visibleIf { AppPreferences.hasFavoriteTeacher(teacher.id) }
             }
             youTubeButton.setOnClickListener {
                 if (YouTubeIntents.canResolveSearchIntent(context)) {
