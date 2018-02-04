@@ -21,14 +21,14 @@ buildscript {
         loggingInterceptorVersion = '3.9.1'
         materialAboutLibraryVersion = '2.2.3'
         materialTypefaceVersion = '2.0.46.1'
-        playServicesVersion = '11.4.2'
+        firebaseVersion = '11.8.0'
         referrerLibraryVersion = '1.0'
         retrofitVersion = '2.3.0'
         rxAndroidVersion = '2.0.1'
         rxBindingVersion = '2.1.0'
         rxJavaVersion = '2.1.9'
         saschpeCustomTabsVersion = '1.1.1'
-        storeVersion = '3.0.0-beta'
+        storeVersion = '3.0.0'
         supportVersion = '27.0.2'
         tapTargetViewVersion = '1.9.1'
         timberVersion = '4.6.0'
@@ -40,6 +40,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.0-alpha09'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath 'com.google.gms:google-services:3.1.1'
     }
 }
 
