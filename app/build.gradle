@@ -36,6 +36,11 @@ android {
             }
         }
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 androidExtensions {
@@ -52,7 +57,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation "com.android.support:support-annotations:$supportVersion"
     implementation "com.android.support:support-v4:$supportVersion"
-    
+
     implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

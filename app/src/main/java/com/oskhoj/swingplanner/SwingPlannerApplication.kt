@@ -9,6 +9,7 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.conf.ConfigurableKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import saschpe.android.customtabs.CustomTabsActivityLifecycleCallbacks
 import timber.log.Timber
 import java.io.File
@@ -24,6 +25,7 @@ class SwingPlannerApplication : Application(), KodeinAware {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        AnalyticsHelper.setupFirebaseAnalytics(this)
         resetInjection()
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallbacks())
     }

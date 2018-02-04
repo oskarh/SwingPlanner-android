@@ -9,9 +9,10 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
-import com.oskhoj.swingplanner.ViewType
-import com.oskhoj.swingplanner.ViewType.SETTINGS_VIEW
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.ui.base.ToolbarController
+import com.oskhoj.swingplanner.ui.base.ViewType
+import com.oskhoj.swingplanner.ui.base.ViewType.SETTINGS_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.settings.notificationmanager.NotificationManagerController
 import kotlinx.android.synthetic.main.controller_settings.view.*
@@ -28,6 +29,8 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
     }
 
     override val viewType: ViewType = SETTINGS_VIEW
+
+    override val screenType: ScreenType = ScreenType.SETTINGS
 
     override fun showSubscriptions() {
 

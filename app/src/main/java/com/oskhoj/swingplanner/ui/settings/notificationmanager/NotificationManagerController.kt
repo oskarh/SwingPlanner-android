@@ -10,8 +10,9 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
-import com.oskhoj.swingplanner.ViewType
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.ui.base.ToolbarController
+import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.component.NotificationSubscriptionAdapter
 import com.oskhoj.swingplanner.util.SUBSCRIPTION_MIN_LENGTH
 import kotlinx.android.synthetic.main.notification_manager_settings.view.*
@@ -42,6 +43,8 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
     }
 
     override val viewType: ViewType = ViewType.SETTINGS_VIEW
+
+    override val screenType: ScreenType = ScreenType.SUBSCRIPTIONS
 
     private val subscriptionAdapter: NotificationSubscriptionAdapter = NotificationSubscriptionAdapter(
             AppPreferences.subscriptions.iterator().asSequence().toMutableList(), {

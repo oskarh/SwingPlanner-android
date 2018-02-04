@@ -9,11 +9,12 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.R
-import com.oskhoj.swingplanner.ViewType
-import com.oskhoj.swingplanner.ViewType.FAVORITES_VIEW
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.ui.base.ToolbarController
+import com.oskhoj.swingplanner.ui.base.ViewType
+import com.oskhoj.swingplanner.ui.base.ViewType.FAVORITES_VIEW
 import com.oskhoj.swingplanner.ui.component.EventAdapter
 import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.gone
@@ -31,6 +32,8 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
     override val isToggleViewItemVisible = true
 
     override val layoutRes = R.layout.controller_favorites
+
+    override val screenType: ScreenType = ScreenType.FAVORITE
 
     private val eventAdapter: EventAdapter = EventAdapter(emptyList(), {
         Timber.d("Clicked on event with id ${it.id}")

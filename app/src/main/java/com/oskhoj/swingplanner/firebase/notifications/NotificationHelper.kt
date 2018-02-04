@@ -1,4 +1,4 @@
-package com.oskhoj.swingplanner.notifications
+package com.oskhoj.swingplanner.firebase.notifications
 
 import android.app.Notification
 import android.app.NotificationChannel

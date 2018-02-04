@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.annotation.AnimRes
 import android.support.annotation.ColorRes
 import android.support.annotation.IdRes
@@ -31,6 +32,8 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import retrofit2.Retrofit
+import timber.log.Timber
+import java.io.Serializable
 
 inline fun <reified T : View> Activity.find(@IdRes resId: Int): T = findViewById(resId)
 
@@ -39,9 +42,9 @@ inline fun <reified T : View?> Activity.findNullable(@IdRes resId: Int): T? = fi
 inline fun <reified T : View> View.findView(@IdRes resId: Int): T = findViewById(resId)
 
 fun String.toBundle(value: Int) =
-    Bundle().apply {
-        putInt(this@toBundle, value)
-    }
+        Bundle().apply {
+            putInt(this@toBundle, value)
+        }
 
 fun String.compareToIgnoreWhitespace(other: String, ignoreCase: Boolean = false): Int =
         trim().compareTo(other.trim(), ignoreCase)
@@ -163,3 +166,23 @@ inline fun <reified T : Enum<T>> enumSetFrom(danceStyles: String) =
                 .filter { enumContains<T>(it) }
                 .map { enumValueOf<T>(it) }
                 .toSet()
+
+fun Map<String, Any>?.toBundle() =
+        Bundle().apply {
+            this@toBundle?.forEach {
+                when (it.value) {
+                    is Boolean -> putBoolean(it.key, it.value as Boolean)
+                    is Byte -> putByte(it.key, it.value as Byte)
+                    is Char -> putChar(it.key, it.value as Char)
+                    is Double -> putDouble(it.key, it.value as Double)
+                    is Float -> putFloat(it.key, it.value as Float)
+                    is Int -> putInt(it.key, it.value as Int)
+                    is Long -> putLong(it.key, it.value as Long)
+                    is Short -> putShort(it.key, it.value as Short)
+                    is String -> putString(it.key, it.value as String)
+                    is Parcelable -> putParcelable(it.key, it.value as Parcelable)
+                    is Serializable -> putSerializable(it.key, it.value as Serializable)
+                    else -> Timber.w("Ignoring unknown parameter type for bundle with key [${it.key}]")
+                }
+            }
+        }

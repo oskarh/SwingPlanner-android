@@ -19,10 +19,11 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
-import com.oskhoj.swingplanner.ViewType
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.ui.base.ToolbarController
+import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.util.Day
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_DETAILS
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_SUMMARY
@@ -50,6 +51,8 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     override val presenter: DetailsContract.Presenter by instance()
 
     override val layoutRes = R.layout.controller_event_details
+
+    override val screenType: ScreenType = ScreenType.EVENT_DETAILS
 
     override val viewType: ViewType
         get() = ViewType.DETAILS_VIEW
@@ -157,16 +160,14 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
             eventDetails.facebookEventUrl?.let { facebookUrl ->
                 facebook_link.apply {
                     visible()
-                    onClick {
-                        openCustomTab(context, facebookUrl)
-                    }
+                    onClick { openCustomTab(context, facebookUrl) }
                 }
             }
 
             eventDetails.website?.takeIf { it.isNotBlank() }?.let { websiteUrl ->
                 website_link.apply {
                     visible()
-                    setOnClickListener {
+                    onClick {
                         val website: String = websiteUrl.takeIf { websiteUrl.startsWith("http://", true) } ?: "http://$websiteUrl"
                         openCustomTab(context, website)
                     }
@@ -190,27 +191,24 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        activity?.let { context ->
-            val appBarLayout = context.findViewById<AppBarLayout>(R.id.app_bar_layout)
+        activity?.run {
+            val appBarLayout = findViewById<AppBarLayout>(R.id.app_bar_layout)
             enableCollapsingToolbar(false)
-            val mAppBarLayout = context.findViewById<AppBarLayout>(R.id.app_bar_layout)
-            mAppBarLayout.setExpanded(false)
-
-            val toolbarImage = context.findViewById<AppCompatImageView>(R.id.toolbar_image)
-            toolbarImage.gone()
+            findViewById<AppBarLayout>(R.id.app_bar_layout).setExpanded(false)
+            findViewById<AppCompatImageView>(R.id.toolbar_image).gone()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        Timber.d("onSaveInstanceState, saving $eventSummary and $eventDetails")
         outState.putParcelable(KEY_STATE_EVENTS_SUMMARY, eventSummary)
         outState.putParcelable(KEY_STATE_EVENTS_DETAILS, eventDetails)
-        Timber.d("onSaveInstanceState, saving $eventSummary and $eventDetails")
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        eventSummary = savedInstanceState.getParcelable<EventSummary>(KEY_STATE_EVENTS_SUMMARY) as EventSummary
-        eventDetails = savedInstanceState.getParcelable<EventDetails>(KEY_STATE_EVENTS_DETAILS) as EventDetails
         Timber.d("Restored $eventSummary and $eventDetails")
+        eventSummary = savedInstanceState.getParcelable(KEY_STATE_EVENTS_SUMMARY) as EventSummary
+        eventDetails = savedInstanceState.getParcelable(KEY_STATE_EVENTS_DETAILS) as EventDetails
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

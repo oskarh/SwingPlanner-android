@@ -1,4 +1,4 @@
-package com.oskhoj.swingplanner.notifications.service
+package com.oskhoj.swingplanner.firebase.notifications.service
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

@@ -15,6 +15,8 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutList
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.util.clipboardManager
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.loadAnimation
@@ -105,6 +107,11 @@ class AboutActivity : MaterialAboutActivity() {
     override fun onStart() {
         super.onStart()
         findViewById<RecyclerView>(R.id.mal_recyclerview).startAnimation(loadAnimation(R.anim.about_activity_enter_animation))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AnalyticsHelper.setCurrentScreen(this, ScreenType.ABOUT)
     }
 
     override fun getActivityTitle(): String = getString(R.string.about)

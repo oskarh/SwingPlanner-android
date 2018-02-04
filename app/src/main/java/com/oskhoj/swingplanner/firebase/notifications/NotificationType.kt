@@ -1,4 +1,4 @@
-package com.oskhoj.swingplanner.notifications
+package com.oskhoj.swingplanner.firebase.notifications
 
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
