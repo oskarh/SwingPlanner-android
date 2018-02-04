@@ -36,7 +36,7 @@ import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadImage
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.visible
-import com.oskhoj.swingplanner.util.visibleGiven
+import com.oskhoj.swingplanner.util.visibleIf
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -154,13 +154,13 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     }
 
     override fun showFilterDialog() {
-        BottomSheetDialogHelper.showFilterDialog(view?.context) {
-            searchEventsPage?.run {
-                if (stylesFilterSet != AppPreferences.filterOptions) {
-                    Timber.d("Filter changed from $stylesFilterSet to ${AppPreferences.filterOptions}, searching again")
-                    searchEvents(searchText?.text?.toString())
-                } else {
-                    Timber.d("Filter styles is the same")
+        view?.run {
+            BottomSheetDialogHelper.showFilterDialog(context) {
+                searchEventsPage?.run {
+                    if (stylesFilterSet != AppPreferences.filterOptions) {
+                        Timber.d("Filter changed from $stylesFilterSet to ${AppPreferences.filterOptions}, searching again")
+                        searchEvents(searchText?.text?.toString())
+                    }
                 }
             }
         }
@@ -244,8 +244,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 setText(storedText)
                 setSelection(storedText.length)
                 setOnFocusChangeListener { _, hasFocus ->
-                    backIcon.visibleGiven { hasFocus }
-                    clearIcon.visibleGiven { hasFocus && text.isNotBlank() }
+                    backIcon.visibleIf { hasFocus }
+                    clearIcon.visibleIf { hasFocus && text.isNotBlank() }
                 }
                 if (searchEventsPage == null) {
                     searchEvents(storedText)
@@ -253,7 +253,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 disposable = RxTextView.textChanges(this)
                         .skip(1)
                         .map { charSequence ->
-                            clearIcon.visibleGiven { charSequence.isNotEmpty() }
+                            clearIcon.visibleIf { charSequence.isNotEmpty() }
                             charSequence.trim().toString()
                         }
                         .filter { query -> query.length > 3 }

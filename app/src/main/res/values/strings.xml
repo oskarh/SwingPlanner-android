@@ -67,4 +67,11 @@
     <string name="failed_retrieve_events">Failed to retrieve events</string>
     <string name="themes_not_implemented">Themes not yet implemented</string>
     <string name="notification_window_not_implemented">Notification window not yet implemented</string>
+    <string name="teacher_channel">Teacher Notifications</string>
+    <string name="miscellaneous_channel">Miscellaneous Notifications</string>
+    <string name="event_channel">Event Notifications</string>
+    <string name="event_updated_title">%1$s updated</string>
+    <string name="event_updated_message">%1$s has been updated with new information</string>
+    <string name="teacher_new_event_title">%1$s just signed up for a new event!</string>
+    <string name="teacher_new_event_message">%1$s is attending %2$s</string>
 </resources>

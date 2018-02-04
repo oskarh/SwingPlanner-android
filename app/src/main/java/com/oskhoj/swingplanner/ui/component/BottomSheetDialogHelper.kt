@@ -30,56 +30,54 @@ object BottomSheetDialogHelper {
     private const val LARGE_MARGIN = 16
     private const val CARD_MARGIN = 8
 
-    fun showFilterDialog(context: Context?, listener: DialogInterface.() -> Unit) {
-        context?.run {
-            val rootLayout = LinearLayout(context).apply {
-                padding = dip(LARGE_MARGIN)
-                orientation = VERTICAL
-                layoutParams = linearLayoutParams(MATCH_PARENT, MATCH_PARENT)
+    fun showFilterDialog(context: Context, listener: DialogInterface.() -> Unit) {
+        val rootLayout = LinearLayout(context).apply {
+            padding = dip(LARGE_MARGIN)
+            orientation = VERTICAL
+            layoutParams = linearLayoutParams(MATCH_PARENT, MATCH_PARENT)
+        }
+
+        val titleText = TextView(context).apply {
+            text = context.getString(R.string.filter_options_description)
+            layoutParams = linearLayoutParams(bottomMargin = dip(LARGE_MARGIN))
+        }
+        rootLayout.addView(titleText)
+
+        val rowLayoutParams = linearLayoutParams(width = MATCH_PARENT, gravity = Gravity.CENTER_VERTICAL or Gravity.START)
+
+        DanceStyle.values().forEach { danceStyle ->
+            val languageCheckBox = CheckBox(context).apply {
+                layoutParams = linearLayoutParams()
+                isChecked = AppPreferences.hasFavoriteDanceStyle(danceStyle)
+                onClick { AppPreferences.toggleFilterOption(danceStyle) }
             }
-
-            val titleText = TextView(context).apply {
-                text = getString(R.string.filter_options_description)
-                layoutParams = linearLayoutParams(bottomMargin = dip(LARGE_MARGIN))
+            val languageText = TextView(context).apply {
+                layoutParams = linearLayoutParams()
+                text = danceStyle.description
             }
-            rootLayout.addView(titleText)
-
-            val rowLayoutParams = linearLayoutParams(width = MATCH_PARENT, gravity = Gravity.CENTER_VERTICAL or Gravity.START)
-
-            DanceStyle.values().forEach { danceStyle ->
-                val languageCheckBox = CheckBox(context).apply {
-                    layoutParams = linearLayoutParams()
-                    isChecked = AppPreferences.hasFavoriteDanceStyle(danceStyle)
-                    onClick { AppPreferences.toggleFilterOption(danceStyle) }
-                }
-                val languageText = TextView(context).apply {
-                    layoutParams = linearLayoutParams()
-                    text = danceStyle.description
-                }
-                val rowLayout = LinearLayout(context).apply {
-                    layoutParams = rowLayoutParams
-                    setBackgroundResource(getRippleBackground(this@run))
-                    addView(languageCheckBox)
-                    addView(languageText)
-                    onClick { languageCheckBox.performClick() }
-                }
-                rootLayout.addView(rowLayout)
+            val rowLayout = LinearLayout(context).apply {
+                layoutParams = rowLayoutParams
+                setBackgroundResource(getRippleBackground(context))
+                addView(languageCheckBox)
+                addView(languageText)
+                onClick { languageCheckBox.performClick() }
             }
+            rootLayout.addView(rowLayout)
+        }
 
-            BottomSheetDialog(context).run {
-                val okButton = Button(context).apply {
-                    layoutParams = linearLayoutParams(gravity = Gravity.END)
-                    text = getString(R.string.dialog_ok)
-                    setBackgroundResource(getRippleBackground(context))
-                    textColor = getCompatColor(R.color.colorAccent)
-                    onClick { dismiss() }
-                }
-                rootLayout.addView(okButton)
-
-                setContentView(rootLayout)
-                setOnDismissListener(listener)
-                show()
+        BottomSheetDialog(context).run {
+            val okButton = Button(context).apply {
+                layoutParams = linearLayoutParams(gravity = Gravity.END)
+                text = context.getString(R.string.dialog_ok)
+                setBackgroundResource(getRippleBackground(context))
+                textColor = getCompatColor(R.color.colorAccent)
+                onClick { dismiss() }
             }
+            rootLayout.addView(okButton)
+
+            setContentView(rootLayout)
+            setOnDismissListener(listener)
+            show()
         }
     }
 

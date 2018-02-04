@@ -104,7 +104,7 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-inline fun View.visibleGiven(predicate: () -> Boolean) {
+inline fun View.visibleIf(predicate: () -> Boolean) {
     if (predicate()) {
         visible()
     } else {
