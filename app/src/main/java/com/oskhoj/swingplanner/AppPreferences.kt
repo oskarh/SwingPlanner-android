@@ -13,14 +13,11 @@ object AppPreferences : KotprefModel() {
         return@stringSetPref mutableSetOf("Stockholm", "Berlin", "New York")
     }
 
-    fun addSubscription(subscription: String) =
-            subscriptions.add(subscription)
+    fun addSubscription(subscription: String) = subscriptions.add(subscription)
 
-    fun removeSubscription(subscription: String) =
-            subscriptions.remove(subscription)
+    fun removeSubscription(subscription: String) = subscriptions.remove(subscription)
 
-    fun hasSubscription(subscription: String) =
-            subscriptions.asSequence().any { it.equals(subscription, true) }
+    fun hasSubscription(subscription: String) = subscriptions.asSequence().any { it.equals(subscription, true) }
 
     private var favoriteEventIdsString by stringPref()
 

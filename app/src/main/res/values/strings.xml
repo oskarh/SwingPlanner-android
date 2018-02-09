@@ -74,4 +74,12 @@
     <string name="event_updated_message">%1$s has been updated with new information</string>
     <string name="teacher_new_event_title">%1$s just signed up for a new event!</string>
     <string name="teacher_new_event_message">%1$s is attending %2$s</string>
+    <string name="onboarding_title_1">Find your event</string>
+    <string name="onboarding_title_2"><![CDATA[Easy search & filtering]]></string>
+    <string name="onboarding_title_3">All teachers</string>
+    <string name="onboarding_title_4">Instant updates</string>
+    <string name="onboarding_message_1">All swing dancing events worldwide in one place</string>
+    <string name="onboarding_message_2">Search and filter by type of dance, city, country, continent or event name</string>
+    <string name="onboarding_message_3">Find which events your favorite teacher is attending</string>
+    <string name="onboarding_message_4">Get notified instantly as more information is made available for your favorite events, or when your favorite teacher signs up for a new event</string>
 </resources>

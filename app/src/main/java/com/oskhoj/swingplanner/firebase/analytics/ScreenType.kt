@@ -2,12 +2,13 @@ package com.oskhoj.swingplanner.firebase.analytics
 
 enum class ScreenType(val screenName: String) {
     ABOUT("About"),
-    SEARCH("Search"),
-    FAVORITE("Favorite"),
-    TEACHER("Teacher"),
-    SETTINGS("Settings"),
     EVENT_DETAILS("Event details"),
-    SUBSCRIPTIONS("Subscriptions"),
+    FAVORITE("Favorite"),
     NOTIFICATION_MANAGER("Notification manager"),
+    ONBOARDING("Onboarding"),
+    SEARCH("Search"),
+    SETTINGS("Settings"),
+    SUBSCRIPTIONS("Subscriptions"),
+    TEACHER("Teacher"),
     THEME("Theme")
 }
