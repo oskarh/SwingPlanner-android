@@ -5,12 +5,12 @@
         android:id="@+id/filter_action"
         android:icon="@drawable/ic_filter_list_black_24dp"
         android:title="@string/filter_title"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/toggle_view_mode_action"
         android:icon="@drawable/ic_view_list_black_24dp"
         android:title="@string/toggle_view_mode_title"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/share_action"
         android:title="@string/share"

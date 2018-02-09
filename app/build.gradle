@@ -95,6 +95,8 @@ dependencies {
     implementation "com.github.salomonbrys.kodein:kodein-android:$kodeinVersion"
     implementation "net.cachapa.expandablelayout:expandablelayout:$expandableLayoutVersion"
 
+    implementation "com.github.apl-devs:appintro:$appIntroVersion"
+
     // test
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "com.android.support.test:runner:$androidTestVersion"

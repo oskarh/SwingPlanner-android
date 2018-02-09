@@ -31,11 +31,13 @@ import com.oskhoj.swingplanner.network.service.EventService
 import com.oskhoj.swingplanner.network.service.TeacherService
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.navigation.BottomNavigationController
+import com.oskhoj.swingplanner.ui.onboarding.OnboardingActivity
 import com.oskhoj.swingplanner.util.find
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import okio.BufferedSource
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), ToolbarProvider {
 
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        launchOnboardingIfNeeded()
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         invalidateOptionsMenu()
@@ -64,6 +67,12 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         router = Conductor.attachRouter(this, controller_container, savedInstanceState)
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(BottomNavigationController()))
+        }
+    }
+
+    private fun launchOnboardingIfNeeded() {
+        if (!AppPreferences.hasShownOnboarding) {
+            startActivity<OnboardingActivity>()
         }
     }
 

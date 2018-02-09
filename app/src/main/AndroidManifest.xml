@@ -28,6 +28,7 @@
         <activity
             android:name=".ui.about.AboutActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity"/>
+        <activity android:name=".ui.onboarding.OnboardingActivity"/>
 
         <service android:name=".firebase.notifications.service.FirebaseIdService">
             <intent-filter>
