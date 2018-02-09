@@ -13,7 +13,7 @@ buildscript {
         conductorVersion ='2.1.4'
         espressoVersion = '3.0.1'
         expandableLayoutVersion = '2.9.2'
-        glideVersion = '4.3.1'
+        glideVersion = '4.6.1'
         iconicsCoreVersion = '3.0.2'
         junitVersion = '4.12'
         kodeinVersion = '4.1.0'
