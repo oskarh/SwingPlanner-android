@@ -12,6 +12,7 @@ import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
+import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
@@ -30,6 +31,8 @@ import com.oskhoj.swingplanner.util.closeKeyboard
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
+import com.oskhoj.swingplanner.util.removeClickListener
+import com.oskhoj.swingplanner.util.showTapTarget
 import com.oskhoj.swingplanner.util.visible
 import com.oskhoj.swingplanner.util.visibleIf
 import kotlinx.android.synthetic.main.activity_main.*
@@ -163,24 +166,28 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
                     clearIcon.visibleIf { hasFocus && text.isNotBlank() }
                 }
             }
+            if (!AppPreferences.hasShownSearchTeachersTapTarget) {
+                showTapTarget(R.id.search_text, R.string.search_teachers_tap_target_title, R.string.search_teachers_tap_target_message)
+                AppPreferences.hasShownSearchTeachersTapTarget = true
+            }
         }
     }
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        backIcon.setOnClickListener(null)
-        clearIcon.setOnClickListener(null)
+        backIcon.removeClickListener()
+        clearIcon.removeClickListener()
         searchText?.removeTextChangedListener(textListener)
         searchText?.onFocusChangeListener = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        Timber.d("Saving instance state... ${(searchText?.text ?: "")}")
+        Timber.d("Saving instance state... ${(searchText?.text)}")
         outState.putString(KEY_STATE_SEARCH_TEXT, (searchText?.text ?: "").toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        storedText = savedInstanceState.getString(KEY_STATE_SEARCH_TEXT)
         Timber.d("Restored $storedText")
+        storedText = savedInstanceState.getString(KEY_STATE_SEARCH_TEXT)
     }
 }

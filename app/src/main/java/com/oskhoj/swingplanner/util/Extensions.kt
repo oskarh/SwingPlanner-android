@@ -14,6 +14,7 @@ import android.support.annotation.ColorRes
 import android.support.annotation.IdRes
 import android.support.annotation.IntegerRes
 import android.support.annotation.LayoutRes
+import android.support.annotation.StringRes
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.content.ContextCompat
 import android.text.Editable
@@ -31,6 +32,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
+import com.oskhoj.swingplanner.R
 import retrofit2.Retrofit
 import timber.log.Timber
 import java.io.Serializable
@@ -64,6 +68,23 @@ fun Activity.closeKeyboard() {
     currentFocus?.let {
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(it.windowToken, 0)
     }
+}
+
+fun Activity.showTapTarget(@IdRes view: Int, @StringRes title: Int, @StringRes message: Int) {
+    TapTargetView.showFor(this,
+            TapTarget.forView(findViewById(view), getString(title), getString(message))
+                    .outerCircleColor(R.color.blue_grey_300)
+                    .outerCircleAlpha(0.86f)
+                    .targetCircleColor(R.color.white)
+                    .titleTextSize(22)
+                    .descriptionTextSize(18)
+                    .textColor(R.color.black)
+                    .dimColor(R.color.black)
+                    .drawShadow(true)
+                    .cancelable(true)
+                    .tintTarget(false)
+                    .transparentTarget(false)
+                    .targetRadius(60))
 }
 
 fun TextView.addTextListener(listener: (CharSequence) -> Unit) {
@@ -114,6 +135,8 @@ inline fun View.visibleIf(predicate: () -> Boolean) {
         invisible()
     }
 }
+
+fun View.removeClickListener() = setOnClickListener(null)
 
 fun ImageView.loadImageOrDisappear(url: String?, context: Context) {
     url?.let {

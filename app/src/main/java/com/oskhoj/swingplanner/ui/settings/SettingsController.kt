@@ -15,8 +15,9 @@ import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.base.ViewType.SETTINGS_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.settings.notificationmanager.NotificationManagerController
+import com.oskhoj.swingplanner.util.showTapTarget
 import kotlinx.android.synthetic.main.controller_settings.view.*
-import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.sdk21.listeners.onClick
 
 class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<SettingsContract.View, SettingsContract.Presenter>(args), SettingsContract.View {
@@ -57,9 +58,19 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
             }
             toggle_animations_layout.onClick { toggleAnimationsCheckbox.performClick() }
             subscriptions_text.onClick { presenter.onSubscriptionsClicked() }
-            notification_window_text.onClick { snackbar(this, context.getString(R.string.notification_window_not_implemented)) }
+            notification_window_text.onClick { longSnackbar(this, context.getString(R.string.notification_window_not_implemented)) }
             language_text.onClick { showLanguageDialog(context) }
-            theme_text.onClick { snackbar(this, context.getString(R.string.themes_not_implemented)) }
+            theme_text.onClick { longSnackbar(this, context.getString(R.string.themes_not_implemented)) }
+        }
+    }
+
+    override fun onAttach(view: View) {
+        super.onAttach(view)
+        if (!AppPreferences.hasShownManageSubscriptionsTapTarget) {
+            activity?.run {
+                showTapTarget(R.id.subscriptions_text, R.string.manage_subscriptions_tap_target_title, R.string.manage_subscriptions_tap_target_message)
+                AppPreferences.hasShownManageSubscriptionsTapTarget = true
+            }
         }
     }
 }

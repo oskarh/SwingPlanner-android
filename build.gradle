@@ -31,7 +31,7 @@ buildscript {
         saschpeCustomTabsVersion = '1.1.1'
         storeVersion = '3.0.0'
         supportVersion = '27.0.2'
-        tapTargetViewVersion = '1.9.1'
+        tapTargetViewVersion = '1.11.0'
         timberVersion = '4.6.0'
     }
     repositories {
