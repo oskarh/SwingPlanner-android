@@ -15,6 +15,7 @@ import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.component.NotificationSubscriptionAdapter
 import com.oskhoj.swingplanner.util.SUBSCRIPTION_MIN_LENGTH
+import com.oskhoj.swingplanner.util.showTapTarget
 import kotlinx.android.synthetic.main.notification_manager_settings.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
@@ -112,6 +113,12 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
                         }
                     }
                 }.show()
+            }
+            if (!AppPreferences.hasShownAddSubscriptionTapTarget) {
+                activity?.run {
+                    showTapTarget(R.id.notificationsFab, R.string.add_subscription_tap_target_title, R.string.add_subscription_tap_target_message)
+                    AppPreferences.hasShownAddSubscriptionTapTarget = true
+                }
             }
         }
     }

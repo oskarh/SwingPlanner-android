@@ -7,6 +7,12 @@ import timber.log.Timber
 object AppPreferences : KotprefModel() {
     var isShowingCardList by booleanPref(true)
     var hasShownOnboarding by booleanPref(false)
+    var shownSearchEventsTapTarget by intPref(0)
+    var hasShownSearchTeachersTapTarget by booleanPref(false)
+    var hasShownWebsiteTapTarget by booleanPref(false)
+    var hasShownCalendarTapTarget by booleanPref(false)
+    var hasShownManageSubscriptionsTapTarget by booleanPref(false)
+    var hasShownAddSubscriptionTapTarget by booleanPref(false)
     var isAnimationsEnabled by booleanPref(true)
     var selectedLanguage by stringPref()
     val subscriptions by stringSetPref {

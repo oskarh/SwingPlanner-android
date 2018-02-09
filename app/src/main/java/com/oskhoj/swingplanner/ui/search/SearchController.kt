@@ -36,6 +36,8 @@ import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadImage
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
+import com.oskhoj.swingplanner.util.removeClickListener
+import com.oskhoj.swingplanner.util.showTapTarget
 import com.oskhoj.swingplanner.util.visible
 import com.oskhoj.swingplanner.util.visibleIf
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -83,10 +85,9 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     private var searchEventsPage: EventsPage? = null
 
     override fun displayEvents(searchPage: EventsPage) {
-        Timber.d("Displaying $searchPage")
         Timber.d("Comparing ${searchEventsPage?.toShortString()} and ${searchPage.toShortString()}")
         if (searchEventsPage?.isSameSearchNextPage(searchPage) == true) {
-            Timber.d("Was same search for next page")
+            Timber.d("Next page of existing search")
             eventAdapter.addEvents(searchPage.events)
         } else {
             Timber.d("New search")
@@ -162,7 +163,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
             BottomSheetDialogHelper.showFilterDialog(context) {
                 searchEventsPage?.run {
                     if (stylesFilterSet != AppPreferences.filterOptions) {
-                        Timber.d("Filter changed from $stylesFilterSet to ${AppPreferences.filterOptions}, searching again")
                         searchEvents(searchText?.text?.toString())
                     }
                 }
@@ -209,7 +209,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                         Timber.d("End of list...")
                         searchEventsPage?.run {
                             if (!isLastPage) {
-                                Timber.d("Found another page to load, loading page ${pageNumber + 1}")
                                 searchEvents(query, stylesFilterSet, pageNumber + 1)
                             }
                         }
@@ -221,7 +220,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun onViewBound(view: View) {
         super.onViewBound(view)
-        Timber.d("onViewBound")
         view.run {
             if (searchEventsPage?.hasNoEvents() == true) {
                 Timber.d("Has no events")
@@ -236,7 +234,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        Timber.d("Attaching view..")
+        Timber.d("Attaching view...")
         activity?.run {
             recyclerView = search_events_recycler
             backIcon = search_back.apply {
@@ -267,13 +265,16 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { query -> searchEvents(query) }
             }
+            if (AppPreferences.shownSearchEventsTapTarget++ < 2) {
+                showTapTarget(R.id.search_text, R.string.search_events_tap_target_title, R.string.search_events_tap_target_message)
+            }
         }
     }
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        backIcon.setOnClickListener(null)
-        clearIcon.setOnClickListener(null)
+        backIcon.removeClickListener()
+        clearIcon.removeClickListener()
         disposable?.dispose()
         searchText?.onFocusChangeListener = null
     }
