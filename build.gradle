@@ -10,6 +10,7 @@ buildscript {
         androidTestVersion = '1.0.1'
         ankoVersion = '0.10.4'
         appIntroVersion = 'v4.2.2'
+        changelogVersion = '2.1.0'
         conductorVersion ='2.1.4'
         espressoVersion = '3.0.1'
         expandableLayoutVersion = '2.9.2'

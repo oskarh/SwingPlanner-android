@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
@@ -21,6 +22,9 @@ import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.util.clipboardManager
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.loadAnimation
+import it.gmariotti.changelibs.library.view.ChangeLogRecyclerView
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
@@ -51,7 +55,12 @@ class AboutActivity : MaterialAboutActivity() {
                         .icon(CommunityMaterial.Icon.cmd_history)
                         .color(getCompatColor(iconColor))
                         .sizeDp(textSize))
-                .setOnClickAction { Timber.d("Showing changelog...") }
+                .setOnClickAction {
+                    alert(Appcompat, getString(R.string.changelog)) {
+                        customView = LayoutInflater.from(this@AboutActivity).inflate(R.layout.changelog_content, null) as ChangeLogRecyclerView
+                        positiveButton(getString(R.string.dialog_ok)) { it.dismiss() }
+                    }.show()
+                }
                 .build())
 
         appInfoBuilder.addItem(MaterialAboutActionItem.Builder()

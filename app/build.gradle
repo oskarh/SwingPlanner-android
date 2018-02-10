@@ -105,6 +105,7 @@ dependencies {
 
     implementation "com.github.apl-devs:appintro:$appIntroVersion"
     implementation "com.getkeepsafe.taptargetview:taptargetview:$tapTargetViewVersion"
+    implementation "com.github.gabrielemariotti.changeloglib:changelog:$changelogVersion"
 
     // test
     testImplementation "junit:junit:$junitVersion"
