@@ -23,8 +23,6 @@ abstract class ToolbarController<in V : BaseView, out T : Attachable<V>>(bundle:
 
     open val isFilterItemVisible: Boolean = false
     open val isToggleViewItemVisible: Boolean = false
-    open val isShareItemVisible: Boolean = false
-    open val isAddToCalendarItemVisible: Boolean = false
 
     override fun onPrepareOptionsMenu(newMenu: Menu) {
         newMenu.findItem(R.id.filter_action).isVisible = isFilterItemVisible
@@ -34,8 +32,6 @@ abstract class ToolbarController<in V : BaseView, out T : Attachable<V>>(bundle:
             val viewModeIcon = if (AppPreferences.isShowingCardList) R.drawable.ic_view_list_black_24dp else R.drawable.ic_view_module_black_24dp
             toggleItem.icon = ContextCompat.getDrawable(context, viewModeIcon)
         }
-        newMenu.findItem(R.id.share_action).isVisible = isShareItemVisible
-        newMenu.findItem(R.id.calendar_action).isVisible = isAddToCalendarItemVisible
         menu = newMenu
     }
 

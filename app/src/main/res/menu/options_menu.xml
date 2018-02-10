@@ -12,14 +12,6 @@
         android:title="@string/toggle_view_mode_title"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/share_action"
-        android:title="@string/share"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/calendar_action"
-        android:title="@string/add_to_calendar"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/about_action"
         android:title="@string/about"
         app:showAsAction="never"/>

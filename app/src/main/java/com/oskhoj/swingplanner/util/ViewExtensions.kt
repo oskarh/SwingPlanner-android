@@ -58,17 +58,25 @@ fun View.animateToSize(size: Float, animationDuration: Long, endAction: () -> Un
     }
 }
 
-fun View.animateToVisible() {
-    animateToSize(1f, getLong(R.integer.anim_duration_very_long))
+fun View.animateToVisible(animationDuration: Long = getLong(R.integer.anim_duration_very_long)) {
     visible()
+    animateToSize(1f, animationDuration)
 }
 
-fun View.animateToGone() {
-    animateToSize(0f, getLong(R.integer.anim_duration_very_long), { gone() })
-    gone()
+fun View.animateToGone(animationDuration: Long = getLong(R.integer.anim_duration_very_long)) {
+    animateToSize(0f, animationDuration, { gone() })
 }
 
 fun View.getLong(@IntegerRes id: Int) = resources.getInteger(id).toLong()
+
+fun View.restoreSize() {
+    scaleX = 1f
+    scaleY = 1f
+}
+
+fun View.startAnimation(@AnimRes animationResource: Int) {
+    startAnimation(context.loadAnimation(animationResource))
+}
 
 fun ImageView.loadImageOrDisappear(url: String?, context: Context) {
     url?.let {

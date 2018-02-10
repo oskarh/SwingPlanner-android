@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_corners_background"
+        android:background="@drawable/rounded_corners_white_background"
         android:paddingEnd="@dimen/card_margin"
         android:paddingStart="@dimen/card_margin"
         android:visibility="gone"

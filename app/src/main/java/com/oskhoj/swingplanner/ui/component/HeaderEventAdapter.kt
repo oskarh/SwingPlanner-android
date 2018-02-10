@@ -52,7 +52,6 @@ class HeaderEventAdapter(events: List<EventSummary>, onClick: (EventSummary) -> 
     }
 
     fun addEvents(addedEvents: List<EventSummary>) {
-        Timber.d("Adding events $addedEvents")
         events += addedEvents
         notifyDataSetChanged()
         // TODO: Update has more pages
@@ -60,7 +59,6 @@ class HeaderEventAdapter(events: List<EventSummary>, onClick: (EventSummary) -> 
 
     inner class HeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind() = with(itemView) {
-            Timber.d("Created header...")
             if (events.isEmpty()) {
                 message_header.gone()
             } else {
