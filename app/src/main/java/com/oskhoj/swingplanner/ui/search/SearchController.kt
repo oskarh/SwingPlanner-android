@@ -31,6 +31,8 @@ import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_LIST
 import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
+import com.oskhoj.swingplanner.util.animateToGone
+import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.closeKeyboard
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.invisible
@@ -160,7 +162,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun showFilterDialog() {
         view?.run {
-            BottomSheetDialogHelper.showFilterDialog(context) {
+            BottomSheetDialogHelper.showDanceFilterDialog(context) {
                 searchEventsPage?.run {
                     if (stylesFilterSet != AppPreferences.filterOptions) {
                         searchEvents(searchText?.text?.toString())
@@ -175,11 +177,11 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     }
 
     override fun showLoading() {
-        view?.search_progressbar?.visible()
+        view?.search_progressbar?.animateToVisible()
     }
 
     override fun hideLoading() {
-        view?.search_progressbar?.gone()
+        view?.search_progressbar?.animateToGone()
     }
 
     private fun updateMenuItemIcon(isCardView: Boolean) {

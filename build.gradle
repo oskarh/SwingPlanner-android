@@ -19,6 +19,7 @@ buildscript {
         kodeinVersion = '4.1.0'
         kotlinVersion = '1.2.21'
         kotprefVersion = '2.3.0'
+        ktxVersion = '0.1'
         loggingInterceptorVersion = '3.9.1'
         materialAboutLibraryVersion = '2.2.3'
         materialTypefaceVersion = '2.0.46.1'

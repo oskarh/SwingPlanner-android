@@ -62,13 +62,15 @@ dependencies {
 
     implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
 
+    implementation "androidx.core:core-ktx:$ktxVersion"
+
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
 
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
     implementation "com.nytimes.android:store-kotlin3:$storeVersion"
     implementation "com.nytimes.android:middleware3:$storeVersion"
     implementation "com.bluelinelabs:conductor:$conductorVersion"

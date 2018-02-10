@@ -2,7 +2,9 @@ package com.oskhoj.swingplanner
 
 import com.chibatching.kotpref.KotprefModel
 import com.oskhoj.swingplanner.util.DanceStyle
+import com.oskhoj.swingplanner.util.Language
 import timber.log.Timber
+import java.util.Locale
 
 object AppPreferences : KotprefModel() {
     var isShowingCardList by booleanPref(true)
@@ -13,10 +15,24 @@ object AppPreferences : KotprefModel() {
     var hasShownCalendarTapTarget by booleanPref(false)
     var hasShownManageSubscriptionsTapTarget by booleanPref(false)
     var hasShownAddSubscriptionTapTarget by booleanPref(false)
+    var hasShownYouTubeTapTarget by booleanPref(false)
     var isAnimationsEnabled by booleanPref(true)
     var selectedLanguage by stringPref()
     val subscriptions by stringSetPref {
         return@stringSetPref mutableSetOf("Stockholm", "Berlin", "New York")
+    }
+
+    init {
+        if (selectedLanguage.isBlank()) {
+            selectedLanguage = when (Locale.getDefault().language) {
+                Language.ENGLISH.isoCodeLanguage -> Language.ENGLISH.name
+                Language.FRENCH.isoCodeLanguage -> Language.FRENCH.name
+                Language.GERMAN.isoCodeLanguage -> Language.GERMAN.name
+                Language.ITALIAN.isoCodeLanguage -> Language.ITALIAN.name
+                Language.SPANISH.isoCodeLanguage -> Language.SPANISH.name
+                else -> Language.defaultLanguage.name
+            }
+        }
     }
 
     fun addSubscription(subscription: String) = subscriptions.add(subscription)

@@ -30,6 +30,7 @@ import android.view.animation.LayoutAnimationController
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.animation.doOnEnd
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.getkeepsafe.taptargetview.TapTarget
@@ -164,13 +165,24 @@ fun Context.getCompatColor(@ColorRes colorid: Int) = ContextCompat.getColor(this
 
 fun View.getCompatColor(@ColorRes colorid: Int) = ContextCompat.getColor(context, colorid)
 
-fun View.animateToSize(size: Float, animationDuration: Long) {
+fun View.animateToSize(size: Float, animationDuration: Long, endAction: () -> Unit = {}) {
     ObjectAnimator.ofPropertyValuesHolder(this,
             PropertyValuesHolder.ofFloat(View.SCALE_X, size),
             PropertyValuesHolder.ofFloat(View.SCALE_Y, size)).run {
         duration = animationDuration
         start()
+        doOnEnd { endAction() }
     }
+}
+
+fun View.animateToVisible() {
+    animateToSize(1f, context.getLong(R.integer.anim_duration_very_long))
+    visible()
+}
+
+fun View.animateToGone() {
+    animateToSize(0f, context.getLong(R.integer.anim_duration_very_long), { gone() })
+    gone()
 }
 
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)

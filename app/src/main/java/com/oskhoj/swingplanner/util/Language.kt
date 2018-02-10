@@ -1,9 +1,13 @@
 package com.oskhoj.swingplanner.util
 
-enum class Language(val nativeName: String, val isoCode: String) {
+enum class Language(val nativeName: String, val isoCodeLanguage: String, val isoCodeFlag: String = isoCodeLanguage) {
     GERMAN("Deutsch", "de"),
-    ENGLISH("English", "gb"),
+    ENGLISH("English", "en", "gb"),
     SPANISH("Español", "es"),
     FRENCH("Français", "fr"),
-    ITALIAN("Italiano", "it")
+    ITALIAN("Italiano", "it");
+
+    companion object {
+        val defaultLanguage = ENGLISH
+    }
 }
