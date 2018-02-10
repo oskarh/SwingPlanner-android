@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <changelogversion
+        changeDate="February 24, 2018"
+        versionName="1.0">
+        <changelogtext>[b]SwingPlanner released![/b]</changelogtext>
+        <changelogtext>Search for events by city, country, continent or event name</changelogtext>
+        <changelogtext>Find your favorite teacher or see who the teacher for your next event is
+        </changelogtext>
+        <changelogtext>Be notified as new events are added by adding your own event subscriptions
+        </changelogtext>
+    </changelogversion>
+
+</changelog>
