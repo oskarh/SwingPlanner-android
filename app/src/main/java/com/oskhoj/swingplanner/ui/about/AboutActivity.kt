@@ -12,6 +12,7 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.oskhoj.swingplanner.R
@@ -21,6 +22,7 @@ import com.oskhoj.swingplanner.util.clipboardManager
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.loadAnimation
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 class AboutActivity : MaterialAboutActivity() {
@@ -58,7 +60,9 @@ class AboutActivity : MaterialAboutActivity() {
                         .icon(CommunityMaterial.Icon.cmd_book)
                         .color(getCompatColor(iconColor))
                         .sizeDp(textSize))
-                .setOnClickAction { Timber.d("Showing Open Source Licenses...") }
+                .setOnClickAction {
+                    startActivity<OssLicensesMenuActivity>()
+                }
                 .build())
 
         val appActionsBuilder = MaterialAboutCard.Builder()
