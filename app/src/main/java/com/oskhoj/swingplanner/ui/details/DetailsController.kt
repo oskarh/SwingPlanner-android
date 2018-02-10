@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.AppCompatImageView
-import android.view.MenuItem
 import android.view.View
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
@@ -60,9 +59,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     private lateinit var eventSummary: EventSummary
 
     private lateinit var eventDetails: EventDetails
-    override val isShareItemVisible = true
 
-    override val isAddToCalendarItemVisible = true
     private lateinit var favoriteButton: FloatingActionButton
 
     private lateinit var customTabsIntent: CustomTabsIntent
@@ -157,13 +154,6 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                 onClick { presenter.toggleFavorite(eventDetails.id) }
             }
 
-            eventDetails.facebookEventUrl?.let { facebookUrl ->
-                facebook_link.apply {
-                    visible()
-                    onClick { openCustomTab(context, facebookUrl) }
-                }
-            }
-
             eventDetails.website?.takeIf { it.isNotBlank() }?.let { websiteUrl ->
                 website_link.apply {
                     visible()
@@ -173,6 +163,15 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                     }
                 }
             }
+
+            eventDetails.facebookEventUrl?.let { facebookUrl ->
+                facebook_link.apply {
+                    visible()
+                    onClick { openCustomTab(context, facebookUrl) }
+                }
+            }
+
+            add_to_calendar_button.onClick { addToCalendar(eventSummary) }
 
             scroll_view.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, newScrollY, _, oldScrollY ->
                 when {
@@ -206,24 +205,10 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        Timber.d("Restored $eventSummary and $eventDetails")
         eventSummary = savedInstanceState.getParcelable(KEY_STATE_EVENTS_SUMMARY) as EventSummary
         eventDetails = savedInstanceState.getParcelable(KEY_STATE_EVENTS_DETAILS) as EventDetails
+        Timber.d("Restored $eventSummary and $eventDetails")
     }
-
-    override fun onOptionsItemSelected(item: MenuItem) =
-            when (item.itemId) {
-                R.id.share_action -> {
-                    Timber.d("Sharing event...")
-                    true
-                }
-                R.id.calendar_action -> {
-                    Timber.d("Adding event to calendar")
-                    addToCalendar(eventSummary)
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
-            }
 
     private fun addToCalendar(eventSummary: EventSummary) {
         val beginTime = eventSummary.startDate.toCalendar()

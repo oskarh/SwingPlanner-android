@@ -33,8 +33,6 @@
     <string name="toggle_view_mode_title">Toggle list mode</string>
     <string name="filter_title">Filter</string>
     <string name="version">Version</string>
-    <string name="share">Share</string>
-    <string name="add_to_calendar">Add to calendar</string>
     <string name="open_source">Open source</string>
     <string name="changelog">Changelog</string>
     <string name="swingplanner_updated">SwingPlanner Updated!</string>

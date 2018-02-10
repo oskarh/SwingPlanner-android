@@ -242,16 +242,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/details_icon_margin"
-                android:layout_marginTop="@dimen/card_margin">
+                android:layout_marginTop="@dimen/card_margin"
+                android:paddingBottom="4dp">
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/website_link"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginEnd="@dimen/large_margin"
+                    android:background="@drawable/rounded_corners_accent_background"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
+                    android:padding="2dp"
                     android:src="@drawable/ic_link_black_24dp"
                     android:visibility="gone"/>
 
@@ -259,11 +262,26 @@
                     android:id="@+id/facebook_link"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:layout_marginEnd="@dimen/large_margin"
+                    android:background="@drawable/rounded_corners_accent_background"
                     android:clickable="true"
+                    android:elevation="2dp"
                     android:focusable="true"
                     android:gravity="center"
                     android:src="@drawable/facebook_icon"
                     android:visibility="gone"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/add_to_calendar_button"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/rounded_corners_accent_background"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:src="@drawable/calendar_add"/>
 
             </LinearLayout>
 
