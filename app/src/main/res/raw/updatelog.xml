@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <changelogversion
+        changeDate="February 25, 2018"
+        versionName="1.1">
+        <changelogtext>Change theme added. To change theme go to Settings->Theme</changelogtext>
+        <changelogtext>It's now possible to customize when you receive notification. Try it out in
+            Settings->Notification window
+        </changelogtext>
+        <changelogtext>Bug fixes &amp; performance improvements
+        </changelogtext>
+    </changelogversion>
+
+</changelog>

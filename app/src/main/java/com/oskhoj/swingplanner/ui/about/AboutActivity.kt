@@ -57,7 +57,8 @@ class AboutActivity : MaterialAboutActivity() {
                         .sizeDp(textSize))
                 .setOnClickAction {
                     alert(Appcompat, getString(R.string.changelog)) {
-                        customView = LayoutInflater.from(this@AboutActivity).inflate(R.layout.changelog_content, null) as ChangeLogRecyclerView
+                        customView = LayoutInflater.from(this@AboutActivity)
+                                .inflate(R.layout.changelog_content, null) as ChangeLogRecyclerView
                         positiveButton(getString(R.string.dialog_ok)) { it.dismiss() }
                     }.show()
                 }
