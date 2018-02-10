@@ -9,7 +9,7 @@ import java.util.Locale
 object AppPreferences : KotprefModel() {
     var isShowingCardList by booleanPref(true)
     var hasShownOnboarding by booleanPref(false)
-    var shownSearchEventsTapTarget by intPref(0)
+    var hasShownSearchEventsTapTarget by booleanPref(false)
     var hasShownSearchTeachersTapTarget by booleanPref(false)
     var hasShownWebsiteTapTarget by booleanPref(false)
     var hasShownCalendarTapTarget by booleanPref(false)

@@ -51,7 +51,11 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        launchOnboardingIfNeeded()
+        if (isOnboardingNeeded()) {
+            startActivity<OnboardingActivity>()
+            finish()
+            return
+        }
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         invalidateOptionsMenu()
@@ -94,11 +98,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         }.show()
     }
 
-    private fun launchOnboardingIfNeeded() {
-        if (!AppPreferences.hasShownOnboarding) {
-            startActivity<OnboardingActivity>()
-        }
-    }
+    private fun isOnboardingNeeded() = !AppPreferences.hasShownOnboarding
 
     private fun eventSummariesStore(eventApiManager: EventApiManager): Store<EventsPage, EventSearchBarcode> {
         return StoreBuilder

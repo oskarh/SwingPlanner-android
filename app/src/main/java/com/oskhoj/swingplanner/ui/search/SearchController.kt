@@ -267,8 +267,9 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { query -> searchEvents(query) }
             }
-            if (AppPreferences.shownSearchEventsTapTarget++ < 2) {
+            if (!AppPreferences.hasShownSearchEventsTapTarget) {
                 showTapTarget(R.id.search_text, R.string.search_events_tap_target_title, R.string.search_events_tap_target_message)
+                AppPreferences.hasShownSearchEventsTapTarget = true
             }
         }
     }
