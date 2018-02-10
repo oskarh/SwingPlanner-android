@@ -21,6 +21,7 @@ object AppPreferences : KotprefModel() {
     val subscriptions by stringSetPref {
         return@stringSetPref mutableSetOf("Stockholm", "Berlin", "New York")
     }
+    var currentVersion by stringPref()
 
     init {
         if (selectedLanguage.isBlank()) {

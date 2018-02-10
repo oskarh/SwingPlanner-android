@@ -173,7 +173,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     }
 
     private fun searchEvents(query: String?, styles: Set<DanceStyle> = AppPreferences.filterOptions, page: Int = 0) {
-        presenter.searchEvents(EventSearchParams(query ?: "", styles, page))
+        presenter.searchEvents(EventSearchParams(query.orEmpty(), styles, page))
     }
 
     override fun showLoading() {

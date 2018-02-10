@@ -2,6 +2,7 @@ package com.oskhoj.swingplanner
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
 import android.view.Menu
 import android.widget.LinearLayout
 import com.bluelinelabs.conductor.Conductor
@@ -35,8 +36,11 @@ import com.oskhoj.swingplanner.ui.onboarding.OnboardingActivity
 import com.oskhoj.swingplanner.util.find
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.visible
+import it.gmariotti.changelibs.library.view.ChangeLogRecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import okio.BufferedSource
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), ToolbarProvider {
@@ -68,6 +72,26 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(BottomNavigationController()))
         }
+        handleUpdate()
+    }
+
+    private fun handleUpdate() {
+        val versionName = packageManager.getPackageInfo(packageName, 0).versionName
+        when {
+            AppPreferences.currentVersion.isBlank() -> AppPreferences.currentVersion = versionName
+            AppPreferences.currentVersion != versionName -> {
+                showUpdateInformation()
+                AppPreferences.currentVersion = versionName
+            }
+        }
+    }
+
+    private fun showUpdateInformation() {
+        alert(Appcompat, getString(R.string.swingplanner_updated)) {
+            customView = LayoutInflater.from(this@MainActivity)
+                    .inflate(R.layout.updatelog_content, null) as ChangeLogRecyclerView
+            positiveButton(getString(R.string.dialog_ok)) { it.dismiss() }
+        }.show()
     }
 
     private fun launchOnboardingIfNeeded() {
