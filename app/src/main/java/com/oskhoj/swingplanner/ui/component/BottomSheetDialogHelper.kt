@@ -2,6 +2,7 @@ package com.oskhoj.swingplanner.ui.component
 
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.AppCompatImageView
 import android.util.TypedValue
@@ -20,6 +21,7 @@ import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.Language
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.loadFlagIconOrDisappear
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.padding
 import org.jetbrains.anko.sdk21.listeners.onClick
@@ -30,7 +32,7 @@ object BottomSheetDialogHelper {
     private const val LARGE_MARGIN = 16
     private const val CARD_MARGIN = 8
 
-    fun showFilterDialog(context: Context, listener: DialogInterface.() -> Unit) {
+    fun showDanceFilterDialog(context: Context, listener: DialogInterface.() -> Unit) {
         val rootLayout = LinearLayout(context).apply {
             padding = dip(LARGE_MARGIN)
             orientation = VERTICAL
@@ -46,7 +48,7 @@ object BottomSheetDialogHelper {
         val rowLayoutParams = linearLayoutParams(width = MATCH_PARENT, gravity = Gravity.CENTER_VERTICAL or Gravity.START)
 
         DanceStyle.values().forEach { danceStyle ->
-            val languageCheckBox = CheckBox(context).apply {
+            val danceStyleCheckBox = CheckBox(context).apply {
                 layoutParams = linearLayoutParams()
                 isChecked = AppPreferences.hasFavoriteDanceStyle(danceStyle)
                 onClick { AppPreferences.toggleFilterOption(danceStyle) }
@@ -58,9 +60,9 @@ object BottomSheetDialogHelper {
             val rowLayout = LinearLayout(context).apply {
                 layoutParams = rowLayoutParams
                 setBackgroundResource(getRippleBackground(context))
-                addView(languageCheckBox)
+                addView(danceStyleCheckBox)
                 addView(languageText)
-                onClick { languageCheckBox.performClick() }
+                onClick { danceStyleCheckBox.performClick() }
             }
             rootLayout.addView(rowLayout)
         }
@@ -96,7 +98,7 @@ object BottomSheetDialogHelper {
             Language.values().forEach { language ->
                 val languageFlag = AppCompatImageView(context).apply {
                     layoutParams = viewParams
-                    loadFlagIconOrDisappear(language.isoCode, context)
+                    loadFlagIconOrDisappear(language.isoCodeFlag, context)
                 }
                 val languageText = TextView(context).apply {
                     layoutParams = viewParams
@@ -104,6 +106,9 @@ object BottomSheetDialogHelper {
                 }
                 val rowLayout = LinearLayout(context).apply {
                     setBackgroundResource(getRippleBackground(context))
+                    if (AppPreferences.selectedLanguage == language.name || AppPreferences.selectedLanguage.isBlank() && language == Language.defaultLanguage) {
+                        backgroundColor = Color.LTGRAY
+                    }
                     addView(languageFlag)
                     addView(languageText)
                     onClick {

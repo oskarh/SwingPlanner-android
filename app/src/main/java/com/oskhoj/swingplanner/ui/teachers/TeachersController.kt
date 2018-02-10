@@ -27,13 +27,13 @@ import com.oskhoj.swingplanner.ui.component.TextChangedListener
 import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.ViewHolderList
+import com.oskhoj.swingplanner.util.animateToGone
+import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.closeKeyboard
-import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
 import com.oskhoj.swingplanner.util.removeClickListener
 import com.oskhoj.swingplanner.util.showTapTarget
-import com.oskhoj.swingplanner.util.visible
 import com.oskhoj.swingplanner.util.visibleIf
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_teachers.view.*
@@ -101,11 +101,11 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     }
 
     override fun showLoading() {
-        view?.teachers_progressbar?.visible()
+        view?.teachers_progressbar?.animateToVisible()
     }
 
     override fun hideLoading() {
-        view?.teachers_progressbar?.gone()
+        view?.teachers_progressbar?.animateToGone()
     }
 
     private fun setUpRecyclerView(view: View) {

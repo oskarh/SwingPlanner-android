@@ -41,10 +41,9 @@
             tools:src="@drawable/empty_image"/>
     </RelativeLayout>
 
-    <!--style="@style/Base.Widget.AppCompat.ProgressBar"-->
     <ProgressBar
         android:id="@+id/search_progressbar"
-        style="?android:attr/progressBarStyle"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"

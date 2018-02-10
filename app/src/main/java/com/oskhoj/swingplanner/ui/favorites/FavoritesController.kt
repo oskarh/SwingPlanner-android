@@ -17,6 +17,8 @@ import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.base.ViewType.FAVORITES_VIEW
 import com.oskhoj.swingplanner.ui.component.EventAdapter
 import com.oskhoj.swingplanner.ui.details.DetailsController
+import com.oskhoj.swingplanner.util.animateToGone
+import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.loadImage
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
@@ -98,11 +100,11 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
     }
 
     override fun showLoading() {
-        view?.favorites_progressbar?.visible()
+        view?.favorites_progressbar?.animateToVisible()
     }
 
     override fun hideLoading() {
-        view?.favorites_progressbar?.gone()
+        view?.favorites_progressbar?.animateToGone()
     }
 
     override fun onViewBound(view: View) {
