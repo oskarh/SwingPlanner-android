@@ -30,6 +30,12 @@
             android:theme="@style/AppTheme.MaterialAboutActivity"/>
         <activity android:name=".ui.onboarding.OnboardingActivity"/>
 
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+                  android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+                  android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+
         <service android:name=".firebase.notifications.service.FirebaseIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>

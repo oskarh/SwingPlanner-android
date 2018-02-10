@@ -68,7 +68,7 @@ class HeaderEventAdapter(events: List<EventSummary>, onClick: (EventSummary) -> 
                     text = itemView.context.getString(R.string.search_header_found, totalNumberEvents)
                     alpha = 0f
                     visible()
-                    animate().alpha(1f).duration = itemView.context.getLong(R.integer.anim_duration_medium)
+                    animate().alpha(1f).duration = itemView.getLong(R.integer.anim_duration_medium)
                 }
             }
         }
