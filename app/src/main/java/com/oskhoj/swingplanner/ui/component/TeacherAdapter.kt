@@ -17,8 +17,12 @@ import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.util.ViewHolderList
+import com.oskhoj.swingplanner.util.animateToGone
+import com.oskhoj.swingplanner.util.getLong
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.inflateView
+import com.oskhoj.swingplanner.util.restoreSize
+import com.oskhoj.swingplanner.util.startAnimation
 import com.oskhoj.swingplanner.util.visible
 import com.oskhoj.swingplanner.util.visibleIf
 import kotlinx.android.synthetic.main.teacher_row.view.*
@@ -89,7 +93,15 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
             favoriteImage.visibleIf { AppPreferences.hasFavoriteTeacher(teacher.id) }
             favoriteButton.setOnClickListener {
                 AppPreferences.toggleFavoriteTeacher(teacher.id)
-                favoriteImage.visibleIf { AppPreferences.hasFavoriteTeacher(teacher.id) }
+                if (AppPreferences.hasFavoriteTeacher(teacher.id)) {
+                    favoriteImage.run {
+                        visible()
+                        restoreSize()
+                        startAnimation(R.anim.heartbeat)
+                    }
+                } else {
+                    favoriteImage.animateToGone(getLong(R.integer.anim_duration_medium))
+                }
             }
             youTubeButton.setOnClickListener {
                 if (YouTubeIntents.canResolveSearchIntent(context)) {
