@@ -145,30 +145,31 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .open()
     }
 
-    override fun updateToolbar(viewType: ViewType) = when (viewType) {
-        ViewType.SEARCH_VIEW -> {
-            toolbarLayout.visible()
-        }
-        ViewType.FAVORITES_VIEW -> {
-            supportActionBar?.title = getString(R.string.favorites)
+    override fun updateToolbar(viewType: ViewType) =
+            when (viewType) {
+                ViewType.SEARCH_VIEW -> {
+                    toolbarLayout.visible()
+                }
+                ViewType.FAVORITES_VIEW -> {
+                    supportActionBar?.title = getString(R.string.favorites)
 //            toolbar.title = getString(R.string.favorites)
-            toolbarLayout.gone()
-        }
-        ViewType.TEACHERS_VIEW -> {
+                    toolbarLayout.gone()
+                }
+                ViewType.TEACHERS_VIEW -> {
 //            toolbar.title = getString(R.string.teachers)
-            toolbarLayout.visible()
-        }
-        ViewType.SETTINGS_VIEW -> {
-            toolbarLayout.gone()
-            supportActionBar?.title = getString(R.string.settings)
+                    toolbarLayout.visible()
+                }
+                ViewType.SETTINGS_VIEW -> {
+                    toolbarLayout.gone()
+                    supportActionBar?.title = getString(R.string.settings)
 //            toolbar.title = getString(R.string.settings)
-        }
-        ViewType.DETAILS_VIEW -> {
-            supportActionBar?.title = ""
+                }
+                ViewType.DETAILS_VIEW -> {
+                    supportActionBar?.title = ""
 //            toolbar.title = ""
-            toolbarLayout.gone()
-        }
-    }
+                    toolbarLayout.gone()
+                }
+            }
 
     override fun onCreateOptionsMenu(newMenu: Menu): Boolean {
         menuInflater.inflate(R.menu.options_menu, newMenu)

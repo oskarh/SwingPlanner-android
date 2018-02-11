@@ -28,9 +28,11 @@ import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_SUMMARY
 import com.oskhoj.swingplanner.util.Month
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.gone
+import com.oskhoj.swingplanner.util.isVisible
 import com.oskhoj.swingplanner.util.loadFlagIconOrDisappear
 import com.oskhoj.swingplanner.util.loadImageOrDisappear
 import com.oskhoj.swingplanner.util.setImageDrawable
+import com.oskhoj.swingplanner.util.showTapTarget
 import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_event_details.view.*
@@ -179,6 +181,24 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                     else -> favoriteButton.show()
                 }
             })
+            showOnboarding()
+        }
+    }
+
+    private fun View.showOnboarding() {
+        when {
+            !AppPreferences.hasShownLikeEventTapTarget -> {
+                activity?.showTapTarget(R.id.favoritesFab, R.string.tap_target_like_event_title, R.string.tap_target_like_event_message)
+                AppPreferences.hasShownLikeEventTapTarget = true
+            }
+            !AppPreferences.hasShownWebsiteTapTarget && website_link.isVisible() -> {
+                activity?.showTapTarget(R.id.website_link, R.string.tap_target_event_website_title, R.string.tap_target_event_website_message)
+                AppPreferences.hasShownWebsiteTapTarget = true
+            }
+            !AppPreferences.hasShownCalendarTapTarget -> {
+                activity?.showTapTarget(R.id.add_to_calendar_button, R.string.tap_target_add_to_calendar_title, R.string.tap_target_add_to_calendar_message)
+                AppPreferences.hasShownCalendarTapTarget = true
+            }
         }
     }
 

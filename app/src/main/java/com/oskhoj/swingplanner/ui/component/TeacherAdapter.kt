@@ -16,6 +16,7 @@ import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
+import com.oskhoj.swingplanner.util.TeacherExpandedListener
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.animateToGone
 import com.oskhoj.swingplanner.util.getLong
@@ -32,7 +33,9 @@ import timber.log.Timber
 
 // TODO: Add a presenter that handles expand events and loading / displaying new events from the list
 class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: ViewHolderList,
-                     private val onTeacherClick: (Teacher) -> Unit, private val onEventClick: (EventSummary) -> Unit) : RecyclerView.Adapter<TeacherAdapter.ViewHolder>() {
+                     private val onTeacherClick: (Teacher) -> Unit,
+                     private val onEventClick: (EventSummary) -> Unit,
+                     private val expandedListener: TeacherExpandedListener) : RecyclerView.Adapter<TeacherAdapter.ViewHolder>() {
 
     private val noItemSelected = -1
 
@@ -128,12 +131,12 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                         this@TeacherAdapter.onTeacherClick(teacher)
                         teacherNameView.isSelected = true
                         expandableLayout.expand()
+                        expandedListener.onTeacherExpanded(youTubeButton, favoriteButton)
                         layoutPosition
                     }
         }
 
         fun displayEvents(teacherEventsResponse: TeacherEventsResponse) {
-            Timber.d("Teacher events now visible ${teacherEventsResponse.events.firstOrNull()}")
             teacherEventsAdapter.loadEvents(teacherEventsResponse.events)
             progressBar.gone()
             teacherEvents.visible()

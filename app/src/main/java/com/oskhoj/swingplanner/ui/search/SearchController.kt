@@ -268,7 +268,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                         .subscribe { query -> searchEvents(query) }
             }
             if (!AppPreferences.hasShownSearchEventsTapTarget) {
-                showTapTarget(R.id.search_text, R.string.search_events_tap_target_title, R.string.search_events_tap_target_message)
+                showTapTarget(R.id.search_text, R.string.tap_target_search_events_title, R.string.tap_target_search_events_message)
                 AppPreferences.hasShownSearchEventsTapTarget = true
             }
         }

@@ -33,16 +33,20 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
 
     override val screenType: ScreenType = ScreenType.SETTINGS
 
-    override fun showSubscriptions() {
-
+    override fun showNotificationWindow() {
+        view?.let {
+            longSnackbar(it, it.context.getString(R.string.notification_window_not_implemented))
+        }
     }
 
-    override fun showNotificationSubscriptions() {
+    override fun showSubscriptionsManager() {
         router.pushController(RouterTransaction.with(NotificationManagerController()))
     }
 
     override fun showThemesDialog() {
-
+        view?.let {
+            longSnackbar(it, it.context.getString(R.string.themes_not_implemented))
+        }
     }
 
     override fun showLanguageDialog(context: Context) {
@@ -58,9 +62,12 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
             }
             toggle_animations_layout.onClick { toggleAnimationsCheckbox.performClick() }
             subscriptions_text.onClick { presenter.onSubscriptionsClicked() }
-            notification_window_text.onClick { longSnackbar(this, context.getString(R.string.notification_window_not_implemented)) }
-            language_text.onClick { showLanguageDialog(context) }
-            theme_text.onClick { longSnackbar(this, context.getString(R.string.themes_not_implemented)) }
+            notification_window_text.onClick { presenter.onNotificationsWindowClicked() }
+            language_text.onClick {
+                longSnackbar(this, context.getString(R.string.change_language_not_implemented))
+//                showLanguageDialog(context)
+            }
+            theme_text.onClick { presenter.onThemeClicked() }
         }
     }
 
@@ -68,7 +75,7 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
         super.onAttach(view)
         if (!AppPreferences.hasShownManageSubscriptionsTapTarget) {
             activity?.run {
-                showTapTarget(R.id.subscriptions_text, R.string.manage_subscriptions_tap_target_title, R.string.manage_subscriptions_tap_target_message)
+                showTapTarget(R.id.subscriptions_text, R.string.tap_target_manage_subscriptions_title, R.string.tap_target_manage_subscriptions_message)
                 AppPreferences.hasShownManageSubscriptionsTapTarget = true
             }
         }

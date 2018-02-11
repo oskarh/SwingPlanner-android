@@ -15,6 +15,7 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LayoutAnimationController
 import android.widget.ImageView
 import android.widget.TextView
@@ -43,6 +44,8 @@ inline fun View.visibleIf(predicate: () -> Boolean) {
     }
 }
 
+fun View.isVisible() = visibility == View.VISIBLE
+
 fun View.removeClickListener() = setOnClickListener(null)
 
 fun View.loadLayoutAnimation(@AnimRes animationId: Int): LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context, animationId)
@@ -53,6 +56,7 @@ fun View.animateToSize(size: Float, animationDuration: Long, endAction: () -> Un
     ObjectAnimator.ofPropertyValuesHolder(this,
             PropertyValuesHolder.ofFloat(View.SCALE_X, size),
             PropertyValuesHolder.ofFloat(View.SCALE_Y, size)).run {
+        interpolator = DecelerateInterpolator()
         duration = animationDuration
         start()
         doOnEnd { endAction() }

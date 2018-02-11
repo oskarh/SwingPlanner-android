@@ -11,11 +11,13 @@ object AppPreferences : KotprefModel() {
     var hasShownOnboarding by booleanPref(false)
     var hasShownSearchEventsTapTarget by booleanPref(false)
     var hasShownSearchTeachersTapTarget by booleanPref(false)
+    var hasShownLikeEventTapTarget by booleanPref(false)
     var hasShownWebsiteTapTarget by booleanPref(false)
     var hasShownCalendarTapTarget by booleanPref(false)
     var hasShownManageSubscriptionsTapTarget by booleanPref(false)
     var hasShownAddSubscriptionTapTarget by booleanPref(false)
     var hasShownYouTubeTapTarget by booleanPref(false)
+    var hasShownLikeTeacherTapTarget by booleanPref(false)
     var isAnimationsEnabled by booleanPref(true)
     var selectedLanguage by stringPref()
     val subscriptions by stringSetPref {

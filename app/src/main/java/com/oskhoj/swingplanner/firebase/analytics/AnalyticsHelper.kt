@@ -18,10 +18,6 @@ object AnalyticsHelper {
     }
 
     fun logEvent(eventName: String, vararg parameters: Pair<String, Any>) {
-        logEvent(eventName, mapOf(*parameters))
-    }
-
-    fun logEvent(eventName: String, parameters: Map<String, Any>? = null) {
-        firebaseAnalytics.logEvent(eventName, parameters.toBundle())
+        firebaseAnalytics.logEvent(eventName, mapOf(*parameters).toBundle())
     }
 }
