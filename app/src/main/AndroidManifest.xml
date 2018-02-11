@@ -30,11 +30,13 @@
             android:theme="@style/AppTheme.MaterialAboutActivity"/>
         <activity android:name=".ui.onboarding.OnboardingActivity"/>
 
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-                  android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
 
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-                  android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
 
         <service android:name=".firebase.notifications.service.FirebaseIdService">
             <intent-filter>
@@ -46,6 +48,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="fcf2aa2158e6a02a6346c2747a1d5e3cc0cc96a6"/>
     </application>
 
 </manifest>
