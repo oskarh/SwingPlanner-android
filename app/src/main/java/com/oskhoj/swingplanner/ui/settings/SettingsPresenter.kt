@@ -12,11 +12,11 @@ class SettingsPresenter : BasePresenter<SettingsContract.View>(), SettingsContra
     }
 
     override fun onSubscriptionsClicked() {
-        view?.showNotificationSubscriptions()
+        view?.showSubscriptionsManager()
     }
 
     override fun onNotificationsWindowClicked() {
-
+        view?.showNotificationWindow()
     }
 
     override fun onLanguageClicked() {
@@ -24,7 +24,7 @@ class SettingsPresenter : BasePresenter<SettingsContract.View>(), SettingsContra
     }
 
     override fun onThemeClicked() {
-
+        view?.showThemesDialog()
     }
 
     override fun aboutAction() {
