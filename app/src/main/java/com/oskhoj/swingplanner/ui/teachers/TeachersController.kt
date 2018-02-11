@@ -26,6 +26,7 @@ import com.oskhoj.swingplanner.ui.component.TeacherAdapter
 import com.oskhoj.swingplanner.ui.component.TextChangedListener
 import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
+import com.oskhoj.swingplanner.util.TeacherExpandedListener
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.animateToGone
 import com.oskhoj.swingplanner.util.animateToVisible
@@ -66,11 +67,19 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     }
 
     private val teacherAdapter: TeacherAdapter = TeacherAdapter(emptyList(), this, {
-        Timber.d("Clicked on teacher with name ${it.name}")
         presenter.openTeacherDetails(it)
     }, {
-        Timber.d("Clicked on event with name ${it.name}")
         presenter.openEventDetails(it)
+    }, object : TeacherExpandedListener {
+        override fun onTeacherExpanded(youTubeButton: AppCompatImageView, likeButton: AppCompatImageView) {
+            if (!AppPreferences.hasShownYouTubeTapTarget) {
+                activity?.showTapTarget(youTubeButton, R.string.tap_target_teacher_youtube_title, R.string.tap_target_teacher_youtube_message)
+                AppPreferences.hasShownYouTubeTapTarget = true
+            } else if (!AppPreferences.hasShownLikeTeacherTapTarget) {
+                activity?.showTapTarget(likeButton, R.string.tap_target_like_teacher_title, R.string.tap_target_like_teacher_message)
+                AppPreferences.hasShownLikeTeacherTapTarget = true
+            }
+        }
     })
 
     override fun displayTeachers(teachers: List<Teacher>) {

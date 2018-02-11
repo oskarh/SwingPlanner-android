@@ -95,6 +95,10 @@
     <string name="tap_target_manage_subscriptions_message">Manage your event subscriptions here</string>
     <string name="tap_target_add_subscription_title">Add subscription</string>
     <string name="tap_target_add_subscription_message">Create a new subscription to get automatic notifications of new events</string>
+    <string name="tap_target_teacher_youtube_title">Open YouTube</string>
+    <string name="tap_target_teacher_youtube_message">See the teacher\s crazy moves on YouTube!</string>
+    <string name="tap_target_like_teacher_title">Like teacher</string>
+    <string name="tap_target_like_teacher_message">Like your favorite teachers to automatically receive notifications when they sign up for new events</string>
     <string name="app_invite_title">Check out SwingPlanner</string>
     <string name="app_invite_message">Check out this great app to find all swing dancing events worldwide!</string>
     <string name="app_invite_call_to_action">Install SwingPlanner</string>

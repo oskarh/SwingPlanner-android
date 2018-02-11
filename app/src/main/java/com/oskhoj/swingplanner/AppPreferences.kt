@@ -17,6 +17,7 @@ object AppPreferences : KotprefModel() {
     var hasShownManageSubscriptionsTapTarget by booleanPref(false)
     var hasShownAddSubscriptionTapTarget by booleanPref(false)
     var hasShownYouTubeTapTarget by booleanPref(false)
+    var hasShownLikeTeacherTapTarget by booleanPref(false)
     var isAnimationsEnabled by booleanPref(true)
     var selectedLanguage by stringPref()
     val subscriptions by stringSetPref {
