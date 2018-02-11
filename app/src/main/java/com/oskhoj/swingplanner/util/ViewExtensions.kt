@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.Uri
 import android.support.annotation.AnimRes
 import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.support.annotation.IntegerRes
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.content.ContextCompat
@@ -108,6 +109,9 @@ fun ImageView.loadFlagIcon(isoCode: String, context: Context) {
             .load(Uri.parse("file:///android_asset/flags/$isoCode.ico"))
             .into(this)
 }
+
+fun ImageView.setImageDrawable(@DrawableRes drawableResource: Int) =
+        setImageDrawable(ContextCompat.getDrawable(context, drawableResource))
 
 fun BottomNavigationView.firstSelectedItem(): MenuItem? =
         (0 until menu.size())

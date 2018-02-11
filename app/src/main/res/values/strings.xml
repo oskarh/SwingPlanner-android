@@ -89,4 +89,7 @@
     <string name="manage_subscriptions_tap_target_message">Manage your event subscriptions here</string>
     <string name="add_subscription_tap_target_title">Add subscription</string>
     <string name="add_subscription_tap_target_message">Create a new subscription to get automatic notifications of new events</string>
+    <string name="app_invite_title">Check out SwingPlanner</string>
+    <string name="app_invite_message">Check out this great app to find all swing dancing events worldwide!</string>
+    <string name="app_invite_call_to_action">Install SwingPlanner</string>
 </resources>
