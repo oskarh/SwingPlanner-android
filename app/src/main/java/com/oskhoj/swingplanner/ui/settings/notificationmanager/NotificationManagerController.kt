@@ -10,10 +10,14 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.component.NotificationSubscriptionAdapter
+import com.oskhoj.swingplanner.util.ANALYTICS_SUBSCRIPTIONS_ADD
+import com.oskhoj.swingplanner.util.ANALYTICS_SUBSCRIPTIONS_REMOVE
+import com.oskhoj.swingplanner.util.PROPERTY_SUBSCRIPTION
 import com.oskhoj.swingplanner.util.SUBSCRIPTION_MIN_LENGTH
 import com.oskhoj.swingplanner.util.showTapTarget
 import kotlinx.android.synthetic.main.notification_manager_settings.view.*
@@ -68,6 +72,7 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
                     longSnackbar(it, it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
                 }
             } else {
+                AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_ADD, PROPERTY_SUBSCRIPTION to it)
                 AppPreferences.addSubscription(it)
                 subscriptionAdapter.addSubscription(it)
             }
@@ -75,6 +80,7 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
     }
 
     private fun removeSubscription(subscription: String) {
+        AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_REMOVE, PROPERTY_SUBSCRIPTION to subscription)
         AppPreferences.removeSubscription(subscription)
         subscriptionAdapter.removeSubscription(subscription)
         view?.let {

@@ -16,6 +16,7 @@ import com.github.salomonbrys.kodein.provider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
@@ -27,10 +28,17 @@ import com.oskhoj.swingplanner.ui.base.ViewType.SEARCH_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.component.HeaderEventAdapter
 import com.oskhoj.swingplanner.ui.details.DetailsController
+import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_EMPTY
+import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_FAIL
+import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_FILTER_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_SUCCESS
+import com.oskhoj.swingplanner.util.ANALYTICS_TOGGLE_VIEW_TYPE_CLICK
 import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_LIST
 import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
+import com.oskhoj.swingplanner.util.PROPERTY_FILTERED_DANCE_STYLES
+import com.oskhoj.swingplanner.util.PROPERTY_IS_CARD_VIEW
 import com.oskhoj.swingplanner.util.animateToGone
 import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.closeKeyboard
@@ -88,6 +96,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun displayEvents(searchPage: EventsPage) {
         Timber.d("Comparing ${searchEventsPage?.toShortString()} and ${searchPage.toShortString()}")
+        AnalyticsHelper.logEvent(ANALYTICS_SEARCH_SUCCESS)
         if (searchEventsPage?.isSameSearchNextPage(searchPage) == true) {
             Timber.d("Next page of existing search")
             eventAdapter.addEvents(searchPage.events)
@@ -101,6 +110,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     }
 
     override fun toggleViewMode(isCardView: Boolean) {
+        AnalyticsHelper.logEvent(ANALYTICS_TOGGLE_VIEW_TYPE_CLICK, PROPERTY_IS_CARD_VIEW to isCardView)
         recyclerView?.run {
             updateMenuItemIcon(isCardView)
             eventAdapter.toggleItemViewType()
@@ -123,11 +133,13 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun displayEmptyView() {
         Timber.d("Displaying empty view...")
+        AnalyticsHelper.logEvent(ANALYTICS_SEARCH_EMPTY)
         showEmptyErrorView(true)
     }
 
     override fun displayErrorView() {
         Timber.d("Displaying error view...")
+        AnalyticsHelper.logEvent(ANALYTICS_SEARCH_FAIL)
         showEmptyErrorView(false)
     }
 
@@ -165,6 +177,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
             BottomSheetDialogHelper.showDanceFilterDialog(context) {
                 searchEventsPage?.run {
                     if (stylesFilterSet != AppPreferences.filterOptions) {
+                        AnalyticsHelper.logEvent(ANALYTICS_SEARCH_FILTER_CLICK,
+                                PROPERTY_FILTERED_DANCE_STYLES to AppPreferences.filterOptions.joinToString())
                         searchEvents(searchText?.text?.toString())
                     }
                 }

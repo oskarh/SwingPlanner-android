@@ -17,15 +17,21 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
+import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_ADD_CALENDAR_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_FACEBOOK_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_LIKE_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_WEBSITE_CLICK
 import com.oskhoj.swingplanner.util.Day
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_DETAILS
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_SUMMARY
 import com.oskhoj.swingplanner.util.Month
+import com.oskhoj.swingplanner.util.PROPERTY_IS_LIKED
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.isVisible
@@ -153,14 +159,19 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
             favoriteButton = favoritesFab.apply {
                 val fabImage = if (AppPreferences.hasFavoriteEvent(eventDetails.id)) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
                 setImageDrawable(fabImage)
-                onClick { presenter.toggleFavorite(eventDetails.id) }
+                onClick {
+                    presenter.toggleFavorite(eventDetails.id)
+                    AnalyticsHelper.logEvent(ANALYTICS_EVENT_LIKE_CLICK, PROPERTY_IS_LIKED to AppPreferences.hasFavoriteEvent(eventDetails.id))
+                }
             }
 
             eventDetails.website?.takeIf { it.isNotBlank() }?.let { websiteUrl ->
                 website_link.apply {
                     visible()
                     onClick {
-                        val website: String = websiteUrl.takeIf { websiteUrl.startsWith("http://", true) } ?: "http://$websiteUrl"
+                        AnalyticsHelper.logEvent(ANALYTICS_EVENT_WEBSITE_CLICK)
+                        val website: String = websiteUrl.takeIf { websiteUrl.startsWith("http://", true) }
+                                ?: "http://$websiteUrl"
                         openCustomTab(context, website)
                     }
                 }
@@ -169,7 +180,10 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
             eventDetails.facebookEventUrl?.let { facebookUrl ->
                 facebook_link.apply {
                     visible()
-                    onClick { openCustomTab(context, facebookUrl) }
+                    onClick {
+                        AnalyticsHelper.logEvent(ANALYTICS_EVENT_FACEBOOK_CLICK)
+                        openCustomTab(context, facebookUrl)
+                    }
                 }
             }
 
@@ -231,6 +245,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     }
 
     private fun addToCalendar(eventSummary: EventSummary) {
+        AnalyticsHelper.logEvent(ANALYTICS_EVENT_ADD_CALENDAR_CLICK)
         val beginTime = eventSummary.startDate.toCalendar()
         val endTime = eventSummary.endDate.toCalendar()
 

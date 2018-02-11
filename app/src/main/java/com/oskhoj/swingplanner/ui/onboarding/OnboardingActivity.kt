@@ -13,6 +13,9 @@ import com.oskhoj.swingplanner.MainActivity
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
+import com.oskhoj.swingplanner.util.ANALYTICS_ONBOARDING_FINISH
+import com.oskhoj.swingplanner.util.ANALYTICS_ONBOARDING_SKIP
+import com.oskhoj.swingplanner.util.ANALYTICS_ONBOARDING_START
 import com.oskhoj.swingplanner.util.getCompatColor
 import org.jetbrains.anko.startActivity
 
@@ -20,6 +23,7 @@ class OnboardingActivity : AppIntro2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_START)
         setFlowAnimation()
         arrayOf(createPage(getString(R.string.onboarding_title_1), getString(R.string.onboarding_message_1), R.drawable.globe, Color.DKGRAY),
                 createPage(getString(R.string.onboarding_title_2), getString(R.string.onboarding_message_2), R.drawable.annie_happy, getCompatColor(R.color.blue_grey_300)),
@@ -42,7 +46,13 @@ class OnboardingActivity : AppIntro2() {
         AnalyticsHelper.setCurrentScreen(this, ScreenType.ONBOARDING)
     }
 
-    override fun onSkipPressed(currentFragment: Fragment?) = startActivity<MainActivity>()
+    override fun onSkipPressed(currentFragment: Fragment?) {
+        AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_SKIP)
+        startActivity<MainActivity>()
+    }
 
-    override fun onDonePressed(currentFragment: Fragment?) = startActivity<MainActivity>()
+    override fun onDonePressed(currentFragment: Fragment?) {
+        AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_FINISH)
+        startActivity<MainActivity>()
+    }
 }
