@@ -1,29 +1,33 @@
 package com.oskhoj.swingplanner
 
 import com.chibatching.kotpref.KotprefModel
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.util.ANALYTICS_INITIALIZED_LANGUAGE
 import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.Language
+import com.oskhoj.swingplanner.util.PROPERTY_APP_LANGUAGE
+import com.oskhoj.swingplanner.util.PROPERTY_DEVICE_LANGUAGE
 import timber.log.Timber
 import java.util.Locale
 
 object AppPreferences : KotprefModel() {
-    var isShowingCardList by booleanPref(true)
+    var currentVersion by stringPref()
+    var hasShownAddSubscriptionTapTarget by booleanPref(false)
+    var hasShownCalendarTapTarget by booleanPref(false)
+    var hasShownLikeEventTapTarget by booleanPref(false)
+    var hasShownLikeTeacherTapTarget by booleanPref(false)
+    var hasShownManageSubscriptionsTapTarget by booleanPref(false)
     var hasShownOnboarding by booleanPref(false)
     var hasShownSearchEventsTapTarget by booleanPref(false)
     var hasShownSearchTeachersTapTarget by booleanPref(false)
-    var hasShownLikeEventTapTarget by booleanPref(false)
     var hasShownWebsiteTapTarget by booleanPref(false)
-    var hasShownCalendarTapTarget by booleanPref(false)
-    var hasShownManageSubscriptionsTapTarget by booleanPref(false)
-    var hasShownAddSubscriptionTapTarget by booleanPref(false)
     var hasShownYouTubeTapTarget by booleanPref(false)
-    var hasShownLikeTeacherTapTarget by booleanPref(false)
     var isAnimationsEnabled by booleanPref(true)
+    var isShowingCardList by booleanPref(true)
     var selectedLanguage by stringPref()
     val subscriptions by stringSetPref {
         return@stringSetPref mutableSetOf("Stockholm", "Berlin", "New York")
     }
-    var currentVersion by stringPref()
 
     init {
         if (selectedLanguage.isBlank()) {
@@ -35,6 +39,8 @@ object AppPreferences : KotprefModel() {
                 Language.SPANISH.isoCodeLanguage -> Language.SPANISH.name
                 else -> Language.defaultLanguage.name
             }
+            AnalyticsHelper.logEvent(ANALYTICS_INITIALIZED_LANGUAGE, PROPERTY_DEVICE_LANGUAGE to Locale.getDefault().language,
+                    PROPERTY_APP_LANGUAGE to selectedLanguage)
         }
     }
 

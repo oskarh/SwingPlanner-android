@@ -9,12 +9,18 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.base.ViewType.SETTINGS_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.settings.notificationmanager.NotificationManagerController
+import com.oskhoj.swingplanner.util.ANALYTICS_ENABLE_ANIMATIONS_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_MANAGE_SUBSCRIPTIONS_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_WINDOW_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_THEME_CLICK
+import com.oskhoj.swingplanner.util.PROPERTY_IS_ENABLED
 import com.oskhoj.swingplanner.util.showTapTarget
 import kotlinx.android.synthetic.main.controller_settings.view.*
 import org.jetbrains.anko.design.longSnackbar
@@ -34,16 +40,19 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
     override val screenType: ScreenType = ScreenType.SETTINGS
 
     override fun showNotificationWindow() {
+        AnalyticsHelper.logEvent(ANALYTICS_NOTIFICATION_WINDOW_CLICK)
         view?.let {
             longSnackbar(it, it.context.getString(R.string.notification_window_not_implemented))
         }
     }
 
     override fun showSubscriptionsManager() {
+        AnalyticsHelper.logEvent(ANALYTICS_MANAGE_SUBSCRIPTIONS_CLICK)
         router.pushController(RouterTransaction.with(NotificationManagerController()))
     }
 
     override fun showThemesDialog() {
+        AnalyticsHelper.logEvent(ANALYTICS_THEME_CLICK)
         view?.let {
             longSnackbar(it, it.context.getString(R.string.themes_not_implemented))
         }
@@ -57,6 +66,7 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
         super.onViewBound(view)
         view.run {
             val toggleAnimationsCheckbox = animations_checkbox.apply {
+                AnalyticsHelper.logEvent(ANALYTICS_ENABLE_ANIMATIONS_CLICK, PROPERTY_IS_ENABLED to isChecked)
                 isChecked = AppPreferences.isAnimationsEnabled
                 onClick { presenter.onAnimationsEnabledClicked(isChecked) }
             }

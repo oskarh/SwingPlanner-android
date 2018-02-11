@@ -13,9 +13,15 @@ import android.widget.TextView
 import com.google.android.youtube.player.YouTubeIntents
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
+import com.oskhoj.swingplanner.util.ANALYTICS_TEACHER_LIKE_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_TEACHER_YOUTUBE_CLICK
+import com.oskhoj.swingplanner.util.PROPERTY_CAN_HANDLE_YOUTUBE_INTENT
+import com.oskhoj.swingplanner.util.PROPERTY_IS_LIKED
+import com.oskhoj.swingplanner.util.PROPERTY_NAME
 import com.oskhoj.swingplanner.util.TeacherExpandedListener
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.animateToGone
@@ -96,6 +102,8 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
             favoriteImage.visibleIf { AppPreferences.hasFavoriteTeacher(teacher.id) }
             favoriteButton.setOnClickListener {
                 AppPreferences.toggleFavoriteTeacher(teacher.id)
+                AnalyticsHelper.logEvent(ANALYTICS_TEACHER_LIKE_CLICK, PROPERTY_IS_LIKED to AppPreferences.hasFavoriteTeacher(teacher.id),
+                        PROPERTY_NAME to teacher.name)
                 if (AppPreferences.hasFavoriteTeacher(teacher.id)) {
                     favoriteImage.run {
                         visible()
@@ -107,6 +115,8 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                 }
             }
             youTubeButton.setOnClickListener {
+                AnalyticsHelper.logEvent(ANALYTICS_TEACHER_YOUTUBE_CLICK, PROPERTY_CAN_HANDLE_YOUTUBE_INTENT to YouTubeIntents.canResolveSearchIntent(context),
+                        PROPERTY_NAME to teacher.name)
                 if (YouTubeIntents.canResolveSearchIntent(context)) {
                     Timber.d("Redirecting to YouTube for [${teacher.name}]")
                     startActivity(context, YouTubeIntents.createSearchIntent(context, teacher.name), Bundle.EMPTY)

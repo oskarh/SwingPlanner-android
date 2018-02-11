@@ -23,6 +23,11 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
+import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_CHANGELOG_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_OPEN_SOURCE_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_ABORT_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_SUCCESSFUL_CLICK
+import com.oskhoj.swingplanner.util.PROPERTY_INVITED_COUNT
 import com.oskhoj.swingplanner.util.clipboardManager
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.loadAnimation
@@ -60,6 +65,7 @@ class AboutActivity : MaterialAboutActivity() {
                         .color(getCompatColor(iconColor))
                         .sizeDp(textSize))
                 .setOnClickAction {
+                    AnalyticsHelper.logEvent(ANALYTICS_ABOUT_CHANGELOG_CLICK)
                     alert(Appcompat, getString(R.string.changelog)) {
                         customView = LayoutInflater.from(this@AboutActivity)
                                 .inflate(R.layout.changelog_content, null) as ChangeLogRecyclerView
@@ -75,6 +81,7 @@ class AboutActivity : MaterialAboutActivity() {
                         .color(getCompatColor(iconColor))
                         .sizeDp(textSize))
                 .setOnClickAction {
+                    AnalyticsHelper.logEvent(ANALYTICS_ABOUT_OPEN_SOURCE_CLICK)
                     startActivity<OssLicensesMenuActivity>()
                 }
                 .build())
@@ -151,8 +158,10 @@ class AboutActivity : MaterialAboutActivity() {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val ids = AppInviteInvitation.getInvitationIds(resultCode, data)
                 Timber.d("Shared SwingPlanner to ${ids.size} people")
+                AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_SUCCESSFUL_CLICK, PROPERTY_INVITED_COUNT to ids.size)
             } else {
                 Timber.d("Invite was failed or cancelled")
+                AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_ABORT_CLICK)
             }
         }
     }

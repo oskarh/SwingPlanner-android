@@ -5,7 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.model.EventSummary
+import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_CLICK
 import com.oskhoj.swingplanner.util.Month
 import com.oskhoj.swingplanner.util.inflateView
 import com.oskhoj.swingplanner.util.loadAnimation
@@ -76,7 +78,10 @@ open class EventAdapter(var events: List<EventSummary>, protected val onClick: (
                 day_small_text.text = event.dayOfMonth
                 small_country_flag.loadFlagIconOrDisappear(event.country.isoCode, context)
             }
-            setOnClickListener { listener(event) }
+            setOnClickListener {
+                AnalyticsHelper.logEvent(ANALYTICS_EVENT_CLICK)
+                listener(event)
+            }
             setOnTouchListener(OnTouchAnimation())
         }
     }
