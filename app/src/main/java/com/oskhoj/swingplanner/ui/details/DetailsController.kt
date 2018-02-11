@@ -9,7 +9,6 @@ import android.provider.CalendarContract
 import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.AppCompatImageView
 import android.view.View
@@ -31,6 +30,7 @@ import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.loadFlagIconOrDisappear
 import com.oskhoj.swingplanner.util.loadImageOrDisappear
+import com.oskhoj.swingplanner.util.setImageDrawable
 import com.oskhoj.swingplanner.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_event_details.view.*
@@ -90,7 +90,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     override fun onFavoriteClicked(isSelected: Boolean) {
         view?.run {
             val fabImage = if (isSelected) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
-            favoriteButton.setImageDrawable(ContextCompat.getDrawable(context, fabImage))
+            favoriteButton.setImageDrawable(fabImage)
         }
     }
 
@@ -150,7 +150,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
             about_description.text = eventDetails.description
             favoriteButton = favoritesFab.apply {
                 val fabImage = if (AppPreferences.hasFavoriteEvent(eventDetails.id)) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
-                setImageDrawable(ContextCompat.getDrawable(context, fabImage))
+                setImageDrawable(fabImage)
                 onClick { presenter.toggleFavorite(eventDetails.id) }
             }
 

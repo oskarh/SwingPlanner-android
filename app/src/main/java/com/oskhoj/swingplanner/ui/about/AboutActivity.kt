@@ -1,7 +1,10 @@
 package com.oskhoj.swingplanner.ui.about
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -13,6 +16,7 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
+import com.google.android.gms.appinvite.AppInviteInvitation
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.iconics.IconicsDrawable
@@ -91,7 +95,9 @@ class AboutActivity : MaterialAboutActivity() {
                         .icon(CommunityMaterial.Icon.cmd_share_variant)
                         .color(getCompatColor(iconColor))
                         .sizeDp(textSize))
-                .setOnClickAction { Timber.d("Sharing app...") }
+                .setOnClickAction {
+                    shareApp()
+                }
                 .build())
 
         appActionsBuilder.addItem(ConvenienceBuilder.createEmailItem(this,
@@ -109,6 +115,15 @@ class AboutActivity : MaterialAboutActivity() {
 //        toolbar.setTitleTextColor(getCompatColor(R.color.white))
         supportActionBar?.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back))
         return MaterialAboutList(appInfoBuilder.build(), appActionsBuilder.build())
+    }
+
+    private fun shareApp() {
+        val shareIntent = AppInviteInvitation.IntentBuilder(getString(R.string.app_invite_title))
+                .setCallToActionText(getString(R.string.app_invite_call_to_action))
+                .setCustomImage(Uri.parse(getString(R.string.app_invite_image_url)))
+                .setMessage(getString(R.string.app_invite_message))
+                .build()
+        startActivityForResult(shareIntent, REQUEST_INVITE)
     }
 
     private fun copyEmailToClipboard() {
@@ -129,4 +144,20 @@ class AboutActivity : MaterialAboutActivity() {
     }
 
     override fun getActivityTitle(): String = getString(R.string.about)
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val ids = AppInviteInvitation.getInvitationIds(resultCode, data)
+                Timber.d("Shared SwingPlanner to ${ids.size} people")
+            } else {
+                Timber.d("Invite was failed or cancelled")
+            }
+        }
+    }
+
+    companion object {
+        const val REQUEST_INVITE = 1001
+    }
 }

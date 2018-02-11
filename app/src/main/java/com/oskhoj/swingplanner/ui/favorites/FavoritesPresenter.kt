@@ -26,9 +26,9 @@ class FavoritesPresenter(private val favoritesStore: Store<FavoritesResponse, Fa
             view?.displayEmptyView()
         } else {
             favoritesStore.get(FavoritesBarcode(FAVORITES_PAGE, FavoritesParameters(favoriteIds)))
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { view?.showLoading() }
-                    .subscribeOn(Schedulers.io())
                     .subscribe(object : DisposableSingleObserver<FavoritesResponse>() {
                         override fun onSuccess(favoritesResponse: FavoritesResponse) {
                             Timber.d("Request succeeded, got ${favoritesResponse.events.size} events")

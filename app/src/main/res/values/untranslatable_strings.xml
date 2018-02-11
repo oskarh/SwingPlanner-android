@@ -1,5 +1,11 @@
 <resources>
+    <string name="about_swing_planner" translatable="false">About SwingPlanner</string>
     <string name="app_name" translatable="false">SwingPlanner</string>
+    <string name="app_invite_image_url" translatable="false">https://photos.app.goo.gl/4hf31v6mz3gdCaKU2</string>
+    <string name="swing_planner_email" translatable="false">swingplannerapp@gmail.com</string>
+    <string name="swing_planner_label" translatable="false">SwingPlanner email</string>
+
+    <!-- Dance styles -->
     <string name="balboa" translatable="false">Balboa</string>
     <string name="blues" translatable="false">Blues</string>
     <string name="boogie_woogie" translatable="false">Boogie Woogie</string>
@@ -7,7 +13,4 @@
     <string name="jazz" translatable="false">Jazz</string>
     <string name="lindy_hop" translatable="false">Lindy Hop</string>
     <string name="shag" translatable="false">Shag</string>
-    <string name="swing_planner_email" translatable="false">swingplannerapp@gmail.com</string>
-    <string name="about_swing_planner" translatable="false">About SwingPlanner</string>
-    <string name="swing_planner_label" translatable="false">SwingPlanner email</string>
 </resources>
