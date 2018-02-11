@@ -116,7 +116,7 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
             }
             if (!AppPreferences.hasShownAddSubscriptionTapTarget) {
                 activity?.run {
-                    showTapTarget(R.id.notificationsFab, R.string.add_subscription_tap_target_title, R.string.add_subscription_tap_target_message)
+                    showTapTarget(R.id.notificationsFab, R.string.tap_target_add_subscription_title, R.string.tap_target_add_subscription_message)
                     AppPreferences.hasShownAddSubscriptionTapTarget = true
                 }
             }

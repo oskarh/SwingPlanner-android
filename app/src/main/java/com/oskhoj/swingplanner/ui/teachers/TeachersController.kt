@@ -66,7 +66,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     }
 
     private val teacherAdapter: TeacherAdapter = TeacherAdapter(emptyList(), this, {
-        Timber.d("Clicked on teacher with id ${it.id}")
+        Timber.d("Clicked on teacher with name ${it.name}")
         presenter.openTeacherDetails(it)
     }, {
         Timber.d("Clicked on event with name ${it.name}")
@@ -167,7 +167,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
                 }
             }
             if (!AppPreferences.hasShownSearchTeachersTapTarget) {
-                showTapTarget(R.id.search_text, R.string.search_teachers_tap_target_title, R.string.search_teachers_tap_target_message)
+                showTapTarget(R.id.search_text, R.string.tap_target_search_teachers_title, R.string.tap_target_search_teachers_message)
                 AppPreferences.hasShownSearchTeachersTapTarget = true
             }
         }

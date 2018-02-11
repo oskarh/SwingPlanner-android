@@ -44,6 +44,8 @@ inline fun View.visibleIf(predicate: () -> Boolean) {
     }
 }
 
+fun View.isVisible() = visibility == View.VISIBLE
+
 fun View.removeClickListener() = setOnClickListener(null)
 
 fun View.loadLayoutAnimation(@AnimRes animationId: Int): LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context, animationId)

@@ -49,8 +49,12 @@ fun Activity.closeKeyboard() {
 }
 
 fun Activity.showTapTarget(@IdRes view: Int, @StringRes title: Int, @StringRes message: Int) {
+    showTapTarget(findViewById<View>(view), title, message)
+}
+
+fun Activity.showTapTarget(view: View, @StringRes title: Int, @StringRes message: Int) {
     TapTargetView.showFor(this,
-            TapTarget.forView(findViewById(view), getString(title), getString(message))
+            TapTarget.forView(view, getString(title), getString(message))
                     .outerCircleColor(R.color.blue_grey_300)
                     .outerCircleAlpha(0.86f)
                     .targetCircleColor(R.color.white)

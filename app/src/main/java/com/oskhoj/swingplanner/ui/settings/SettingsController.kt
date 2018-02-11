@@ -68,7 +68,7 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
         super.onAttach(view)
         if (!AppPreferences.hasShownManageSubscriptionsTapTarget) {
             activity?.run {
-                showTapTarget(R.id.subscriptions_text, R.string.manage_subscriptions_tap_target_title, R.string.manage_subscriptions_tap_target_message)
+                showTapTarget(R.id.subscriptions_text, R.string.tap_target_manage_subscriptions_title, R.string.tap_target_manage_subscriptions_message)
                 AppPreferences.hasShownManageSubscriptionsTapTarget = true
             }
         }

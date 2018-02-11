@@ -11,6 +11,7 @@ object AppPreferences : KotprefModel() {
     var hasShownOnboarding by booleanPref(false)
     var hasShownSearchEventsTapTarget by booleanPref(false)
     var hasShownSearchTeachersTapTarget by booleanPref(false)
+    var hasShownLikeEventTapTarget by booleanPref(false)
     var hasShownWebsiteTapTarget by booleanPref(false)
     var hasShownCalendarTapTarget by booleanPref(false)
     var hasShownManageSubscriptionsTapTarget by booleanPref(false)
