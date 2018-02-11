@@ -45,7 +45,7 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
 
     override val viewType: ViewType = ViewType.SETTINGS_VIEW
 
-    override val screenType: ScreenType = ScreenType.SUBSCRIPTIONS
+    override val screenType: ScreenType = ScreenType.MANAGE_SUBSCRIPTIONS
 
     private val subscriptionAdapter: NotificationSubscriptionAdapter = NotificationSubscriptionAdapter(
             AppPreferences.subscriptions.iterator().asSequence().toMutableList(), {

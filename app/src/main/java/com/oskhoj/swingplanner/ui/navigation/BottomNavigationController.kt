@@ -28,9 +28,8 @@ import kotlinx.android.synthetic.main.controller_bottom_navigation.view.*
 import timber.log.Timber
 import java.util.Stack
 
-class BottomNavigationController(args: Bundle) : BaseController<NavigationContract.View, NavigationContract.Presenter>(), NavigationContract.View {
-
-    constructor() : this(Bundle.EMPTY)
+class BottomNavigationController(args: Bundle = Bundle.EMPTY) :
+        BaseController<NavigationContract.View, NavigationContract.Presenter>(args), NavigationContract.View {
 
     override val layoutRes = R.layout.controller_bottom_navigation
 
@@ -41,7 +40,7 @@ class BottomNavigationController(args: Bundle) : BaseController<NavigationContra
     }
 
     override fun onItemSelected(id: Int) {
-        Timber.d("Navigating to $id")
+        Timber.d("Navigating to menu $id")
         navigateTo(id)
     }
 
