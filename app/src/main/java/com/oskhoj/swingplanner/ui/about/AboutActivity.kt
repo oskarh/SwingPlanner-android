@@ -25,8 +25,8 @@ import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_CHANGELOG_CLICK
 import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_OPEN_SOURCE_CLICK
-import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_ABORT_CLICK
-import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_SUCCESSFUL_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_ABORT
+import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_SUCCESSFUL
 import com.oskhoj.swingplanner.util.PROPERTY_INVITED_COUNT
 import com.oskhoj.swingplanner.util.clipboardManager
 import com.oskhoj.swingplanner.util.getCompatColor
@@ -42,7 +42,7 @@ class AboutActivity : MaterialAboutActivity() {
 
     override fun getMaterialAboutList(context: Context): MaterialAboutList {
         val textSize = resources.getInteger(R.integer.about_screen_text_size)
-        val iconColor = R.color.black
+        val iconColor = android.R.color.black
 
         val appInfoBuilder = MaterialAboutCard.Builder()
         appInfoBuilder.addItem(MaterialAboutTitleItem.Builder()
@@ -158,10 +158,10 @@ class AboutActivity : MaterialAboutActivity() {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val ids = AppInviteInvitation.getInvitationIds(resultCode, data)
                 Timber.d("Shared SwingPlanner to ${ids.size} people")
-                AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_SUCCESSFUL_CLICK, PROPERTY_INVITED_COUNT to ids.size)
+                AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_SUCCESSFUL, PROPERTY_INVITED_COUNT to ids.size)
             } else {
                 Timber.d("Invite was failed or cancelled")
-                AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_ABORT_CLICK)
+                AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_ABORT)
             }
         }
     }

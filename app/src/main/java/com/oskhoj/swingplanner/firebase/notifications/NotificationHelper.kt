@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 
 class NotificationHelper(context_: Context) {
     private val context: Context = context_.applicationContext
@@ -22,6 +23,7 @@ class NotificationHelper(context_: Context) {
     }
 
     fun notify(title: String, body: String, notificationType: NotificationType) {
+        AnalyticsHelper.logEvent(notificationType)
         val notification =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Notification.Builder(context, notificationType.channelName)

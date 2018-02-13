@@ -3,12 +3,6 @@
     <color name="colorPrimary">#795548</color>
     <color name="colorPrimaryDark">#5D4037</color>
     <color name="colorAccent">#f57f17</color>
-    <!--<color name="colorAccent">#E44100</color>-->
-    <color name="eventBriteMonth">#f44336</color>
-
-    <color name="white">@android:color/white</color>
-    <color name="black">@android:color/black</color>
-    <color name="immersive_background">#88000000</color>
 
     <color name="almost_white">#FFEFEBE9</color>
     <color name="red_300">#f36c60</color>
@@ -31,9 +25,4 @@
     <color name="cyan_300">#4dd0e1</color>
     <color name="grey_300">#e0e0e0</color>
     <color name="grey_400">#78909C</color>
-
-    <color name="dark_icon">#99000000</color>
-    <color name="dialog_background">#fafafa</color>
-
-    <color name="md_amber_A400">#ffc400</color>
 </resources>

@@ -124,6 +124,7 @@ dependencies {
 
     implementation "saschpe.android:customtabs:$saschpeCustomTabsVersion"
     implementation "net.cachapa.expandablelayout:expandablelayout:$expandableLayoutVersion"
+    implementation "com.elyeproj.libraries:loaderviewlibrary:$loaderViewLibraryVersion"
 
     implementation "com.github.apl-devs:appintro:$appIntroVersion"
     implementation "com.getkeepsafe.taptargetview:taptargetview:$tapTargetViewVersion"
