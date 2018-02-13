@@ -9,6 +9,7 @@ buildscript {
         // plugins
         dexCountVersion = '0.8.2'
         fabricVersion = '1.25.1'
+        firebasePluginVersion = '1.1.5'
         googleServicesVersion = '3.1.1'
         kotlinVersion = '1.2.21'
         ossLicensesVersion = '0.9.1'
@@ -16,7 +17,7 @@ buildscript {
         // dependencies
         androidTestVersion = '1.0.1'
         ankoVersion = '0.10.4'
-        appIntroVersion = 'v4.2.2'
+        appIntroVersion = 'v4.2.3'
         changelogVersion = '2.1.0'
         conductorVersion ='2.1.4'
         crashlyticsVersion = '2.9.0'
@@ -35,14 +36,14 @@ buildscript {
         firebaseVersion = '11.8.0'
         referrerLibraryVersion = '1.0'
         retrofitVersion = '2.3.0'
-        rxAndroidVersion = '2.0.1'
-        rxBindingVersion = '2.1.0'
+        rxAndroidVersion = '2.0.2'
+        rxBindingVersion = '2.1.1'
         rxJavaVersion = '2.1.9'
         saschpeCustomTabsVersion = '1.1.1'
         storeVersion = '3.0.0'
         supportVersion = '27.0.2'
         tapTargetViewVersion = '1.11.0'
-        timberVersion = '4.6.0'
+        timberVersion = '4.6.1'
     }
     repositories {
         google()
@@ -51,6 +52,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.0-alpha09'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.google.firebase:firebase-plugins:$firebasePluginVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "com.google.gms:oss-licenses:$ossLicensesVersion"
     }

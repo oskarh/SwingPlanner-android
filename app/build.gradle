@@ -18,6 +18,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.gms.oss.licenses.plugin'
 apply plugin: 'io.fabric'
 
@@ -80,6 +81,7 @@ dependencies {
 
     implementation "com.google.firebase:firebase-invites:$firebaseVersion"
     implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
+    implementation "com.google.firebase:firebase-perf:$firebaseVersion"
     implementation "com.google.android.gms:play-services-oss-licenses:$firebaseVersion"
 
     implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
