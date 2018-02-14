@@ -30,7 +30,6 @@ class OnboardingActivity : AppIntro2() {
                 createPage(getString(R.string.onboarding_title_3), getString(R.string.onboarding_message_3), R.drawable.annie_dancing, getCompatColor(R.color.light_blue_300)),
                 createPage(getString(R.string.onboarding_title_4), getString(R.string.onboarding_message_4), R.drawable.splash_screen_image, getCompatColor(R.color.brown_300)))
                 .forEach { addSlide(AppIntroFragment.newInstance(it)) }
-        AppPreferences.hasShownOnboarding = true
     }
 
     private fun createPage(title: String, description: String, @DrawableRes imageDrawable: Int, @ColorInt bgColor: Int) =
@@ -48,11 +47,13 @@ class OnboardingActivity : AppIntro2() {
 
     override fun onSkipPressed(currentFragment: Fragment?) {
         AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_SKIP)
+        AppPreferences.hasShownOnboarding = true
         startActivity<MainActivity>()
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {
         AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_FINISH)
+        AppPreferences.hasShownOnboarding = true
         startActivity<MainActivity>()
     }
 }
