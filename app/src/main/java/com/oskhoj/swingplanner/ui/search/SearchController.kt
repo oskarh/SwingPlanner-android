@@ -18,7 +18,6 @@ import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
-import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.network.EventSearchParams
@@ -85,7 +84,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     private val eventAdapter: HeaderEventAdapter = HeaderEventAdapter(emptyList(), {
         Timber.d("Clicked on event with id ${it.id}")
-        presenter.onEventClicked(it)
+        openEvent(it)
     })
 
     private var listState: Parcelable? = null
@@ -125,10 +124,10 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         backIcon.invisible()
     }
 
-    override fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails) {
+    private fun openEvent(eventSummary: EventSummary) {
         Timber.d("Opening event details for id ${eventSummary.id}")
         activity?.closeKeyboard()
-        router.pushController(RouterTransaction.with(DetailsController(eventSummary, eventDetails)))
+        router.pushController(RouterTransaction.with(DetailsController(eventSummary)))
     }
 
     override fun displayEmptyView() {

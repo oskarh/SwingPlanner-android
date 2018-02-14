@@ -10,7 +10,6 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
-import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
@@ -39,7 +38,7 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
 
     private val eventAdapter: EventAdapter = EventAdapter(emptyList(), {
         Timber.d("Clicked on event with id ${it.id}")
-        presenter.onEventClicked(it)
+        router.pushController(RouterTransaction.with(DetailsController(it)))
     })
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
@@ -56,11 +55,6 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
             eventAdapter.toggleItemViewType()
             eventAdapter.notifyDataSetChanged()
         }
-    }
-
-    override fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails) {
-        Timber.d("Opening event details for id ${eventSummary.id}")
-        router.pushController(RouterTransaction.with(DetailsController(eventSummary, eventDetails)))
     }
 
     override fun displayEmptyView() {

@@ -1,7 +1,5 @@
 package com.oskhoj.swingplanner.ui.search
 
-import com.oskhoj.swingplanner.model.EventDetails
-import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.network.EventSearchParams
 import com.oskhoj.swingplanner.ui.base.Attachable
@@ -18,8 +16,6 @@ object SearchContract {
         fun abortSearch()
 
         fun clearText()
-
-        fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails)
 
         fun displayEmptyView()
 
@@ -40,7 +36,5 @@ object SearchContract {
         fun toggleListAction()
 
         fun aboutAction()
-
-        fun onEventClicked(eventSummary: EventSummary)
     }
 }

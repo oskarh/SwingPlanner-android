@@ -4,13 +4,11 @@ import com.nytimes.android.external.store3.base.impl.BarCode
 import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.EventDetails
-import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.network.EventSearchBarcode
 import com.oskhoj.swingplanner.network.EventSearchParams
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import com.oskhoj.swingplanner.util.EVENTS_PAGE
-import com.oskhoj.swingplanner.util.EVENT_DETAILS
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -46,28 +44,6 @@ class SearchPresenter(private val eventSummariesStore: Store<EventsPage, EventSe
                     override fun onError(throwable: Throwable) {
                         Timber.w(throwable, "Request failed")
                         view?.hideLoading()
-                        view?.displayErrorView()
-                    }
-                })
-    }
-
-    override fun onEventClicked(eventSummary: EventSummary) {
-        Timber.d("Got event click for id ${eventSummary.id}")
-        eventDetailsStore.get(BarCode(EVENT_DETAILS, eventSummary.eventDetailsId.toString()))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleObserver<EventDetails> {
-                    override fun onSubscribe(disposable: Disposable) {
-                        compositeDisposable.add(disposable)
-                    }
-
-                    override fun onSuccess(eventDetails: EventDetails) {
-                        Timber.d("Request succeeded, got $eventDetails events")
-                        view?.openEventDetails(eventSummary, eventDetails)
-                    }
-
-                    override fun onError(error: Throwable) {
-                        Timber.w(error, "Request failed")
                         view?.displayErrorView()
                     }
                 })

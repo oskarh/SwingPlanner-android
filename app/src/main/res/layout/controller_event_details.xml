@@ -68,22 +68,27 @@
                         android:layout_marginStart="@dimen/large_margin"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.elyeproj.loaderviewlibrary.LoaderTextView
                             android:id="@+id/calendar_from_text"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:height_weight="@dimen/text_shimmer_height"
+                            app:width_weight="0.52"
                             tools:text="Thursday, November 23 -"/>
 
-                        <TextView
+                        <com.elyeproj.loaderviewlibrary.LoaderTextView
                             android:id="@+id/calendar_to_text"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:height_weight="@dimen/text_shimmer_height"
+                            app:width_weight="0.5"
                             tools:text="Sunday, November 26"/>
+
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/small_margin"
                     android:orientation="horizontal">
@@ -102,34 +107,39 @@
                     </FrameLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/large_margin"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.elyeproj.loaderviewlibrary.LoaderTextView
                             android:id="@+id/city_text"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:height_weight="@dimen/text_shimmer_height"
+                            app:width_weight="0.3"
                             tools:text="Stockholm"/>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <com.elyeproj.loaderviewlibrary.LoaderTextView
                                 android:id="@+id/country_text"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:minWidth="40dp"
+                                app:height_weight="@dimen/text_shimmer_height"
                                 tools:text="Sweden"/>
 
-                            <android.support.v7.widget.AppCompatImageView
+                            <com.elyeproj.loaderviewlibrary.LoaderImageView
                                 android:id="@+id/country_flag"
                                 android:layout_width="25dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center_vertical"
+                                android:layout_margin="3dp"
                                 android:layout_marginStart="8dp"
                                 tools:src="@drawable/se"/>
                         </LinearLayout>
@@ -155,12 +165,14 @@
 
                     </FrameLayout>
 
-                    <TextView
+                    <com.elyeproj.loaderviewlibrary.LoaderTextView
                         android:id="@+id/dancing_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/large_margin"
+                        app:height_weight="@dimen/text_shimmer_height"
+                        app:width_weight="0.3"
                         tools:text="Balboa, Lindy Hop"/>
                 </LinearLayout>
 
@@ -285,16 +297,16 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.elyeproj.loaderviewlibrary.LoaderTextView
                 android:id="@+id/about_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/details_icon_margin"
                 android:layout_marginEnd="@dimen/details_icon_margin"
                 android:layout_marginStart="@dimen/details_icon_margin"
                 android:layout_marginTop="@dimen/card_margin"
                 android:autoLink="web"
-
+                app:height_weight="@dimen/text_shimmer_height"
                 tools:text="DATES
 November 24-26, 2017
 CLASSES

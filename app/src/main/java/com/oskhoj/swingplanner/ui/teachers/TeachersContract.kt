@@ -1,7 +1,5 @@
 package com.oskhoj.swingplanner.ui.teachers
 
-import com.oskhoj.swingplanner.model.EventDetails
-import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.ui.base.Attachable
@@ -24,8 +22,6 @@ object TeachersContract {
         fun displayErrorView()
 
         fun onFavoriteClicked(isFavorite: Boolean)
-
-        fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails)
     }
 
     interface Presenter : Attachable<View> {
@@ -40,8 +36,6 @@ object TeachersContract {
         fun toggleTeacherLike(teacher: Teacher)
 
         fun findTeacherOnYouTube(teacher: Teacher)
-
-        fun openEventDetails(eventSummary: EventSummary)
 
         fun aboutAction()
     }
