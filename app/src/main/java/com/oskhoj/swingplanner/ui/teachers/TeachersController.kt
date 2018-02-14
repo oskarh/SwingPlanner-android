@@ -46,7 +46,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     override val layoutRes = R.layout.controller_teachers
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance(), instance()) }
+        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance()) }
     }
 
     override val viewType: ViewType = TEACHERS_VIEW

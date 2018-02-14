@@ -77,7 +77,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     private var disposable: Disposable? = null
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<SearchContract.Presenter>() with provider { SearchPresenter(instance(), instance()) }
+        bind<SearchContract.Presenter>() with provider { SearchPresenter(instance()) }
     }
 
     private lateinit var clearIcon: AppCompatImageView

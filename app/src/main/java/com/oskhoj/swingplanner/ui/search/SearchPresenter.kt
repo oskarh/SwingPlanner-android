@@ -1,9 +1,7 @@
 package com.oskhoj.swingplanner.ui.search
 
-import com.nytimes.android.external.store3.base.impl.BarCode
 import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
-import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.network.EventSearchBarcode
 import com.oskhoj.swingplanner.network.EventSearchParams
@@ -16,7 +14,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class SearchPresenter(private val eventSummariesStore: Store<EventsPage, EventSearchBarcode>, private val eventDetailsStore: Store<EventDetails, BarCode>) : BasePresenter<SearchContract.View>(), SearchContract.Presenter {
+class SearchPresenter(private val eventSummariesStore: Store<EventsPage, EventSearchBarcode>) : BasePresenter<SearchContract.View>(), SearchContract.Presenter {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun searchEvents(eventSearchParams: EventSearchParams) {

@@ -3,7 +3,6 @@ package com.oskhoj.swingplanner.ui.teachers
 import com.nytimes.android.external.store3.base.impl.BarCode
 import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
-import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.model.TeachersResponse
@@ -18,8 +17,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>,
-                        private val teacherEventStore: Store<TeacherEventsResponse, BarCode>,
-                        private val eventDetailsStore: Store<EventDetails, BarCode>) :
+                        private val teacherEventStore: Store<TeacherEventsResponse, BarCode>) :
         BasePresenter<TeachersContract.View>(), TeachersContract.Presenter {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 

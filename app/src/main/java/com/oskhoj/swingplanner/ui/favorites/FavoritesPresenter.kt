@@ -1,9 +1,7 @@
 package com.oskhoj.swingplanner.ui.favorites
 
-import com.nytimes.android.external.store3.base.impl.BarCode
 import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
-import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.FavoritesResponse
 import com.oskhoj.swingplanner.network.FavoritesBarcode
 import com.oskhoj.swingplanner.network.FavoritesParameters
@@ -14,7 +12,7 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class FavoritesPresenter(private val favoritesStore: Store<FavoritesResponse, FavoritesBarcode>, private val eventDetailsStore: Store<EventDetails, BarCode>)
+class FavoritesPresenter(private val favoritesStore: Store<FavoritesResponse, FavoritesBarcode>)
     : BasePresenter<FavoritesContract.View>(), FavoritesContract.Presenter {
 
     override fun loadFavorites() {
