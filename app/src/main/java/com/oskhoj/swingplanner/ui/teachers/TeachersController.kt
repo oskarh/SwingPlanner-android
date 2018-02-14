@@ -15,7 +15,6 @@ import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
-import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
@@ -47,7 +46,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     override val layoutRes = R.layout.controller_teachers
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance(), instance()) }
+        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance()) }
     }
 
     override val viewType: ViewType = TEACHERS_VIEW
@@ -69,7 +68,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     private val teacherAdapter: TeacherAdapter = TeacherAdapter(emptyList(), this, {
         presenter.openTeacherDetails(it)
     }, {
-        presenter.openEventDetails(it)
+        openEvent(it)
     }, object : TeacherExpandedListener {
         override fun onTeacherExpanded(youTubeButton: AppCompatImageView, likeButton: AppCompatImageView) {
             if (!AppPreferences.hasShownYouTubeTapTarget) {
@@ -103,10 +102,10 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         Timber.d("Adding teacher to favorites...")
     }
 
-    override fun openEventDetails(eventSummary: EventSummary, eventDetails: EventDetails) {
+    private fun openEvent(eventSummary: EventSummary) {
         Timber.d("Opening event details...")
         activity?.closeKeyboard()
-        router.pushController(RouterTransaction.with(DetailsController(eventSummary, eventDetails)))
+        router.pushController(RouterTransaction.with(DetailsController(eventSummary)))
     }
 
     override fun showLoading() {

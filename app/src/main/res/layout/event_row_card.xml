@@ -29,7 +29,7 @@
                 android:layout_height="40dp"
                 android:layout_alignBottom="@id/card_event_image"
                 android:alpha="0.6"
-                android:background="@color/black">
+                android:background="@android:color/black">
 
                 <TextView
                     android:id="@+id/card_event_name"
@@ -41,7 +41,7 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     tools:text="Herräng Dance Camp"/>
             </LinearLayout>
         </RelativeLayout>

@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class Teacher(
         val id: Int,
         val name: String) : Parcelable, Comparable<Teacher> {
-    
+
     override fun compareTo(other: Teacher): Int {
         return name.compareToIgnoreWhitespace(other.name, true)
     }

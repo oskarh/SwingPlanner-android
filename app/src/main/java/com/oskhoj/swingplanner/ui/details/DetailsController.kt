@@ -7,14 +7,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.support.customtabs.CustomTabsIntent
-import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.NestedScrollView
-import android.support.v7.widget.AppCompatImageView
 import android.view.View
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
@@ -40,7 +39,6 @@ import com.oskhoj.swingplanner.util.loadImageOrDisappear
 import com.oskhoj.swingplanner.util.setImageDrawable
 import com.oskhoj.swingplanner.util.showTapTarget
 import com.oskhoj.swingplanner.util.visible
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_event_details.view.*
 import org.jetbrains.anko.sdk21.listeners.onClick
 import saschpe.android.customtabs.CustomTabsHelper
@@ -49,10 +47,8 @@ import timber.log.Timber
 
 class DetailsController(args: Bundle = Bundle.EMPTY) :
         ToolbarController<DetailsContract.View, DetailsContract.Presenter>(args), DetailsContract.View {
-
-    constructor(summary: EventSummary, details: EventDetails) : this() {
+    constructor(summary: EventSummary) : this() {
         eventSummary = summary
-        eventDetails = details
     }
 
     override val presenter: DetailsContract.Presenter by instance()
@@ -66,14 +62,23 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     private lateinit var eventSummary: EventSummary
 
-    private lateinit var eventDetails: EventDetails
+    private var eventDetails: EventDetails? = null
 
     private lateinit var favoriteButton: FloatingActionButton
 
     private lateinit var customTabsIntent: CustomTabsIntent
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<DetailsContract.Presenter>() with instance(DetailsPresenter())
+        bind<DetailsContract.Presenter>() with provider { DetailsPresenter(instance()) }
+    }
+
+    override fun eventDetailsLoaded(details: EventDetails) {
+        eventDetails = details
+        setupViews(view, details)
+    }
+
+    override fun displayErrorView() {
+        Timber.d("Displaying error view")
     }
 
     override fun openLink(url: String) {
@@ -82,17 +87,6 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     override fun addCalendarEvent(text: String) {
         Timber.d("View added calendar event")
-    }
-
-    private fun enableCollapsingToolbar(isEnabled: Boolean) {
-        activity?.run {
-            val params = collapsing_toolbar.layoutParams as AppBarLayout.LayoutParams
-            if (isEnabled) {
-                params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-            } else {
-                params.scrollFlags = 0
-            }
-        }
     }
 
     override fun onFavoriteClicked(isSelected: Boolean) {
@@ -104,21 +98,18 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        view.run {
+        eventDetails?.let {
+            setupViews(view, it)
+        } ?: presenter.loadEventDetails(eventSummary.eventDetailsId)
+    }
+
+    private fun setupViews(view: View?, details: EventDetails) {
+        view?.run {
             customTabsIntent = CustomTabsIntent.Builder()
                     .setToolbarColor(context?.getCompatColor(R.color.colorPrimary) ?: Color.WHITE)
                     .setShowTitle(true)
                     .build()
             CustomTabsHelper.addKeepAliveExtra(context, customTabsIntent.intent)
-            //            enableCollapsingToolbar(true)
-//            val mAppBarLayout = context.findViewById<AppBarLayout>(R.id.app_bar_layout)
-//            mAppBarLayout.setExpanded(true)
-
-//            eventSummary.imageUrl?.let {
-//                val toolbarImage = context.findViewById<AppCompatImageView>(R.id.toolbar_image)
-//                toolbarImage.loadImage(it, context)
-//                toolbarImage.visible()
-//            }
 
             event_image.loadImageOrDisappear(eventSummary.imageUrl, context)
             event_name.text = eventSummary.name
@@ -136,36 +127,38 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                     text = "$endDay, $endMonth $dayOfMonth"
                     visible()
                 }
-            }
+            } ?: calendar_to_text.gone()
             city_text.text = "${eventSummary.city},"
             if (eventSummary.country.name.isNotBlank()) {
                 country_text.apply {
                     text = eventSummary.country.name
                     visible()
                 }
+            } else {
+                country_text.gone()
             }
             country_flag.loadFlagIconOrDisappear(eventSummary.country.isoCode, context)
-            dancing_text.text = eventDetails.danceStyles
-            if (!eventDetails.teachersDescription.isNullOrBlank()) {
+            dancing_text.text = details.danceStyles
+            if (!details.teachersDescription.isNullOrBlank()) {
                 teachers_layout.visible()
-                teachers_text.text = eventDetails.teachersDescription
+                teachers_text.text = details.teachersDescription
             }
 
-            eventDetails.competitionsText?.let {
+            details.competitionsText?.let {
                 competitions_layout.visible()
                 competitions_text.text = it
             }
-            about_description.text = eventDetails.description
+            about_description.text = details.description
             favoriteButton = favoritesFab.apply {
-                val fabImage = if (AppPreferences.hasFavoriteEvent(eventDetails.id)) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
+                val fabImage = if (AppPreferences.hasFavoriteEvent(details.id)) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
                 setImageDrawable(fabImage)
                 onClick {
-                    presenter.toggleFavorite(eventDetails.id)
-                    AnalyticsHelper.logEvent(ANALYTICS_EVENT_LIKE_CLICK, PROPERTY_IS_LIKED to AppPreferences.hasFavoriteEvent(eventDetails.id))
+                    presenter.toggleFavorite(details.id)
+                    AnalyticsHelper.logEvent(ANALYTICS_EVENT_LIKE_CLICK, PROPERTY_IS_LIKED to AppPreferences.hasFavoriteEvent(details.id))
                 }
             }
 
-            eventDetails.website?.takeIf { it.isNotBlank() }?.let { websiteUrl ->
+            details.website?.takeIf { it.isNotBlank() }?.let { websiteUrl ->
                 website_link.apply {
                     visible()
                     onClick {
@@ -177,7 +170,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
                 }
             }
 
-            eventDetails.facebookEventUrl?.let { facebookUrl ->
+            details.facebookEventUrl?.let { facebookUrl ->
                 facebook_link.apply {
                     visible()
                     onClick {
@@ -219,16 +212,6 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     private fun openCustomTab(context: Context?, url: String) {
         context?.let {
             CustomTabsHelper.openCustomTab(it, customTabsIntent, Uri.parse(url), WebViewFallback())
-        }
-    }
-
-    override fun onDetach(view: View) {
-        super.onDetach(view)
-        activity?.run {
-            val appBarLayout = findViewById<AppBarLayout>(R.id.app_bar_layout)
-            enableCollapsingToolbar(false)
-            findViewById<AppBarLayout>(R.id.app_bar_layout).setExpanded(false)
-            findViewById<AppCompatImageView>(R.id.toolbar_image).gone()
         }
     }
 
