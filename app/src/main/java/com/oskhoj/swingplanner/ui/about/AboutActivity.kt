@@ -47,7 +47,7 @@ class AboutActivity : MaterialAboutActivity() {
         val appInfoBuilder = MaterialAboutCard.Builder()
         appInfoBuilder.addItem(MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
-                .icon(R.mipmap.ic_launcher)
+                .icon(R.mipmap.swingplanner_icon)
                 .build())
 
         appInfoBuilder.addItem(ConvenienceBuilder.createVersionActionItem(this,
