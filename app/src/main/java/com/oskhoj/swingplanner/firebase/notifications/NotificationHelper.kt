@@ -1,10 +1,13 @@
 package com.oskhoj.swingplanner.firebase.notifications
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.support.v4.app.NotificationCompat
+import com.oskhoj.swingplanner.MainActivity
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 
 class NotificationHelper(context_: Context) {
@@ -22,18 +25,18 @@ class NotificationHelper(context_: Context) {
         }
     }
 
-    fun notify(title: String, body: String, notificationType: NotificationType) {
+    fun notify(title: String, body: String, eventId: Int, notificationType: NotificationType) {
         AnalyticsHelper.logEvent(notificationType)
-        val notification =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Notification.Builder(context, notificationType.channelName)
-                } else {
-                    Notification.Builder(context)
-                }
+        val intent = Intent(context, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val notification = NotificationCompat.Builder(context, notificationType.channelName)
         notification.setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(notificationType.notificationIcon)
                 .setAutoCancel(true)
-        notificationManager.notify(notificationType.id, notification.build())
+                .setContentIntent(pendingIntent)
+        notificationManager.notify(notificationType.id + eventId, notification.build())
     }
 }
