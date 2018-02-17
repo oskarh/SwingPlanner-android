@@ -15,7 +15,7 @@ import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.base.ViewType.SETTINGS_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
-import com.oskhoj.swingplanner.ui.settings.notificationmanager.NotificationManagerController
+import com.oskhoj.swingplanner.ui.settings.notificationmanager.SubscriptionManagerController
 import com.oskhoj.swingplanner.util.ANALYTICS_ENABLE_ANIMATIONS_CLICK
 import com.oskhoj.swingplanner.util.ANALYTICS_MANAGE_SUBSCRIPTIONS_CLICK
 import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_WINDOW_CLICK
@@ -48,7 +48,7 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
 
     override fun showSubscriptionsManager() {
         AnalyticsHelper.logEvent(ANALYTICS_MANAGE_SUBSCRIPTIONS_CLICK)
-        router.pushController(RouterTransaction.with(NotificationManagerController()))
+        router.pushController(RouterTransaction.with(SubscriptionManagerController()))
     }
 
     override fun showThemesDialog() {

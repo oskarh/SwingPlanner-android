@@ -2,6 +2,7 @@ package com.oskhoj.swingplanner.firebase.notifications.service
 
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
+import com.oskhoj.swingplanner.AppPreferences
 import timber.log.Timber
 
 class FirebaseIdService : FirebaseInstanceIdService() {
@@ -11,11 +12,7 @@ class FirebaseIdService : FirebaseInstanceIdService() {
         val token = FirebaseInstanceId.getInstance().token
         Timber.d("New Firebase token: [$token]")
         token?.let {
-            sendTokenToServer(it)
+            AppPreferences.firebaseToken = token
         }
-    }
-
-    private fun sendTokenToServer(token: String) {
-        // TODO: Send token to server
     }
 }

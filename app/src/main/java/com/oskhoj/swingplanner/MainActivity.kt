@@ -15,6 +15,7 @@ import com.github.salomonbrys.kodein.singleton
 import com.google.gson.Gson
 import com.nytimes.android.external.fs3.FileSystemPersisterFactory
 import com.nytimes.android.external.store3.base.impl.BarCode
+import com.nytimes.android.external.store3.base.impl.MemoryPolicy
 import com.nytimes.android.external.store3.base.impl.Store
 import com.nytimes.android.external.store3.base.impl.StoreBuilder
 import com.nytimes.android.external.store3.middleware.GsonParserFactory
@@ -27,8 +28,10 @@ import com.oskhoj.swingplanner.network.ApiManagerFactory
 import com.oskhoj.swingplanner.network.EventApiManager
 import com.oskhoj.swingplanner.network.EventSearchBarcode
 import com.oskhoj.swingplanner.network.FavoritesBarcode
+import com.oskhoj.swingplanner.network.SubscriptionApiManager
 import com.oskhoj.swingplanner.network.TeacherApiManager
 import com.oskhoj.swingplanner.network.service.EventService
+import com.oskhoj.swingplanner.network.service.SubscriptionService
 import com.oskhoj.swingplanner.network.service.TeacherService
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.navigation.BottomNavigationController
@@ -42,6 +45,7 @@ import okio.BufferedSource
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.startActivity
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), ToolbarProvider {
 
@@ -61,10 +65,12 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         invalidateOptionsMenu()
         asApp().addModule(Kodein.Module(allowSilentOverride = true) {
             bind<ToolbarProvider>() with instance(this@MainActivity)
-            bind<EventApiManager>() with singleton { EventApiManager(instance()) }
             bind<EventService>() with singleton { ApiManagerFactory.eventService }
-            bind<TeacherApiManager>() with singleton { TeacherApiManager(instance()) }
             bind<TeacherService>() with singleton { ApiManagerFactory.teacherService }
+            bind<SubscriptionService>() with singleton { ApiManagerFactory.subscriptionService }
+            bind<EventApiManager>() with singleton { EventApiManager(instance()) }
+            bind<TeacherApiManager>() with singleton { TeacherApiManager(instance()) }
+            bind<SubscriptionApiManager>() with singleton { SubscriptionApiManager(instance()) }
             bind<Store<EventsPage, EventSearchBarcode>>() with singleton { eventSummariesStore(instance()) }
             bind<Store<EventDetails, BarCode>>() with singleton { eventDetailsStore(instance()) }
             bind<Store<FavoritesResponse, FavoritesBarcode>>() with singleton { favoritesStore(instance()) }
@@ -105,6 +111,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .parsedWithKey<EventSearchBarcode, BufferedSource, EventsPage>()
                 .fetcher { eventApiManager.searchEvents(it.params).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .refreshOnStale()
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventsPage::class.java))
                 .open()
     }
@@ -115,6 +122,10 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { eventApiManager.eventDetailsById(it.key.toInt()).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventDetails::class.java))
+                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
+                        .setExpireAfterWrite(TimeUnit.SECONDS.toSeconds(30))
+//                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(7))
+                        .build())
                 .open()
     }
 
@@ -133,6 +144,12 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { teacherApiManager.allTeachers().map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), TeachersResponse::class.java))
+
+                .networkBeforeStale()
+                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
+                        .setExpireAfterWrite(TimeUnit.SECONDS.toSeconds(30))
+//                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(7))
+                        .build())
                 .open()
     }
 

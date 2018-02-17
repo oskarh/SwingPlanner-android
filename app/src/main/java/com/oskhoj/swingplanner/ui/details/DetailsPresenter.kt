@@ -4,6 +4,7 @@ import com.nytimes.android.external.store3.base.impl.BarCode
 import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.EventDetails
+import com.oskhoj.swingplanner.network.SubscriptionApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import com.oskhoj.swingplanner.util.EVENT_DETAILS
 import io.reactivex.SingleObserver
@@ -12,7 +13,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class DetailsPresenter(private val eventDetailsStore: Store<EventDetails, BarCode>) : BasePresenter<DetailsContract.View>(), DetailsContract.Presenter {
+class DetailsPresenter(private val eventDetailsStore: Store<EventDetails, BarCode>, private val subscriptionApiManager: SubscriptionApiManager) :
+        BasePresenter<DetailsContract.View>(), DetailsContract.Presenter {
 
     override fun loadEventDetails(eventId: Int) {
         Timber.d("Loading event $eventId")
@@ -37,9 +39,13 @@ class DetailsPresenter(private val eventDetailsStore: Store<EventDetails, BarCod
     }
 
     override fun toggleFavorite(eventId: Int) {
-        AppPreferences.toggleFavoriteEvent(eventId)
-        Timber.d("Toggled id $eventId, now has favorites ${AppPreferences.favoriteEventIds}")
-        view?.onFavoriteClicked(AppPreferences.hasFavoriteEvent(eventId))
+        val isAddedFavorite = AppPreferences.toggleFavoriteEvent(eventId)
+        if (isAddedFavorite) {
+            subscriptionApiManager.addEventSubscription(eventId)
+        } else {
+            subscriptionApiManager.removeEventSubscription(eventId)
+        }
+        view?.onFavoriteClicked(isAddedFavorite)
     }
 
     override fun onFollowClicked(eventId: Int) {

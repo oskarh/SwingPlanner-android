@@ -39,8 +39,9 @@ import timber.log.Timber
 
 // TODO: Add a presenter that handles expand events and loading / displaying new events from the list
 class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: ViewHolderList,
-                     private val onTeacherClick: (Teacher) -> Unit,
+                     private val onTeacherClick: (Int) -> Unit,
                      private val onEventClick: (EventSummary) -> Unit,
+                     private val onFavoriteClick: (Int, Boolean) -> Unit,
                      private val expandedListener: TeacherExpandedListener) : RecyclerView.Adapter<TeacherAdapter.ViewHolder>() {
 
     private val noItemSelected = -1
@@ -93,7 +94,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
         val teacherNameView: TextView = itemView.teacher_name
         val expandableLayout: ExpandableLayout = itemView.expanded_teacher_layout
 
-        fun bind(teacher: Teacher, listener: (Teacher) -> Unit) = with(itemView) {
+        fun bind(teacher: Teacher, listener: (Int) -> Unit) = with(itemView) {
             this@ViewHolder.teacher = teacher
             teacher_name.text = teacher.name
             teacherHeader.setOnClickListener(this@ViewHolder)
@@ -101,10 +102,11 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
             expandableLayout.setOnExpansionUpdateListener(this@ViewHolder)
             favoriteImage.visibleIf { AppPreferences.hasFavoriteTeacher(teacher.id) }
             favoriteButton.setOnClickListener {
-                AppPreferences.toggleFavoriteTeacher(teacher.id)
-                AnalyticsHelper.logEvent(ANALYTICS_TEACHER_LIKE_CLICK, PROPERTY_IS_LIKED to AppPreferences.hasFavoriteTeacher(teacher.id),
+                val isNowFavorite = AppPreferences.toggleFavoriteTeacher(teacher.id)
+                onFavoriteClick(teacher.id, isNowFavorite)
+                AnalyticsHelper.logEvent(ANALYTICS_TEACHER_LIKE_CLICK, PROPERTY_IS_LIKED to isNowFavorite,
                         PROPERTY_NAME to teacher.name)
-                if (AppPreferences.hasFavoriteTeacher(teacher.id)) {
+                if (isNowFavorite) {
                     favoriteImage.run {
                         visible()
                         restoreSize()
@@ -138,7 +140,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                     if (layoutPosition == selectedItem) {
                         noItemSelected
                     } else {
-                        this@TeacherAdapter.onTeacherClick(teacher)
+                        this@TeacherAdapter.onTeacherClick(teacher.id)
                         teacherNameView.isSelected = true
                         expandableLayout.expand()
                         expandedListener.onTeacherExpanded(youTubeButton, favoriteButton)
