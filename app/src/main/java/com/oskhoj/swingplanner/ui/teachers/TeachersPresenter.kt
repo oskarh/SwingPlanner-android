@@ -6,6 +6,7 @@ import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.model.TeachersResponse
+import com.oskhoj.swingplanner.network.SubscriptionApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import com.oskhoj.swingplanner.util.TEACHER
 import com.oskhoj.swingplanner.util.TEACHER_EVENTS
@@ -17,7 +18,8 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>,
-                        private val teacherEventStore: Store<TeacherEventsResponse, BarCode>) :
+                        private val teacherEventStore: Store<TeacherEventsResponse, BarCode>,
+                        private val subscriptionApiManager: SubscriptionApiManager) :
         BasePresenter<TeachersContract.View>(), TeachersContract.Presenter {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -45,9 +47,8 @@ class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>,
                 })
     }
 
-    override fun openTeacherDetails(teacher: Teacher) {
-        Timber.d("Opening ${teacher.name} details")
-        teacherEventStore.get(BarCode(TEACHER_EVENTS, teacher.id.toString()))
+    override fun openTeacherDetails(teacherId: Int) {
+        teacherEventStore.get(BarCode(TEACHER_EVENTS, teacherId.toString()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleObserver<TeacherEventsResponse> {
@@ -70,9 +71,13 @@ class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>,
                 })
     }
 
-    override fun toggleTeacherLike(teacher: Teacher) {
-        AppPreferences.toggleFavoriteTeacher(teacher.id)
-        view?.onFavoriteClicked(AppPreferences.hasFavoriteTeacher(teacher.id))
+    override fun onTeacherLike(teacherId: Int, isLiked: Boolean) {
+        if (isLiked) {
+            subscriptionApiManager.addTeacherSubscription(teacherId)
+        } else {
+            subscriptionApiManager.removeTeacherSubscription(teacherId)
+        }
+        view?.onFavoriteClicked(AppPreferences.hasFavoriteTeacher(teacherId))
     }
 
     override fun findTeacherOnYouTube(teacher: Teacher) {

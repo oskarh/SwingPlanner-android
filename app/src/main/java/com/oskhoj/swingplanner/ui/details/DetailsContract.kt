@@ -7,7 +7,7 @@ import com.oskhoj.swingplanner.ui.base.BaseView
 object DetailsContract {
 
     interface View : BaseView {
-        fun eventDetailsLoaded(eventDetails: EventDetails)
+        fun eventDetailsLoaded(details: EventDetails)
 
         fun displayErrorView()
 

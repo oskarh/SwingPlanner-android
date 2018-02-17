@@ -31,9 +31,9 @@ object TeachersContract {
 
         fun onSearchClear()
 
-        fun openTeacherDetails(teacher: Teacher)
+        fun openTeacherDetails(teacherId: Int)
 
-        fun toggleTeacherLike(teacher: Teacher)
+        fun onTeacherLike(teacherId: Int, isLiked: Boolean)
 
         fun findTeacherOnYouTube(teacher: Teacher)
 

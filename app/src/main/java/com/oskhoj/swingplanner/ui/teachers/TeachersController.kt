@@ -46,15 +46,15 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     override val layoutRes = R.layout.controller_teachers
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance()) }
+        bind<TeachersContract.Presenter>() with provider { TeachersPresenter(instance(), instance(), instance()) }
     }
 
     override val viewType: ViewType = TEACHERS_VIEW
 
     override val screenType: ScreenType = ScreenType.TEACHER
 
-    private lateinit var teacherRecyclerView: RecyclerView
     private var searchText: EditText? = null
+    private lateinit var teacherRecyclerView: RecyclerView
     private lateinit var backIcon: AppCompatImageView
     private lateinit var clearIcon: AppCompatImageView
 
@@ -65,10 +65,12 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         presenter.loadTeachers(it.toString())
     }
 
-    private val teacherAdapter: TeacherAdapter = TeacherAdapter(emptyList(), this, {
+    private val teacherAdapter = TeacherAdapter(emptyList(), this, {
         presenter.openTeacherDetails(it)
     }, {
         openEvent(it)
+    }, { teacherId, isLiked ->
+        presenter.onTeacherLike(teacherId, isLiked)
     }, object : TeacherExpandedListener {
         override fun onTeacherExpanded(youTubeButton: AppCompatImageView, likeButton: AppCompatImageView) {
             if (!AppPreferences.hasShownYouTubeTapTarget) {

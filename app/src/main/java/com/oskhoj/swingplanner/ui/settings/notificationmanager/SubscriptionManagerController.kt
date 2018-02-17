@@ -8,6 +8,7 @@ import android.widget.EditText
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
@@ -36,15 +37,15 @@ import org.jetbrains.anko.verticalLayout
 import org.jetbrains.anko.wrapContent
 import timber.log.Timber
 
-class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
-        ToolbarController<NotificationManagerContract.View, NotificationManagerContract.Presenter>(args), NotificationManagerContract.View {
+class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
+        ToolbarController<SubscriptionManagerContract.View, SubscriptionManagerContract.Presenter>(args), SubscriptionManagerContract.View {
 
-    override val presenter: NotificationManagerContract.Presenter by instance()
+    override val presenter: SubscriptionManagerContract.Presenter by instance()
 
     override val layoutRes = R.layout.notification_manager_settings
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<NotificationManagerContract.Presenter>() with instance(NotificationManagerPresenter())
+        bind<SubscriptionManagerContract.Presenter>() with provider { SubscriptionManagerPresenter(instance()) }
     }
 
     override val viewType: ViewType = ViewType.SETTINGS_VIEW
@@ -54,7 +55,7 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
     private val subscriptionAdapter: NotificationSubscriptionAdapter = NotificationSubscriptionAdapter(
             AppPreferences.subscriptions.iterator().asSequence().toMutableList(), {
         Timber.d("Clicked on subscription with name $it")
-        removeSubscription(it)
+        presenter.removeSubscription(it)
     })
 
     private fun setUpRecyclerView(view: View) {
@@ -65,27 +66,25 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
         }
     }
 
-    private fun addSubscription(subscription: String?) {
-        subscription?.let {
+    override fun subscriptionAdded(query: String) {
+        query.let {
             if (it.trim().length < SUBSCRIPTION_MIN_LENGTH) {
                 view?.let {
                     longSnackbar(it, it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
                 }
             } else {
                 AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_ADD, PROPERTY_SUBSCRIPTION to it)
-                AppPreferences.addSubscription(it)
                 subscriptionAdapter.addSubscription(it)
             }
         }
     }
 
-    private fun removeSubscription(subscription: String) {
-        AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_REMOVE, PROPERTY_SUBSCRIPTION to subscription)
-        AppPreferences.removeSubscription(subscription)
-        subscriptionAdapter.removeSubscription(subscription)
+    override fun subscriptionRemoved(query: String) {
+        AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_REMOVE, PROPERTY_SUBSCRIPTION to query)
+        subscriptionAdapter.removeSubscription(query)
         view?.let {
-            longSnackbar(it, it.context.getString(R.string.deleted_message, subscription),
-                    it.context.getString(R.string.undo_action), { addSubscription(subscription) })
+            longSnackbar(it, it.context.getString(R.string.deleted_message, query),
+                    it.context.getString(R.string.undo_action), { presenter.addSubscription(query) })
         }
     }
 
@@ -114,7 +113,7 @@ class NotificationManagerController(args: Bundle = Bundle.EMPTY) :
                             cancelButton { }
                             okButton {
                                 // TODO: Fix this
-                                addSubscription(subscriptionEditText?.text.toString())
+                                presenter.addSubscription(subscriptionEditText?.text.toString())
                             }
                         }
                     }

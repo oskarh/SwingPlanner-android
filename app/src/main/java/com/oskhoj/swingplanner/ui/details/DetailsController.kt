@@ -69,7 +69,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     private lateinit var customTabsIntent: CustomTabsIntent
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<DetailsContract.Presenter>() with provider { DetailsPresenter(instance()) }
+        bind<DetailsContract.Presenter>() with provider { DetailsPresenter(instance(), instance()) }
     }
 
     override fun eventDetailsLoaded(details: EventDetails) {

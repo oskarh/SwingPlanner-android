@@ -91,7 +91,7 @@
     <string name="tap_target_search_events_title">Search for events</string>
     <string name="tap_target_search_teachers_message">Search for your favorite teacher by name</string>
     <string name="tap_target_search_teachers_title">Find teachers</string>
-    <string name="tap_target_teacher_youtube_message">See the teacher\s crazy moves on YouTube!</string>
+    <string name="tap_target_teacher_youtube_message">See your favorite teacher\'s crazy moves on YouTube!</string>
     <string name="tap_target_teacher_youtube_title">Open YouTube</string>
     <string name="teacher_channel">Teacher Notifications</string>
     <string name="teacher_new_event_message">%1$s is attending %2$s</string>

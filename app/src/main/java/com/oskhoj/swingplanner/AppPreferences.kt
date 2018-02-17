@@ -25,6 +25,7 @@ object AppPreferences : KotprefModel() {
     var isAnimationsEnabled by booleanPref(true)
     var isShowingCardList by booleanPref(true)
     var selectedLanguage by stringPref()
+    var firebaseToken by stringPref()
     val subscriptions by stringSetPref {
         return@stringSetPref mutableSetOf("Stockholm", "Berlin", "New York")
     }
@@ -60,13 +61,17 @@ object AppPreferences : KotprefModel() {
                 .toSortedSet()
         private set
 
-    fun toggleFavoriteEvent(eventId: Int) {
+    fun toggleFavoriteEvent(eventId: Int): Boolean {
+        var isNowFavorite: Boolean
         favoriteEventIdsString =
                 if (favoriteEventIds.contains(eventId)) {
+                    isNowFavorite = false
                     (favoriteEventIds - eventId).joinToString(",")
                 } else {
+                    isNowFavorite = true
                     (favoriteEventIds + eventId).joinToString(",")
                 }
+        return isNowFavorite
     }
 
     fun hasFavoriteEvent(eventId: Int) = favoriteEventIds.contains(eventId)
@@ -80,13 +85,17 @@ object AppPreferences : KotprefModel() {
                 .map { it.toInt() }
                 .toSet()
 
-    fun toggleFavoriteTeacher(teacherId: Int) {
+    fun toggleFavoriteTeacher(teacherId: Int): Boolean {
+        var isNowFavorite: Boolean
         favoriteTeacherIdsString =
                 if (favoriteTeacherIds.contains(teacherId)) {
+                    isNowFavorite = false
                     (favoriteTeacherIds - teacherId).joinToString(",")
                 } else {
+                    isNowFavorite = true
                     (favoriteTeacherIds + teacherId).joinToString(",")
                 }
+        return isNowFavorite
     }
 
     fun hasFavoriteTeacher(teacherId: Int) = favoriteTeacherIds.contains(teacherId)
