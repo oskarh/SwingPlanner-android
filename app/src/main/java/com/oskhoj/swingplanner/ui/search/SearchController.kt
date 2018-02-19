@@ -27,15 +27,18 @@ import com.oskhoj.swingplanner.ui.base.ViewType.SEARCH_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.component.HeaderEventAdapter
 import com.oskhoj.swingplanner.ui.details.DetailsController
+import com.oskhoj.swingplanner.util.ANALYTICS_OPENED_DEEP_LINK
 import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_EMPTY
 import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_FAIL
 import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_FILTER_CLICK
 import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_SUCCESS
 import com.oskhoj.swingplanner.util.ANALYTICS_TOGGLE_VIEW_TYPE_CLICK
 import com.oskhoj.swingplanner.util.DanceStyle
+import com.oskhoj.swingplanner.util.KEY_STATE_DEEP_LINK_EVENT_ID
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_LIST
 import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
+import com.oskhoj.swingplanner.util.PROPERTY_DEEP_LINK_EVENT_ID
 import com.oskhoj.swingplanner.util.PROPERTY_FILTERED_DANCE_STYLES
 import com.oskhoj.swingplanner.util.PROPERTY_IS_CARD_VIEW
 import com.oskhoj.swingplanner.util.animateToGone
@@ -77,7 +80,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     private var disposable: Disposable? = null
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
-        bind<SearchContract.Presenter>() with provider { SearchPresenter(instance()) }
+        bind<SearchContract.Presenter>() with provider { SearchPresenter(instance(), instance()) }
     }
 
     private lateinit var clearIcon: AppCompatImageView
@@ -124,7 +127,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         backIcon.invisible()
     }
 
-    private fun openEvent(eventSummary: EventSummary) {
+    override fun openEvent(eventSummary: EventSummary) {
         Timber.d("Opening event details for id ${eventSummary.id}")
         activity?.closeKeyboard()
         router.pushController(RouterTransaction.with(DetailsController(eventSummary)))
@@ -283,6 +286,12 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
             if (!AppPreferences.hasShownSearchEventsTapTarget) {
                 showTapTarget(R.id.search_text, R.string.tap_target_search_events_title, R.string.tap_target_search_events_message)
                 AppPreferences.hasShownSearchEventsTapTarget = true
+            }
+            val deepLinkedEventId = intent?.getIntExtra(KEY_STATE_DEEP_LINK_EVENT_ID, -1) ?: -1
+            if (deepLinkedEventId != -1) {
+                intent?.removeExtra(KEY_STATE_DEEP_LINK_EVENT_ID)
+                AnalyticsHelper.logEvent(ANALYTICS_OPENED_DEEP_LINK, PROPERTY_DEEP_LINK_EVENT_ID to deepLinkedEventId)
+                presenter.openDeepLinkEvent(deepLinkedEventId)
             }
         }
     }
