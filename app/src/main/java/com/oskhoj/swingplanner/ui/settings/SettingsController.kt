@@ -22,6 +22,7 @@ import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_WINDOW_CLICK
 import com.oskhoj.swingplanner.util.ANALYTICS_THEME_CLICK
 import com.oskhoj.swingplanner.util.PROPERTY_IS_ENABLED
 import com.oskhoj.swingplanner.util.showTapTarget
+import com.oskhoj.swingplanner.util.startNotificationSettings
 import kotlinx.android.synthetic.main.controller_settings.view.*
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.sdk21.listeners.onClick
@@ -39,11 +40,9 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
 
     override val screenType: ScreenType = ScreenType.SETTINGS
 
-    override fun showNotificationWindow() {
+    override fun showAppNotificationSettings() {
         AnalyticsHelper.logEvent(ANALYTICS_NOTIFICATION_WINDOW_CLICK)
-        view?.let {
-            longSnackbar(it, it.context.getString(R.string.notification_window_not_implemented))
-        }
+        activity.startNotificationSettings()
     }
 
     override fun showSubscriptionsManager() {

@@ -58,8 +58,7 @@
     <string name="notification_event_title">%1$s has been updated with new teachers</string>
     <string name="notification_teacher_update_body">Attending %1$s</string>
     <string name="notification_teacher_update_title">%1$s registered for a new event</string>
-    <string name="notification_window">Notification window</string>
-    <string name="notification_window_not_implemented">Notification window not yet implemented</string>
+    <string name="notification_settings">Notification settings</string>
     <string name="onboarding_message_1">All swing dancing events worldwide in one place</string>
     <string name="onboarding_message_2">Search and filter by type of dance, city, country, continent or event name</string>
     <string name="onboarding_message_3">Find which events your favorite teacher is attending</string>

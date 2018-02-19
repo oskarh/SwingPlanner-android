@@ -23,7 +23,6 @@ class SearchPresenter(private val eventSummariesStore: Store<EventsPage, EventSe
 
     override fun searchEvents(eventSearchParams: EventSearchParams) {
         Timber.d("Searching for $eventSearchParams")
-
         eventSummariesStore.get(EventSearchBarcode(EVENTS_PAGE, eventSearchParams))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -46,7 +45,9 @@ class SearchPresenter(private val eventSummariesStore: Store<EventsPage, EventSe
                     override fun onError(throwable: Throwable) {
                         Timber.w(throwable, "Request failed")
                         view?.hideLoading()
-                        view?.displayErrorView()
+                        if (eventSearchParams.page == 0) {
+                            view?.displayErrorView()
+                        }
                     }
                 })
     }

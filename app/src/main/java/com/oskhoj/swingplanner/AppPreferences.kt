@@ -51,6 +51,8 @@ object AppPreferences : KotprefModel() {
 
     fun hasSubscription(subscription: String) = subscriptions.asSequence().any { it.equals(subscription, true) }
 
+    fun numberCustomSubscriptions() = subscriptions.size
+
     private var favoriteEventIdsString by stringPref()
 
     var favoriteEventIds: Set<Int> = sortedSetOf()
@@ -61,8 +63,10 @@ object AppPreferences : KotprefModel() {
                 .toSortedSet()
         private set
 
+    fun numberFavoriteEvents() = favoriteEventIds.size
+
     fun toggleFavoriteEvent(eventId: Int): Boolean {
-        var isNowFavorite: Boolean
+        val isNowFavorite: Boolean
         favoriteEventIdsString =
                 if (favoriteEventIds.contains(eventId)) {
                     isNowFavorite = false
@@ -86,7 +90,7 @@ object AppPreferences : KotprefModel() {
                 .toSet()
 
     fun toggleFavoriteTeacher(teacherId: Int): Boolean {
-        var isNowFavorite: Boolean
+        val isNowFavorite: Boolean
         favoriteTeacherIdsString =
                 if (favoriteTeacherIds.contains(teacherId)) {
                     isNowFavorite = false
@@ -99,6 +103,8 @@ object AppPreferences : KotprefModel() {
     }
 
     fun hasFavoriteTeacher(teacherId: Int) = favoriteTeacherIds.contains(teacherId)
+
+    fun numberFavoriteTeachers() = favoriteTeacherIds.size
 
     private var filterOptionsString by stringPref(DanceStyle.values().joinToString(","))
 

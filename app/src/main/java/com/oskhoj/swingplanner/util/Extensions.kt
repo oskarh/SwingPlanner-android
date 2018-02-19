@@ -4,8 +4,12 @@ import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.Settings
 import android.support.annotation.AnimRes
 import android.support.annotation.ColorRes
 import android.support.annotation.IdRes
@@ -68,6 +72,28 @@ fun Activity.showTapTarget(view: View, @StringRes title: Int, @StringRes message
                     .transparentTarget(false)
                     .targetRadius(60))
 }
+
+fun Activity?.startNotificationSettings() =
+        this?.run {
+            startActivity(Intent().apply {
+                when {
+                    android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
+                        action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                        putExtra("android.provider.extra.APP_PACKAGE", packageName)
+                    }
+                    android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+                        action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                        putExtra("app_package", packageName)
+                        putExtra("app_uid", applicationInfo.uid)
+                    }
+                    else -> {
+                        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        addCategory(Intent.CATEGORY_DEFAULT)
+                        data = Uri.parse("package:$packageName")
+                    }
+                }
+            })
+        }
 
 inline fun <reified T> Retrofit.create(): T = create(T::class.java)
 

@@ -110,7 +110,7 @@ fun ImageView.loadImage(url: String, context: Context) {
 
 fun ImageView.loadFlagIcon(isoCode: String, context: Context) {
     Glide.with(context)
-            .load(Uri.parse("file:///android_asset/flags/$isoCode.ico"))
+            .load(Uri.parse("file:///android_asset/flags/$isoCode.png"))
             .into(this)
 }
 

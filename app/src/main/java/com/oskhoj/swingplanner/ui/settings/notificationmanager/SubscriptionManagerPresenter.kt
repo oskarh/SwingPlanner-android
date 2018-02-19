@@ -1,8 +1,10 @@
 package com.oskhoj.swingplanner.ui.settings.notificationmanager
 
 import com.oskhoj.swingplanner.AppPreferences
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.network.SubscriptionApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
+import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS
 import timber.log.Timber
 
 class SubscriptionManagerPresenter(private val subscriptionApiManager: SubscriptionApiManager) :
@@ -12,6 +14,7 @@ class SubscriptionManagerPresenter(private val subscriptionApiManager: Subscript
         Timber.d("Adding $query")
         AppPreferences.addSubscription(query.trim())
         subscriptionApiManager.addCustomSubscription(query.trim())
+        AnalyticsHelper.setUserProperty(USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS, AppPreferences.numberCustomSubscriptions())
         view?.subscriptionAdded(query)
     }
 
@@ -19,6 +22,7 @@ class SubscriptionManagerPresenter(private val subscriptionApiManager: Subscript
         Timber.d("Removing $query")
         AppPreferences.removeSubscription(query.trim())
         subscriptionApiManager.removeCustomSubscription(query.trim())
+        AnalyticsHelper.setUserProperty(USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS, AppPreferences.numberCustomSubscriptions())
         view?.subscriptionRemoved(query)
     }
 
