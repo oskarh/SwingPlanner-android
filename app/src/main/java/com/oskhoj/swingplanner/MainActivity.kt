@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
             bind<TeacherApiManager>() with singleton { TeacherApiManager(instance()) }
             bind<SubscriptionApiManager>() with singleton { SubscriptionApiManager(instance()) }
             bind<Store<EventsPage, EventSearchBarcode>>() with singleton { eventSummariesStore(instance()) }
+            bind<Store<FavoritesResponse, BarCode>>() with singleton { eventSummaryStore(instance()) }
             bind<Store<EventDetails, BarCode>>() with singleton { eventDetailsStore(instance()) }
             bind<Store<FavoritesResponse, FavoritesBarcode>>() with singleton { favoritesStore(instance()) }
             bind<Store<TeachersResponse, BarCode>>() with singleton { teacherStore(instance()) }
@@ -106,6 +107,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
 
     private fun isOnboardingNeeded() = !AppPreferences.hasShownOnboarding
 
+    // TODO: Rename this
     private fun eventSummariesStore(eventApiManager: EventApiManager): Store<EventsPage, EventSearchBarcode> {
         return StoreBuilder
                 .parsedWithKey<EventSearchBarcode, BufferedSource, EventsPage>()
@@ -116,14 +118,23 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .open()
     }
 
+    // TODO: Replace this with favorites store. Rename it
+    private fun eventSummaryStore(eventApiManager: EventApiManager): Store<FavoritesResponse, BarCode> {
+        return StoreBuilder
+                .parsedWithKey<BarCode, BufferedSource, FavoritesResponse>()
+                .fetcher { eventApiManager.eventsByIds(listOf(it.key.toInt())).map { it.source() } }
+                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .parser(GsonParserFactory.createSourceParser(Gson(), FavoritesResponse::class.java))
+                .open()
+    }
+
     private fun eventDetailsStore(eventApiManager: EventApiManager): Store<EventDetails, BarCode> {
         return StoreBuilder
                 .parsedWithKey<BarCode, BufferedSource, EventDetails>()
                 .fetcher { eventApiManager.eventDetailsById(it.key.toInt()).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventDetails::class.java))
-                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
-                        .setExpireAfterWrite(TimeUnit.SECONDS.toSeconds(30))
+                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder().setExpireAfterWrite(TimeUnit.SECONDS.toSeconds(30))
 //                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(7))
                         .build())
                 .open()
@@ -144,7 +155,6 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { teacherApiManager.allTeachers().map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), TeachersResponse::class.java))
-
                 .networkBeforeStale()
                 .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
                         .setExpireAfterWrite(TimeUnit.SECONDS.toSeconds(30))
