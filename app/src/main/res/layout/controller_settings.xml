@@ -54,8 +54,8 @@
     <TextView
         android:id="@+id/notification_window_text"
         style="@style/SettingsView"
-        android:text="@string/notification_window"
-        tools:text="@string/notification_window"/>
+        android:text="@string/notification_settings"
+        tools:text="@string/notification_settings"/>
 
     <View style="@style/Divider"/>
 

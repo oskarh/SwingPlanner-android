@@ -33,4 +33,8 @@ object AnalyticsHelper {
         }
         logEvent(eventName)
     }
+
+    fun setUserProperty(userProperty: String, value: Int) {
+        firebaseAnalytics.setUserProperty(userProperty, value.toString())
+    }
 }

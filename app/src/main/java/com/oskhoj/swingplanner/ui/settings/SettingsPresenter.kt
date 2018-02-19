@@ -16,7 +16,7 @@ class SettingsPresenter : BasePresenter<SettingsContract.View>(), SettingsContra
     }
 
     override fun onNotificationsWindowClicked() {
-        view?.showNotificationWindow()
+        view?.showAppNotificationSettings()
     }
 
     override fun onLanguageClicked() {

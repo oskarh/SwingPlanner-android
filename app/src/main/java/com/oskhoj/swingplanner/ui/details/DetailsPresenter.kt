@@ -3,10 +3,12 @@ package com.oskhoj.swingplanner.ui.details
 import com.nytimes.android.external.store3.base.impl.BarCode
 import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.network.SubscriptionApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import com.oskhoj.swingplanner.util.EVENT_DETAILS
+import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_FAVORITE_EVENTS
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -45,6 +47,7 @@ class DetailsPresenter(private val eventDetailsStore: Store<EventDetails, BarCod
         } else {
             subscriptionApiManager.removeEventSubscription(eventId)
         }
+        AnalyticsHelper.setUserProperty(USER_PROPERTY_NUMBER_FAVORITE_EVENTS, AppPreferences.numberFavoriteEvents())
         view?.onFavoriteClicked(isAddedFavorite)
     }
 

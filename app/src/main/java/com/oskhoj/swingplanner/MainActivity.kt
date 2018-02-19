@@ -89,13 +89,17 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
     private fun handleUpdate() {
         val versionName = packageManager.getPackageInfo(packageName, 0).versionName
         when {
-            AppPreferences.currentVersion.isBlank() -> AppPreferences.currentVersion = versionName
-            AppPreferences.currentVersion != versionName -> {
+            isNewInstall() -> AppPreferences.currentVersion = versionName
+            isAppUpdate(versionName) -> {
                 showUpdateInformation()
                 AppPreferences.currentVersion = versionName
             }
         }
     }
+
+    private fun isNewInstall() = AppPreferences.currentVersion.isBlank()
+
+    private fun isAppUpdate(versionName: String?) = AppPreferences.currentVersion != versionName
 
     private fun showUpdateInformation() {
         alert(Appcompat, getString(R.string.swingplanner_updated)) {
@@ -134,9 +138,6 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { eventApiManager.eventDetailsById(it.key.toInt()).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventDetails::class.java))
-                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder().setExpireAfterWrite(TimeUnit.SECONDS.toSeconds(30))
-//                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(7))
-                        .build())
                 .open()
     }
 
@@ -157,8 +158,8 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .parser(GsonParserFactory.createSourceParser(Gson(), TeachersResponse::class.java))
                 .networkBeforeStale()
                 .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
-                        .setExpireAfterWrite(TimeUnit.SECONDS.toSeconds(30))
-//                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(7))
+                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(7))
+                        .setExpireAfterTimeUnit(TimeUnit.SECONDS)
                         .build())
                 .open()
     }

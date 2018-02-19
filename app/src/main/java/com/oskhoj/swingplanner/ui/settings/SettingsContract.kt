@@ -7,7 +7,7 @@ import com.oskhoj.swingplanner.ui.base.BaseView
 object SettingsContract {
 
     interface View : BaseView {
-        fun showNotificationWindow()
+        fun showAppNotificationSettings()
 
         fun showSubscriptionsManager()
 

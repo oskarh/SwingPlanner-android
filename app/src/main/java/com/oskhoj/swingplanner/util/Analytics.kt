@@ -55,3 +55,7 @@ const val PROPERTY_NAME = "name"
 const val PROPERTY_NEW_LANGUAGE = "new_language"
 const val PROPERTY_OLD_LANGUAGE = "old_language"
 const val PROPERTY_SUBSCRIPTION = "subscription"
+
+const val USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS = "property_number_custom_subscriptions"
+const val USER_PROPERTY_NUMBER_FAVORITE_EVENTS = "property_number_favorite_events"
+const val USER_PROPERTY_NUMBER_FAVORITE_TEACHERS = "property_number_favorite_teachers"
