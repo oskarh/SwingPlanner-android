@@ -21,29 +21,24 @@
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/card_event_image"
                 android:layout_width="match_parent"
+                android:scaleType="fitXY"
                 android:layout_height="190dp"
                 tools:src="@drawable/snowball"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/card_event_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_alignBottom="@id/card_event_image"
-                android:alpha="0.6"
-                android:background="@android:color/black">
-
-                <TextView
-                    android:id="@+id/card_event_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginStart="@dimen/card_margin"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textColor="@android:color/white"
-                    tools:text="Herräng Dance Camp"/>
-            </LinearLayout>
+                android:background="#80000000"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/card_margin"
+                android:paddingStart="@dimen/card_margin"
+                android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/white"
+                tools:text="Herräng Dance Camp"/>
         </RelativeLayout>
 
         <LinearLayout

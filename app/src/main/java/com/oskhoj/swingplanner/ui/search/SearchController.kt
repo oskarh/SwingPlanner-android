@@ -26,6 +26,7 @@ import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.base.ViewType.SEARCH_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.component.HeaderEventAdapter
+import com.oskhoj.swingplanner.ui.component.TransitionHandler
 import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.ANALYTICS_OPENED_DEEP_LINK
 import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_EMPTY
@@ -130,7 +131,10 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     override fun openEvent(eventSummary: EventSummary) {
         Timber.d("Opening event details for id ${eventSummary.id}")
         activity?.closeKeyboard()
-        router.pushController(RouterTransaction.with(DetailsController(eventSummary)))
+        val transitionHandler = TransitionHandler()
+        router.pushController(RouterTransaction.with(DetailsController(eventSummary))
+                .pushChangeHandler(transitionHandler)
+                .popChangeHandler(transitionHandler))
     }
 
     override fun displayEmptyView() {

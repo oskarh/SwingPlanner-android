@@ -19,6 +19,7 @@ import com.nytimes.android.external.store3.base.impl.MemoryPolicy
 import com.nytimes.android.external.store3.base.impl.Store
 import com.nytimes.android.external.store3.base.impl.StoreBuilder
 import com.nytimes.android.external.store3.middleware.GsonParserFactory
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.model.FavoritesResponse
@@ -36,6 +37,9 @@ import com.oskhoj.swingplanner.network.service.TeacherService
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.navigation.BottomNavigationController
 import com.oskhoj.swingplanner.ui.onboarding.OnboardingActivity
+import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS
+import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_FAVORITE_EVENTS
+import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_FAVORITE_TEACHERS
 import com.oskhoj.swingplanner.util.find
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.visible
@@ -83,18 +87,25 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(BottomNavigationController()))
         }
-        handleUpdate()
+        handleNewAppVersion()
     }
 
-    private fun handleUpdate() {
+    private fun handleNewAppVersion() {
         val versionName = packageManager.getPackageInfo(packageName, 0).versionName
         when {
-            isNewInstall() -> AppPreferences.currentVersion = versionName
+            isNewInstall() -> handleNewInstall(versionName)
             isAppUpdate(versionName) -> {
                 showUpdateInformation()
                 AppPreferences.currentVersion = versionName
             }
         }
+    }
+
+    private fun handleNewInstall(versionName: String) {
+        AppPreferences.currentVersion = versionName
+        AnalyticsHelper.setUserProperty(USER_PROPERTY_NUMBER_FAVORITE_EVENTS, 0)
+        AnalyticsHelper.setUserProperty(USER_PROPERTY_NUMBER_FAVORITE_TEACHERS, 0)
+        AnalyticsHelper.setUserProperty(USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS, 0)
     }
 
     private fun isNewInstall() = AppPreferences.currentVersion.isBlank()
