@@ -24,7 +24,7 @@ buildscript {
         espressoVersion = '3.0.1'
         expandableLayoutVersion = '2.9.2'
         glideVersion = '4.6.1'
-        iconicsCoreVersion = '3.0.2'
+        iconicsCoreVersion = '3.0.3'
         junitVersion = '4.12'
         kodeinVersion = '4.1.0'
         kotprefVersion = '2.4.0'

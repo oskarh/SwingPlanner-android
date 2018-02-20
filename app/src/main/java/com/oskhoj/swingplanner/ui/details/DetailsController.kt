@@ -9,7 +9,9 @@ import android.provider.CalendarContract
 import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.NestedScrollView
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
@@ -95,6 +97,11 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
             favoriteButton.setImageDrawable(fabImage)
         }
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup) =
+            super.onCreateView(inflater, container).apply {
+                event_image.transitionName = eventSummary.imageUrl
+            }
 
     override fun onAttach(view: View) {
         super.onAttach(view)

@@ -70,6 +70,7 @@ open class EventAdapter(var events: List<EventSummary>, protected val onClick: (
                 month_text.text = Month.getMonth(event.startDate.month, itemView.context).take(3)
                 day_text.text = event.dayOfMonth
                 card_event_image.loadImageOrDisappear(event.imageUrl, context)
+                card_event_image.transitionName = event.imageUrl
                 card_country_flag.loadFlagIconOrDisappear(event.country.isoCode, context)
             } else {
                 small_event_name.text = event.name
