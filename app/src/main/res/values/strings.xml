@@ -107,4 +107,6 @@
     <string name="undo_action">UNDO</string>
     <string name="version">Version</string>
     <string name="youtube_not_available">YouTube app required for this</string>
+    <string name="failed_load_event_details">Failed to load event details</string>
+    <string name="try_again">Try again</string>
 </resources>

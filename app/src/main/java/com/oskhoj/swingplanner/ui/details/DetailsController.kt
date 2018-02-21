@@ -81,6 +81,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     override fun displayErrorView() {
         Timber.d("Displaying error view")
+        view?.load_failed_layout?.visible()
     }
 
     override fun openLink(url: String) {
@@ -101,6 +102,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup) =
             super.onCreateView(inflater, container).apply {
                 event_image.transitionName = eventSummary.imageUrl
+                try_again_button.onClick { presenter.loadEventDetails(eventSummary.eventDetailsId) }
             }
 
     override fun onAttach(view: View) {
@@ -120,6 +122,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
             event_image.loadImageOrDisappear(eventSummary.imageUrl, context)
             event_name.text = eventSummary.name
+            load_failed_layout.gone()
 
             val startMonth = Month.getMonth(eventSummary.startDate.month, context)
             val startDay = Day.getDay(eventSummary.startDate, context)

@@ -30,6 +30,27 @@
                     android:scaleType="fitXY"
                     tools:src="@drawable/snowball"/>
 
+                <LinearLayout
+                    android:id="@+id/load_failed_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/card_margin"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/failed_load_event_details"/>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/try_again_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/try_again"/>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/event_name"
                     android:layout_width="wrap_content"
@@ -253,8 +274,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/details_icon_margin"
                 android:layout_marginEnd="@dimen/details_icon_margin"
+                android:layout_marginStart="@dimen/details_icon_margin"
                 android:layout_marginTop="@dimen/card_margin">
 
                 <android.support.v7.widget.AppCompatImageView
