@@ -26,6 +26,7 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.customView
 import org.jetbrains.anko.design.longSnackbar
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.editText
 import org.jetbrains.anko.horizontalMargin
@@ -67,15 +68,13 @@ class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
     }
 
     override fun subscriptionAdded(query: String) {
-        query.let {
-            if (it.trim().length < SUBSCRIPTION_MIN_LENGTH) {
-                view?.let {
-                    longSnackbar(it, it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
-                }
-            } else {
-                AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_ADD, PROPERTY_SUBSCRIPTION to it)
-                subscriptionAdapter.addSubscription(it)
+        if (query.trim().length < SUBSCRIPTION_MIN_LENGTH) {
+            view?.let {
+                longSnackbar(it, it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
             }
+        } else {
+            AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_ADD, PROPERTY_SUBSCRIPTION to query)
+            subscriptionAdapter.addSubscription(query)
         }
     }
 
@@ -112,8 +111,12 @@ class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
                             }
                             cancelButton { }
                             okButton {
-                                // TODO: Fix this
-                                presenter.addSubscription(subscriptionEditText?.text.toString())
+                                val subscription = subscriptionEditText?.text.toString()
+                                if (!AppPreferences.hasSubscription(subscription)) {
+                                    presenter.addSubscription(subscription)
+                                } else {
+                                    snackbar(view, context.getString(R.string.subscription_already_present, subscription))
+                                }
                             }
                         }
                     }

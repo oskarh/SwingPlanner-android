@@ -7,9 +7,13 @@ import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.util.inflateView
 import kotlinx.android.synthetic.main.notification_subscription_row.view.*
 import org.jetbrains.anko.sdk21.listeners.onClick
-import timber.log.Timber
 
-class NotificationSubscriptionAdapter(private var subscriptions: MutableList<String>, private val onClick: (String) -> Unit) : RecyclerView.Adapter<NotificationSubscriptionAdapter.ViewHolder>() {
+class NotificationSubscriptionAdapter(private var subscriptions: MutableList<String>, private val onClick: (String) -> Unit)
+    : RecyclerView.Adapter<NotificationSubscriptionAdapter.ViewHolder>() {
+
+    init {
+        subscriptions.sortBy { it.toLowerCase() }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(parent.inflateView(R.layout.notification_subscription_row))
@@ -20,16 +24,10 @@ class NotificationSubscriptionAdapter(private var subscriptions: MutableList<Str
 
     override fun getItemCount() = subscriptions.size
 
-    // TODO: Diffutil this in a better way. Also add animation
-    fun loadSubscriptions(newSubscriptions: List<String>) {
-        Timber.d("Loading new subscriptions with size ${newSubscriptions.size}")
-        subscriptions = newSubscriptions.toMutableList()
-        notifyDataSetChanged()
-    }
-
     fun addSubscription(subscription: String) {
         subscriptions.add(subscription)
-        notifyItemInserted(subscriptions.lastIndex)
+        subscriptions.sortBy { it.toLowerCase() }
+        notifyDataSetChanged()
     }
 
     fun removeSubscription(subscription: String) {

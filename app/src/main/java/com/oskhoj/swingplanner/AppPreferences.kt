@@ -7,6 +7,7 @@ import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.Language
 import com.oskhoj.swingplanner.util.PROPERTY_APP_LANGUAGE
 import com.oskhoj.swingplanner.util.PROPERTY_DEVICE_LANGUAGE
+import com.oskhoj.swingplanner.util.compareToIgnoreWhitespace
 import timber.log.Timber
 import java.util.Locale
 
@@ -49,7 +50,7 @@ object AppPreferences : KotprefModel() {
 
     fun removeSubscription(subscription: String) = subscriptions.remove(subscription)
 
-    fun hasSubscription(subscription: String) = subscriptions.asSequence().any { it.equals(subscription, true) }
+    fun hasSubscription(subscription: String) = subscriptions.asSequence().any { it.compareToIgnoreWhitespace(subscription, true) == 0 }
 
     fun numberCustomSubscriptions() = subscriptions.size
 
