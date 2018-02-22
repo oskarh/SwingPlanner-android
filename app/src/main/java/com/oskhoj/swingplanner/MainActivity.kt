@@ -19,6 +19,7 @@ import com.nytimes.android.external.store3.base.impl.MemoryPolicy
 import com.nytimes.android.external.store3.base.impl.Store
 import com.nytimes.android.external.store3.base.impl.StoreBuilder
 import com.nytimes.android.external.store3.middleware.GsonParserFactory
+import com.oskhoj.swingplanner.AppPreferences.appStartedCount
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventsPage
@@ -88,6 +89,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
             router.setRoot(RouterTransaction.with(BottomNavigationController()))
         }
         handleNewAppVersion()
+        appStartedCount = Math.max(appStartedCount + 1, appStartedCount)
     }
 
     private fun handleNewAppVersion() {

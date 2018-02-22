@@ -109,4 +109,10 @@
     <string name="youtube_not_available">YouTube app required for this</string>
     <string name="failed_load_event_details">Failed to load event details</string>
     <string name="try_again">Try again</string>
+    <string name="rate_app_title">Rate this app</string>
+    <string name="rate_app_message">If you enjoy using SwingPlanner, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
+    <string name="rate_app_positive">RATE NOW</string>
+    <string name="rate_app_negative">No thanks</string>
+    <string name="rate_app_never_ask">NEVER ASK</string>
+    <string name="play_store_uri" translatable="false">market://details?id=com.oskhoj.swingplanner</string>
 </resources>

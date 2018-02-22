@@ -27,6 +27,7 @@ object AppPreferences : KotprefModel() {
     var isShowingCardList by booleanPref(true)
     var selectedLanguage by stringPref()
     var firebaseToken by stringPref()
+    var appStartedCount by intPref(0)
     val subscriptions by stringSetPref {
         return@stringSetPref mutableSetOf("Stockholm", "Berlin", "New York")
     }

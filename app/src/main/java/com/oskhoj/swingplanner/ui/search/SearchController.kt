@@ -27,6 +27,8 @@ import com.oskhoj.swingplanner.ui.base.ViewType.SEARCH_VIEW
 import com.oskhoj.swingplanner.ui.component.BottomSheetDialogHelper
 import com.oskhoj.swingplanner.ui.component.HeaderEventAdapter
 import com.oskhoj.swingplanner.ui.component.TransitionHandler
+import com.oskhoj.swingplanner.ui.component.shouldShowRatingDialog
+import com.oskhoj.swingplanner.ui.component.showRatingDialog
 import com.oskhoj.swingplanner.ui.details.DetailsController
 import com.oskhoj.swingplanner.util.ANALYTICS_OPENED_DEEP_LINK
 import com.oskhoj.swingplanner.util.ANALYTICS_SEARCH_EMPTY
@@ -296,6 +298,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 intent?.removeExtra(KEY_STATE_DEEP_LINK_EVENT_ID)
                 AnalyticsHelper.logEvent(ANALYTICS_OPENED_DEEP_LINK, PROPERTY_DEEP_LINK_EVENT_ID to deepLinkedEventId)
                 presenter.openDeepLinkEvent(deepLinkedEventId)
+            } else if (shouldShowRatingDialog(this)) {
+                showRatingDialog(this)
             }
         }
     }
