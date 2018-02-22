@@ -31,7 +31,7 @@ buildscript {
         ktxVersion = '0.1'
         loaderViewLibraryVersion = '1.4.1'
         loggingInterceptorVersion = '3.9.1'
-        materialAboutLibraryVersion = '2.2.3'
+        materialAboutLibraryVersion = '2.2.4'
         materialTypefaceVersion = '2.0.46.1'
         firebaseVersion = '11.8.0'
         referrerLibraryVersion = '1.0'
