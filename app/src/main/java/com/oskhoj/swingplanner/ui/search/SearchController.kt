@@ -284,7 +284,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                             clearIcon.visibleIf { charSequence.isNotEmpty() }
                             charSequence.trim().toString()
                         }
-                        .filter { query -> query.length > 3 }
+                        .filter { query -> query.length > 3 || query == "usa" }
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { query -> searchEvents(query) }
