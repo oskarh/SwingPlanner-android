@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>remote_config_base_url</key>
+        <value>http://newtest-env.tvsxkf4uuc.eu-central-1.elasticbeanstalk.com/api/</value>
+        <key>remote_config_search_delay</key>
+        <value>800</value>
+        <key>remote_config_rating_period</key>
+        <value>5</value>
+    </entry>
+</defaultsMap>

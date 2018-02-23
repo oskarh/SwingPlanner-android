@@ -13,6 +13,7 @@ import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
@@ -44,6 +45,7 @@ import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.PROPERTY_DEEP_LINK_EVENT_ID
 import com.oskhoj.swingplanner.util.PROPERTY_FILTERED_DANCE_STYLES
 import com.oskhoj.swingplanner.util.PROPERTY_IS_CARD_VIEW
+import com.oskhoj.swingplanner.util.REMOTE_CONFIG_SEARCH_DELAY
 import com.oskhoj.swingplanner.util.animateToGone
 import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.closeKeyboard
@@ -79,6 +81,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     private var recyclerView: RecyclerView? = null
     private lateinit var backIcon: AppCompatImageView
     private var searchText: EditText? = null
+    private val searchDelay = FirebaseRemoteConfig.getInstance().getLong(REMOTE_CONFIG_SEARCH_DELAY)
 
     private var disposable: Disposable? = null
 
@@ -285,7 +288,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                             charSequence.trim().toString()
                         }
                         .filter { query -> query.length > 3 || query == "usa" }
-                        .debounce(500, TimeUnit.MILLISECONDS)
+                        .debounce(searchDelay, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { query -> searchEvents(query) }
             }

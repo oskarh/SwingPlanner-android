@@ -82,6 +82,7 @@ dependencies {
     implementation "com.google.firebase:firebase-invites:$firebaseVersion"
     implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
     implementation "com.google.firebase:firebase-perf:$firebaseVersion"
+    implementation "com.google.firebase:firebase-config:$firebaseVersion"
     implementation "com.google.android.gms:play-services-oss-licenses:$firebaseVersion"
 
     implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {

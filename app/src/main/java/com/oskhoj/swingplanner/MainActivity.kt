@@ -12,6 +12,7 @@ import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
 import com.nytimes.android.external.fs3.FileSystemPersisterFactory
 import com.nytimes.android.external.store3.base.impl.BarCode
@@ -88,8 +89,17 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(BottomNavigationController()))
         }
+        fetchRemoteConfig()
         handleNewAppVersion()
         appStartedCount = Math.max(appStartedCount + 1, appStartedCount)
+    }
+
+    private fun fetchRemoteConfig() {
+        FirebaseRemoteConfig.getInstance()
+                .fetch()
+                .addOnSuccessListener(this, {
+                    FirebaseRemoteConfig.getInstance().activateFetched()
+                })
     }
 
     private fun handleNewAppVersion() {
