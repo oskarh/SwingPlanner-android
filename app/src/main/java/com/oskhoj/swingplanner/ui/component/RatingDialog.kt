@@ -6,26 +6,37 @@ import android.content.Intent
 import androidx.net.toUri
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.util.ANALYTICS_RATE_ACCEPTED
+import com.oskhoj.swingplanner.util.ANALYTICS_RATE_CANCELLED
+import com.oskhoj.swingplanner.util.ANALYTICS_RATE_DECLINED
+import com.oskhoj.swingplanner.util.ANALYTICS_RATE_NEVER_ASK
+import com.oskhoj.swingplanner.util.ANALYTICS_RATE_OFFERED
 import org.jetbrains.anko.alert
 
 const val RATING_BAR_DIALOG_PERIOD = 5
 
 fun showRatingDialog(context: Context) =
         context.run {
+            AnalyticsHelper.logEvent(ANALYTICS_RATE_OFFERED)
             alert(getString(R.string.rate_app_message), getString(R.string.rate_app_title)) {
                 positiveButton(getString(R.string.rate_app_positive)) {
+                    AnalyticsHelper.logEvent(ANALYTICS_RATE_ACCEPTED)
                     startActivity(Intent(Intent.ACTION_VIEW).apply {
                         data = getString(R.string.play_store_uri).toUri()
                     })
                     AppPreferences.appStartedCount = Int.MAX_VALUE
                 }
                 negativeButton(getString(R.string.rate_app_negative)) {
+                    AnalyticsHelper.logEvent(ANALYTICS_RATE_DECLINED)
                     AppPreferences.appStartedCount = 0
                 }
                 neutralPressed(getString(R.string.rate_app_never_ask)) {
+                    AnalyticsHelper.logEvent(ANALYTICS_RATE_NEVER_ASK)
                     AppPreferences.appStartedCount = Int.MAX_VALUE
                 }
                 onCancelled {
+                    AnalyticsHelper.logEvent(ANALYTICS_RATE_CANCELLED)
                     AppPreferences.appStartedCount = 0
                 }
             }.show()
