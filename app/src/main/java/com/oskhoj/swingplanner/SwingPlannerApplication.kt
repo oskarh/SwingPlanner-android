@@ -10,6 +10,8 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.conf.ConfigurableKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import io.fabric.sdk.android.Fabric
 import saschpe.android.customtabs.CustomTabsActivityLifecycleCallbacks
@@ -31,6 +33,7 @@ class SwingPlannerApplication : Application(), KodeinAware {
         AnalyticsHelper.setupFirebaseAnalytics(this)
         resetInjection()
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallbacks())
+        setupRemoteConfig()
     }
 
     private fun resetInjection() {
@@ -50,6 +53,14 @@ class SwingPlannerApplication : Application(), KodeinAware {
         overrideModule?.let {
             kodein.addImport(it, true)
         }
+    }
+
+    private fun setupRemoteConfig() {
+        FirebaseRemoteConfig.getInstance().apply {
+            setConfigSettings(FirebaseRemoteConfigSettings.Builder()
+                    .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                    .build())
+        }.setDefaults(R.xml.remote_config_defaults)
     }
 }
 

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.net.toUri
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
@@ -12,9 +13,10 @@ import com.oskhoj.swingplanner.util.ANALYTICS_RATE_CANCELLED
 import com.oskhoj.swingplanner.util.ANALYTICS_RATE_DECLINED
 import com.oskhoj.swingplanner.util.ANALYTICS_RATE_NEVER_ASK
 import com.oskhoj.swingplanner.util.ANALYTICS_RATE_OFFERED
+import com.oskhoj.swingplanner.util.REMOTE_CONFIG_RATING_PERIOD
 import org.jetbrains.anko.alert
 
-const val RATING_BAR_DIALOG_PERIOD = 5
+val RATING_BAR_DIALOG_PERIOD: Long = FirebaseRemoteConfig.getInstance().getLong(REMOTE_CONFIG_RATING_PERIOD)
 
 fun showRatingDialog(context: Context) =
         context.run {
