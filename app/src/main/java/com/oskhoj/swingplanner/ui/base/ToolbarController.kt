@@ -10,9 +10,9 @@ import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.ToolbarProvider
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_ABOUT_MENU_CLICK
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.ui.about.AboutActivity
-import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_MENU_CLICK
 import org.jetbrains.anko.startActivity
 
 abstract class ToolbarController<in V : BaseView, out T : Attachable<V>>(bundle: Bundle) : BaseController<V, T>(bundle) {

@@ -54,7 +54,6 @@ class HeaderEventAdapter(events: List<EventSummary>, onClick: (EventSummary) -> 
     fun addEvents(addedEvents: List<EventSummary>) {
         events += addedEvents
         notifyDataSetChanged()
-        // TODO: Update has more pages
     }
 
     inner class HeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

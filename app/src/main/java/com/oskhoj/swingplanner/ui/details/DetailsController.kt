@@ -18,21 +18,21 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_EVENT_ADD_CALENDAR_CLICK
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_EVENT_FACEBOOK_CLICK
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_EVENT_LIKE_CLICK
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_EVENT_WEBSITE_CLICK
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.analytics.PROPERTY_IS_LIKED
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventSummary
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
-import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_ADD_CALENDAR_CLICK
-import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_FACEBOOK_CLICK
-import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_LIKE_CLICK
-import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_WEBSITE_CLICK
 import com.oskhoj.swingplanner.util.Day
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_DETAILS
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_SUMMARY
 import com.oskhoj.swingplanner.util.Month
-import com.oskhoj.swingplanner.util.PROPERTY_IS_LIKED
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.isVisible
@@ -94,7 +94,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     override fun onFavoriteClicked(isSelected: Boolean) {
         view?.run {
-            val fabImage = if (isSelected) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
+            val fabImage = if (isSelected) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp
             favoriteButton.setImageDrawable(fabImage)
         }
     }
@@ -160,7 +160,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
             }
             about_description.text = details.description
             favoriteButton = favoritesFab.apply {
-                val fabImage = if (AppPreferences.hasFavoriteEvent(details.id)) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
+                val fabImage = if (AppPreferences.hasFavoriteEvent(details.id)) R.drawable.ic_favorite_24dp else R.drawable.ic_favorite_border_24dp
                 setImageDrawable(fabImage)
                 onClick {
                     presenter.toggleFavorite(details.id)

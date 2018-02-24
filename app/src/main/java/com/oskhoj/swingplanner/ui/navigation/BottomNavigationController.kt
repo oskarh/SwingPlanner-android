@@ -141,10 +141,10 @@ class BottomNavigationController(args: Bundle = Bundle.EMPTY) :
     }
 
     private fun getControllerFor(menuItemId: Int): Controller = when (menuItemId) {
-//        R.id.navigation_browse -> instance<SearchController>().value
-//        R.id.navigation_favorites -> instance<FavoritesController>().value
-//        R.id.navigation_teachers -> instance<TeachersController>().value
-//        R.id.navigation_settings -> instance<SettingsController>().value
+//        R.id.navigation_browse -> instance<SearchController>().statusCallbackLogger
+//        R.id.navigation_favorites -> instance<FavoritesController>().statusCallbackLogger
+//        R.id.navigation_teachers -> instance<TeachersController>().statusCallbackLogger
+//        R.id.navigation_settings -> instance<SettingsController>().statusCallbackLogger
         R.id.navigation_browse -> SearchController()
         R.id.navigation_favorites -> FavoritesController()
         R.id.navigation_teachers -> TeachersController()

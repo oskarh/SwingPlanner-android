@@ -4,10 +4,6 @@ import android.app.Activity
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.oskhoj.swingplanner.firebase.notifications.NotificationType
-import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_CUSTOM_QUERY
-import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_EVENT_NEW
-import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_GENERAL
-import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_TEACHER_UPDATED
 import com.oskhoj.swingplanner.util.toBundle
 
 object AnalyticsHelper {

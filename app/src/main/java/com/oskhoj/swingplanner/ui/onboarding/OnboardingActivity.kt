@@ -11,11 +11,11 @@ import com.github.paolorotolo.appintro.model.SliderPage
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.MainActivity
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_ONBOARDING_FINISH
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_ONBOARDING_SKIP
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_ONBOARDING_START
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
-import com.oskhoj.swingplanner.util.ANALYTICS_ONBOARDING_FINISH
-import com.oskhoj.swingplanner.util.ANALYTICS_ONBOARDING_SKIP
-import com.oskhoj.swingplanner.util.ANALYTICS_ONBOARDING_START
 import com.oskhoj.swingplanner.util.getCompatColor
 import org.jetbrains.anko.startActivity
 

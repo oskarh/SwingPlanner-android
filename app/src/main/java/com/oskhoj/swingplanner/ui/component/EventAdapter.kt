@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_EVENT_CLICK
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.model.EventSummary
-import com.oskhoj.swingplanner.util.ANALYTICS_EVENT_CLICK
 import com.oskhoj.swingplanner.util.Month
 import com.oskhoj.swingplanner.util.inflateView
 import com.oskhoj.swingplanner.util.loadAnimation

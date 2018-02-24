@@ -11,14 +11,14 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_SUBSCRIPTIONS_ADD
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_SUBSCRIPTIONS_REMOVE
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.analytics.PROPERTY_SUBSCRIPTION
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
 import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.component.NotificationSubscriptionAdapter
-import com.oskhoj.swingplanner.util.ANALYTICS_SUBSCRIPTIONS_ADD
-import com.oskhoj.swingplanner.util.ANALYTICS_SUBSCRIPTIONS_REMOVE
-import com.oskhoj.swingplanner.util.PROPERTY_SUBSCRIPTION
 import com.oskhoj.swingplanner.util.SUBSCRIPTION_MIN_LENGTH
 import com.oskhoj.swingplanner.util.showTapTarget
 import kotlinx.android.synthetic.main.notification_manager_settings.view.*
