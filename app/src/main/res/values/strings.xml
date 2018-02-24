@@ -44,6 +44,7 @@
     <string name="event_updated_message">%1$s has been updated with new information</string>
     <string name="event_updated_title">%1$s updated</string>
     <string name="failed_get_events">Oh no, we failed to complete your request!</string>
+    <string name="failed_load_event_details">Failed to load event details</string>
     <string name="failed_retrieve_events">Failed to retrieve events</string>
     <string name="favorite_error_text">Oh no, something went wrong while we tried to retrieve your favorite events!</string>
     <string name="favorites">Favorites</string>
@@ -56,9 +57,9 @@
     <string name="notification_custom_query_title">Your subscription query \'%1$s\' found a new event</string>
     <string name="notification_event_body">Updated teacher list: %1$s</string>
     <string name="notification_event_title">%1$s has been updated with new teachers</string>
+    <string name="notification_settings">Notification settings</string>
     <string name="notification_teacher_update_body">Attending %1$s</string>
     <string name="notification_teacher_update_title">%1$s registered for a new event</string>
-    <string name="notification_settings">Notification settings</string>
     <string name="onboarding_message_1">All swing dancing events worldwide in one place</string>
     <string name="onboarding_message_2">Search and filter by type of dance, city, country, continent or event name</string>
     <string name="onboarding_message_3">Find which events your favorite teacher is attending</string>
@@ -70,16 +71,22 @@
     <string name="open_source">Open source</string>
     <string name="open_source_licenses">Open source licenses</string>
     <string name="rate_app">Rate app</string>
+    <string name="rate_app_message">If you enjoy using SwingPlanner, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
+    <string name="rate_app_negative">No thanks</string>
+    <string name="rate_app_never_ask">NEVER ASK</string>
+    <string name="rate_app_positive">RATE NOW</string>
+    <string name="rate_app_title">Have a minute?</string>
     <string name="search">Search</string>
     <string name="search_header_empty">Found no events matching \'%1$s\'</string>
     <string name="search_header_found">Found %1$d events</string>
     <string name="search_title">Search</string>
     <string name="settings">Settings</string>
     <string name="share_app">Share app</string>
+    <string name="share_app_subtext">Help others discover the app</string>
     <string name="subscribe_query_hint">City, Country or free text</string>
     <string name="subscribe_query_title">Query to subscribe to</string>
-    <string name="subscription_validation_failed_message">Subscriptions must be at least %1$d characters</string>
     <string name="subscription_already_present">You already have a subscription for %1$s</string>
+    <string name="subscription_validation_failed_message">Subscriptions must be at least %1$d characters</string>
     <string name="subscriptions_title">Subscribed notifications</string>
     <string name="swingplanner_updated">SwingPlanner Updated!</string>
     <string name="tap_target_add_subscription_message">Create a new subscription to get automatic notifications of new events</string>
@@ -104,15 +111,8 @@
     <string name="theme">Theme</string>
     <string name="themes_not_implemented">Changing theme is not yet implemented</string>
     <string name="toggle_view_mode_title">Toggle list mode</string>
+    <string name="try_again">Try again</string>
     <string name="undo_action">UNDO</string>
     <string name="version">Version</string>
-    <string name="youtube_not_available">YouTube app required for this</string>
-    <string name="failed_load_event_details">Failed to load event details</string>
-    <string name="try_again">Try again</string>
-    <string name="rate_app_title">Rate this app</string>
-    <string name="rate_app_message">If you enjoy using SwingPlanner, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
-    <string name="rate_app_positive">RATE NOW</string>
-    <string name="rate_app_negative">No thanks</string>
-    <string name="rate_app_never_ask">NEVER ASK</string>
-    <string name="play_store_uri" translatable="false">market://details?id=com.oskhoj.swingplanner</string>
+    <string name="youtube_not_available">YouTube app required</string>
 </resources>

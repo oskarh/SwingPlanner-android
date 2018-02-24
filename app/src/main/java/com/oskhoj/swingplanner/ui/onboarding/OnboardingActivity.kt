@@ -28,7 +28,7 @@ class OnboardingActivity : AppIntro2() {
         arrayOf(createPage(getString(R.string.onboarding_title_1), getString(R.string.onboarding_message_1), R.drawable.globe, Color.DKGRAY),
                 createPage(getString(R.string.onboarding_title_2), getString(R.string.onboarding_message_2), R.drawable.annie_happy, getCompatColor(R.color.blue_grey_300)),
                 createPage(getString(R.string.onboarding_title_3), getString(R.string.onboarding_message_3), R.drawable.annie_dancing, getCompatColor(R.color.light_blue_300)),
-                createPage(getString(R.string.onboarding_title_4), getString(R.string.onboarding_message_4), R.drawable.splash_screen_image, getCompatColor(R.color.brown_300)))
+                createPage(getString(R.string.onboarding_title_4), getString(R.string.onboarding_message_4), R.drawable.dancing_couple, getCompatColor(R.color.brown_300)))
                 .forEach { addSlide(AppIntroFragment.newInstance(it)) }
     }
 

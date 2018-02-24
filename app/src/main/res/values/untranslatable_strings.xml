@@ -4,6 +4,7 @@
     <string name="app_invite_image_url" translatable="false">https://photos.app.goo.gl/4hf31v6mz3gdCaKU2</string>
     <string name="swing_planner_email" translatable="false">swingplannerapp@gmail.com</string>
     <string name="swing_planner_label" translatable="false">SwingPlanner email</string>
+    <string name="play_store_uri" translatable="false">market://details?id=com.oskhoj.swingplanner</string>
 
     <!-- Dance styles -->
     <string name="balboa" translatable="false">Balboa</string>

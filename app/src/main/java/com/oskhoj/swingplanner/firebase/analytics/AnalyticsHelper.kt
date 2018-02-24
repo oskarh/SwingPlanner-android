@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.oskhoj.swingplanner.firebase.notifications.NotificationType
+import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_CUSTOM_QUERY
 import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_EVENT_NEW
 import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_GENERAL
 import com.oskhoj.swingplanner.util.ANALYTICS_NOTIFICATION_TEACHER_UPDATED
@@ -27,6 +28,7 @@ object AnalyticsHelper {
 
     fun logEvent(notificationType: NotificationType) {
         val eventName = when (notificationType) {
+            NotificationType.CUSTOM_QUERY -> ANALYTICS_NOTIFICATION_CUSTOM_QUERY
             NotificationType.EVENT -> ANALYTICS_NOTIFICATION_EVENT_NEW
             NotificationType.TEACHER -> ANALYTICS_NOTIFICATION_TEACHER_UPDATED
             else -> ANALYTICS_NOTIFICATION_GENERAL

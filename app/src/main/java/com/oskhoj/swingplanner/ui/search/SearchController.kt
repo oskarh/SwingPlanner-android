@@ -1,9 +1,9 @@
 package com.oskhoj.swingplanner.ui.search
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageView
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
@@ -42,10 +42,12 @@ import com.oskhoj.swingplanner.util.KEY_STATE_DEEP_LINK_EVENT_ID
 import com.oskhoj.swingplanner.util.KEY_STATE_EVENTS_LIST
 import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
+import com.oskhoj.swingplanner.util.NOT_SET
 import com.oskhoj.swingplanner.util.PROPERTY_DEEP_LINK_EVENT_ID
 import com.oskhoj.swingplanner.util.PROPERTY_FILTERED_DANCE_STYLES
 import com.oskhoj.swingplanner.util.PROPERTY_IS_CARD_VIEW
 import com.oskhoj.swingplanner.util.REMOTE_CONFIG_SEARCH_DELAY
+import com.oskhoj.swingplanner.util.USA
 import com.oskhoj.swingplanner.util.animateToGone
 import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.closeKeyboard
@@ -84,6 +86,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     private val searchDelay = FirebaseRemoteConfig.getInstance().getLong(REMOTE_CONFIG_SEARCH_DELAY)
 
     private var disposable: Disposable? = null
+    private var firstVisibleItem = NOT_SET
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
         bind<SearchContract.Presenter>() with provider { SearchPresenter(instance(), instance()) }
@@ -96,8 +99,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         openEvent(it)
     })
 
-    private var listState: Parcelable? = null
-
     private var storedText: String = ""
 
     private var searchEventsPage: EventsPage? = null
@@ -109,6 +110,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
             Timber.d("Next page of existing search")
             eventAdapter.addEvents(searchPage.events)
         } else {
+            firstVisibleItem = NOT_SET
             Timber.d("New search")
             eventAdapter.loadEventsPage(searchPage)
             hideEmptyErrorView()
@@ -134,7 +136,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     }
 
     override fun openEvent(eventSummary: EventSummary) {
-        Timber.d("Opening event details for id ${eventSummary.id}")
         activity?.closeKeyboard()
         val transitionHandler = TransitionHandler()
         router.pushController(RouterTransaction.with(DetailsController(eventSummary))
@@ -143,18 +144,17 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     }
 
     override fun displayEmptyView() {
-        Timber.d("Displaying empty view...")
         AnalyticsHelper.logEvent(ANALYTICS_SEARCH_EMPTY)
         showEmptyErrorView(true)
     }
 
     override fun displayErrorView() {
-        Timber.d("Displaying error view...")
         AnalyticsHelper.logEvent(ANALYTICS_SEARCH_FAIL)
         showEmptyErrorView(false)
     }
 
     private fun showEmptyErrorView(isEmptyView: Boolean) {
+        firstVisibleItem = NOT_SET
         view?.run {
             search_empty_error_text?.run {
                 text = if (isEmptyView) context.getString(R.string.no_events_found) else context.getString(R.string.failed_get_events)
@@ -222,10 +222,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         with(view.search_events_recycler) {
             layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
             adapter = eventAdapter
-            listState?.let {
-                Timber.d("Restoring list state...")
-                layoutManager.onRestoreInstanceState(it)
-            }
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -233,7 +229,6 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                         activity?.closeKeyboard()
                     }
                     if (!recyclerView.canScrollVertically(RecyclerView.VERTICAL)) {
-                        Timber.d("End of list...")
                         searchEventsPage?.run {
                             if (!isLastPage) {
                                 searchEvents(query, stylesFilterSet, pageNumber + 1)
@@ -249,10 +244,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
         super.onViewBound(view)
         view.run {
             if (searchEventsPage?.hasNoEvents() == true) {
-                Timber.d("Has no events")
                 showEmptyErrorView(true)
             } else {
-                Timber.d("Has events")
                 hideEmptyErrorView()
             }
         }
@@ -261,9 +254,12 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        Timber.d("Attaching view...")
         activity?.run {
-            recyclerView = search_events_recycler
+            recyclerView = search_events_recycler.apply {
+                if (firstVisibleItem != NOT_SET) {
+                    scrollToPosition(firstVisibleItem)
+                }
+            }
             backIcon = search_back.apply {
                 onClick { presenter.onSearchBack() }
             }
@@ -287,7 +283,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                             clearIcon.visibleIf { charSequence.isNotEmpty() }
                             charSequence.trim().toString()
                         }
-                        .filter { query -> query.length > 3 || query == "usa" }
+                        .filter { query -> query.length > 3 || query == USA }
                         .debounce(searchDelay, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { query -> searchEvents(query) }
@@ -296,8 +292,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 showTapTarget(R.id.search_text, R.string.tap_target_search_events_title, R.string.tap_target_search_events_message)
                 AppPreferences.hasShownSearchEventsTapTarget = true
             }
-            val deepLinkedEventId = intent?.getIntExtra(KEY_STATE_DEEP_LINK_EVENT_ID, -1) ?: -1
-            if (deepLinkedEventId != -1) {
+            val deepLinkedEventId = intent?.getIntExtra(KEY_STATE_DEEP_LINK_EVENT_ID, NOT_SET) ?: NOT_SET
+            if (deepLinkedEventId != NOT_SET) {
                 intent?.removeExtra(KEY_STATE_DEEP_LINK_EVENT_ID)
                 AnalyticsHelper.logEvent(ANALYTICS_OPENED_DEEP_LINK, PROPERTY_DEEP_LINK_EVENT_ID to deepLinkedEventId)
                 presenter.openDeepLinkEvent(deepLinkedEventId)
@@ -309,6 +305,8 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     override fun onDetach(view: View) {
         super.onDetach(view)
+        firstVisibleItem = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        storedText = searchText?.text?.toString().orEmpty()
         backIcon.removeClickListener()
         clearIcon.removeClickListener()
         disposable?.dispose()
@@ -316,16 +314,15 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        Timber.d("Saving $searchEventsPage")
         outState.putParcelable(KEY_STATE_EVENTS_LIST, searchEventsPage)
         outState.putString(KEY_STATE_SEARCH_TEXT, searchText?.text?.toString() ?: "")
-        outState.putParcelable(KEY_STATE_LIST_POSITION, recyclerView?.layoutManager?.onSaveInstanceState())
+        outState.putInt(KEY_STATE_LIST_POSITION, firstVisibleItem)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         storedText = savedInstanceState.getString(KEY_STATE_SEARCH_TEXT)
         searchEventsPage = savedInstanceState.getParcelable<EventsPage>(KEY_STATE_EVENTS_LIST)?.apply { displayEvents(this) }
-        listState = savedInstanceState.getParcelable(KEY_STATE_LIST_POSITION)
+        firstVisibleItem = savedInstanceState.getInt(KEY_STATE_LIST_POSITION)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

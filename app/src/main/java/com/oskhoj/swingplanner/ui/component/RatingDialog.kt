@@ -24,10 +24,7 @@ fun showRatingDialog(context: Context) =
             alert(getString(R.string.rate_app_message), getString(R.string.rate_app_title)) {
                 positiveButton(getString(R.string.rate_app_positive)) {
                     AnalyticsHelper.logEvent(ANALYTICS_RATE_ACCEPTED)
-                    startActivity(Intent(Intent.ACTION_VIEW).apply {
-                        data = getString(R.string.play_store_uri).toUri()
-                    })
-                    AppPreferences.appStartedCount = Int.MAX_VALUE
+                    redirectToPlayStore()
                 }
                 negativeButton(getString(R.string.rate_app_negative)) {
                     AnalyticsHelper.logEvent(ANALYTICS_RATE_DECLINED)
@@ -43,6 +40,13 @@ fun showRatingDialog(context: Context) =
                 }
             }.show()
         }
+
+fun Context.redirectToPlayStore() {
+    AppPreferences.appStartedCount = Int.MAX_VALUE
+    startActivity(Intent(Intent.ACTION_VIEW).apply {
+        data = getString(R.string.play_store_uri).toUri()
+    })
+}
 
 fun shouldShowRatingDialog(activity: Activity) =
         AppPreferences.appStartedCount >= RATING_BAR_DIALOG_PERIOD && AppPreferences.appStartedCount != Int.MAX_VALUE && canHandleRatingIntent(activity)

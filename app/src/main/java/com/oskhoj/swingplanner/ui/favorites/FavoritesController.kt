@@ -1,6 +1,7 @@
 package com.oskhoj.swingplanner.ui.favorites
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
 import com.bluelinelabs.conductor.RouterTransaction
@@ -15,7 +16,10 @@ import com.oskhoj.swingplanner.ui.base.ToolbarController
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.base.ViewType.FAVORITES_VIEW
 import com.oskhoj.swingplanner.ui.component.EventAdapter
+import com.oskhoj.swingplanner.ui.component.TransitionHandler
 import com.oskhoj.swingplanner.ui.details.DetailsController
+import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
+import com.oskhoj.swingplanner.util.NOT_SET
 import com.oskhoj.swingplanner.util.animateToGone
 import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.gone
@@ -36,9 +40,14 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
 
     override val screenType: ScreenType = ScreenType.FAVORITE
 
+    private var firstVisibleItem = NOT_SET
+
     private val eventAdapter: EventAdapter = EventAdapter(emptyList(), {
         Timber.d("Clicked on event with id ${it.id}")
-        router.pushController(RouterTransaction.with(DetailsController(it)))
+        val transitionHandler = TransitionHandler()
+        router.pushController(RouterTransaction.with(DetailsController(it))
+                .pushChangeHandler(transitionHandler)
+                .popChangeHandler(transitionHandler))
     })
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
@@ -47,6 +56,7 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
 
     override fun displayEvents(events: List<EventSummary>) {
         hideEmptyErrorView()
+        firstVisibleItem = NOT_SET
         eventAdapter.loadEvents(events)
     }
 
@@ -68,6 +78,7 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
     }
 
     private fun showEmptyErrorView(isEmptyView: Boolean) {
+        firstVisibleItem = NOT_SET
         view?.run {
             favorite_empty_error_text?.run {
                 text = if (isEmptyView) context.getString(R.string.no_favorites_found) else context.getString(R.string.favorite_error_text)
@@ -91,6 +102,9 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
     override fun onAttach(view: View) {
         super.onAttach(view)
         presenter.loadFavorites()
+        if (firstVisibleItem != NOT_SET) {
+            view.favorites_events_recycler.scrollToPosition(firstVisibleItem)
+        }
     }
 
     override fun showLoading() {
@@ -111,6 +125,19 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
             layoutAnimation = view.loadLayoutAnimation(R.anim.layout_recycler_animation_new_dataset)
             adapter = eventAdapter
         }
+    }
+
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        firstVisibleItem = (view.favorites_events_recycler.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(KEY_STATE_LIST_POSITION, firstVisibleItem)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        firstVisibleItem = savedInstanceState.getInt(KEY_STATE_LIST_POSITION)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
