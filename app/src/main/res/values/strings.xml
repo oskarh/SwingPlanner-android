@@ -114,5 +114,4 @@
     <string name="rate_app_positive">RATE NOW</string>
     <string name="rate_app_negative">No thanks</string>
     <string name="rate_app_never_ask">NEVER ASK</string>
-    <string name="play_store_uri" translatable="false">market://details?id=com.oskhoj.swingplanner</string>
 </resources>
