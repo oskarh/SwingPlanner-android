@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
-            android:src="@drawable/ic_favorite_black_24dp"
+            android:src="@drawable/ic_favorite_24dp"
             android:visibility="gone"/>
 
         <android.support.v4.widget.Space
@@ -87,7 +87,7 @@
                     android:elevation="4dp"
                     android:focusable="true"
                     android:padding="16dp"
-                    android:src="@drawable/ic_favorite_border_black_24dp"/>
+                    android:src="@drawable/ic_favorite_border_24dp"/>
             </LinearLayout>
 
             <LinearLayout

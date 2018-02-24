@@ -7,12 +7,12 @@ import androidx.net.toUri
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_RATE_ACCEPTED
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_RATE_CANCELLED
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_RATE_DECLINED
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_RATE_NEVER_ASK
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_RATE_OFFERED
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
-import com.oskhoj.swingplanner.util.ANALYTICS_RATE_ACCEPTED
-import com.oskhoj.swingplanner.util.ANALYTICS_RATE_CANCELLED
-import com.oskhoj.swingplanner.util.ANALYTICS_RATE_DECLINED
-import com.oskhoj.swingplanner.util.ANALYTICS_RATE_NEVER_ASK
-import com.oskhoj.swingplanner.util.ANALYTICS_RATE_OFFERED
 import com.oskhoj.swingplanner.util.REMOTE_CONFIG_RATING_PERIOD
 import org.jetbrains.anko.alert
 

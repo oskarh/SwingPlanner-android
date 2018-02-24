@@ -17,12 +17,12 @@ import android.widget.LinearLayout.VERTICAL
 import android.widget.TextView
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_LANGUAGE_CHANGE
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
-import com.oskhoj.swingplanner.util.ANALYTICS_LANGUAGE_CHANGE
+import com.oskhoj.swingplanner.firebase.analytics.PROPERTY_NEW_LANGUAGE
+import com.oskhoj.swingplanner.firebase.analytics.PROPERTY_OLD_LANGUAGE
 import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.Language
-import com.oskhoj.swingplanner.util.PROPERTY_NEW_LANGUAGE
-import com.oskhoj.swingplanner.util.PROPERTY_OLD_LANGUAGE
 import com.oskhoj.swingplanner.util.getCompatColor
 import com.oskhoj.swingplanner.util.loadFlagIconOrDisappear
 import org.jetbrains.anko.backgroundColor

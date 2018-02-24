@@ -12,7 +12,7 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class FavoritesPresenter(private val favoritesStore: Store<FavoritesResponse, FavoritesBarcode>)
+class FavoritesPresenter(private val listEventStore: Store<FavoritesResponse, FavoritesBarcode>)
     : BasePresenter<FavoritesContract.View>(), FavoritesContract.Presenter {
 
     override fun loadFavorites() {
@@ -21,7 +21,7 @@ class FavoritesPresenter(private val favoritesStore: Store<FavoritesResponse, Fa
             Timber.d("No favorite ids to show...")
             view?.displayEmptyView()
         } else {
-            favoritesStore.get(FavoritesBarcode(FAVORITES_PAGE, FavoritesParameters(favoriteIds)))
+            listEventStore.get(FavoritesBarcode(FAVORITES_PAGE, FavoritesParameters(favoriteIds)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { view?.showLoading() }

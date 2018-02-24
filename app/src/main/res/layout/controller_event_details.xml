@@ -372,5 +372,5 @@ SEK 250 for a one-way transportation either way."/>
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="@dimen/large_margin"
         android:layout_marginEnd="@dimen/large_margin"
-        app:srcCompat="@drawable/ic_favorite_border_black_24dp"/>
+        app:srcCompat="@drawable/ic_favorite_border_24dp"/>
 </android.support.design.widget.CoordinatorLayout>

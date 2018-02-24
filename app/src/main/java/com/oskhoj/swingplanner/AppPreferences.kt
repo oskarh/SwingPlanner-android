@@ -1,12 +1,12 @@
 package com.oskhoj.swingplanner
 
 import com.chibatching.kotpref.KotprefModel
+import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_INITIALIZED_LANGUAGE
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
-import com.oskhoj.swingplanner.util.ANALYTICS_INITIALIZED_LANGUAGE
+import com.oskhoj.swingplanner.firebase.analytics.PROPERTY_APP_LANGUAGE
+import com.oskhoj.swingplanner.firebase.analytics.PROPERTY_DEVICE_LANGUAGE
 import com.oskhoj.swingplanner.util.DanceStyle
 import com.oskhoj.swingplanner.util.Language
-import com.oskhoj.swingplanner.util.PROPERTY_APP_LANGUAGE
-import com.oskhoj.swingplanner.util.PROPERTY_DEVICE_LANGUAGE
 import com.oskhoj.swingplanner.util.compareToIgnoreWhitespace
 import timber.log.Timber
 import java.util.Locale
@@ -29,7 +29,7 @@ object AppPreferences : KotprefModel() {
     var firebaseToken by stringPref()
     var appStartedCount by intPref(0)
     val subscriptions by stringSetPref {
-        return@stringSetPref mutableSetOf("Stockholm", "Berlin", "New York")
+        return@stringSetPref mutableSetOf()
     }
 
     init {

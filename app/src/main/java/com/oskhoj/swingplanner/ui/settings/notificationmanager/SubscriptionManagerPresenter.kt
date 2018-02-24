@@ -2,9 +2,9 @@ package com.oskhoj.swingplanner.ui.settings.notificationmanager
 
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.analytics.USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS
 import com.oskhoj.swingplanner.network.SubscriptionApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
-import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS
 import timber.log.Timber
 
 class SubscriptionManagerPresenter(private val subscriptionApiManager: SubscriptionApiManager) :

@@ -22,6 +22,9 @@ import com.nytimes.android.external.store3.base.impl.StoreBuilder
 import com.nytimes.android.external.store3.middleware.GsonParserFactory
 import com.oskhoj.swingplanner.AppPreferences.appStartedCount
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.analytics.USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS
+import com.oskhoj.swingplanner.firebase.analytics.USER_PROPERTY_NUMBER_FAVORITE_EVENTS
+import com.oskhoj.swingplanner.firebase.analytics.USER_PROPERTY_NUMBER_FAVORITE_TEACHERS
 import com.oskhoj.swingplanner.model.EventDetails
 import com.oskhoj.swingplanner.model.EventsPage
 import com.oskhoj.swingplanner.model.FavoritesResponse
@@ -39,9 +42,6 @@ import com.oskhoj.swingplanner.network.service.TeacherService
 import com.oskhoj.swingplanner.ui.base.ViewType
 import com.oskhoj.swingplanner.ui.navigation.BottomNavigationController
 import com.oskhoj.swingplanner.ui.onboarding.OnboardingActivity
-import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_CUSTOM_SUBSCRIPTIONS
-import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_FAVORITE_EVENTS
-import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_FAVORITE_TEACHERS
 import com.oskhoj.swingplanner.util.find
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.visible
@@ -77,10 +77,9 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
             bind<EventApiManager>() with singleton { EventApiManager(instance()) }
             bind<TeacherApiManager>() with singleton { TeacherApiManager(instance()) }
             bind<SubscriptionApiManager>() with singleton { SubscriptionApiManager(instance()) }
-            bind<Store<EventsPage, EventSearchBarcode>>() with singleton { eventSummariesStore(instance()) }
-            bind<Store<FavoritesResponse, BarCode>>() with singleton { eventSummaryStore(instance()) }
+            bind<Store<EventsPage, EventSearchBarcode>>() with singleton { searchEventStore(instance()) }
             bind<Store<EventDetails, BarCode>>() with singleton { eventDetailsStore(instance()) }
-            bind<Store<FavoritesResponse, FavoritesBarcode>>() with singleton { favoritesStore(instance()) }
+            bind<Store<FavoritesResponse, FavoritesBarcode>>() with singleton { listEventStore(instance()) }
             bind<Store<TeachersResponse, BarCode>>() with singleton { teacherStore(instance()) }
             bind<Store<TeacherEventsResponse, BarCode>>() with singleton { teacherEventsStore(instance()) }
         })
@@ -134,8 +133,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
 
     private fun isOnboardingNeeded() = !AppPreferences.hasShownOnboarding
 
-    // TODO: Rename this
-    private fun eventSummariesStore(eventApiManager: EventApiManager): Store<EventsPage, EventSearchBarcode> {
+    private fun searchEventStore(eventApiManager: EventApiManager): Store<EventsPage, EventSearchBarcode> {
         return StoreBuilder
                 .parsedWithKey<EventSearchBarcode, BufferedSource, EventsPage>()
                 .fetcher { eventApiManager.searchEvents(it.params).map { it.source() } }
@@ -145,11 +143,10 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .open()
     }
 
-    // TODO: Replace this with favorites store. Rename it
-    private fun eventSummaryStore(eventApiManager: EventApiManager): Store<FavoritesResponse, BarCode> {
+    private fun listEventStore(eventApiManager: EventApiManager): Store<FavoritesResponse, FavoritesBarcode> {
         return StoreBuilder
-                .parsedWithKey<BarCode, BufferedSource, FavoritesResponse>()
-                .fetcher { eventApiManager.eventsByIds(listOf(it.key.toInt())).map { it.source() } }
+                .parsedWithKey<FavoritesBarcode, BufferedSource, FavoritesResponse>()
+                .fetcher { eventApiManager.eventsByIds(it.favoritesParameters.ids).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), FavoritesResponse::class.java))
                 .open()
@@ -161,15 +158,6 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { eventApiManager.eventDetailsById(it.key.toInt()).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventDetails::class.java))
-                .open()
-    }
-
-    private fun favoritesStore(eventApiManager: EventApiManager): Store<FavoritesResponse, FavoritesBarcode> {
-        return StoreBuilder
-                .parsedWithKey<FavoritesBarcode, BufferedSource, FavoritesResponse>()
-                .fetcher { eventApiManager.eventsByIds(it.favoritesParameters.ids).map { it.source() } }
-                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
-                .parser(GsonParserFactory.createSourceParser(Gson(), FavoritesResponse::class.java))
                 .open()
     }
 

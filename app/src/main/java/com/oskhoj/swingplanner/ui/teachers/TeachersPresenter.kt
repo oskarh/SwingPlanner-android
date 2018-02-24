@@ -4,6 +4,7 @@ import com.nytimes.android.external.store3.base.impl.BarCode
 import com.nytimes.android.external.store3.base.impl.Store
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.analytics.USER_PROPERTY_NUMBER_FAVORITE_TEACHERS
 import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.model.TeachersResponse
@@ -11,7 +12,6 @@ import com.oskhoj.swingplanner.network.SubscriptionApiManager
 import com.oskhoj.swingplanner.ui.base.BasePresenter
 import com.oskhoj.swingplanner.util.TEACHER
 import com.oskhoj.swingplanner.util.TEACHER_EVENTS
-import com.oskhoj.swingplanner.util.USER_PROPERTY_NUMBER_FAVORITE_TEACHERS
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
