@@ -5,10 +5,10 @@ const val KEY_STATE_DEEP_LINK_EVENT_ID = "deep_link_event_id"
 const val KEY_STATE_EVENTS_DETAILS = "key_state_event_details"
 const val KEY_STATE_EVENTS_LIST = "key_state_events_list"
 const val KEY_STATE_EVENTS_SUMMARY = "key_state_event_summary"
-const val KEY_STATE_LIST_POSITION = "key_state_list_position"
 const val KEY_STATE_NAVIGATION_BACKSTACK = "key_state_navigation_backstack"
 const val KEY_STATE_ROUTER_BUNDLES = "key_state_router_bundles"
 const val KEY_STATE_SEARCH_TEXT = "key_state_search_text"
+const val KEY_STATE_LIST_POSITION = "key_state_list_position"
 
 const val REMOTE_CONFIG_BASE_URL = "remote_config_base_url"
 const val REMOTE_CONFIG_RATING_PERIOD = "remote_config_rating_period"
@@ -17,6 +17,8 @@ const val REMOTE_CONFIG_SEARCH_DELAY = "remote_config_search_delay"
 const val SUBSCRIPTION_MIN_LENGTH = 4
 
 const val DATE_SEPARATOR = "-"
+const val USA = "usa"
+const val NOT_SET = -1
 
 const val BODY = "body"
 const val CHANNEL = "channel"

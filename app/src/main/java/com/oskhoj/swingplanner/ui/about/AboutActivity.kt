@@ -8,7 +8,6 @@ import android.net.Uri
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
@@ -23,8 +22,11 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
 import com.oskhoj.swingplanner.firebase.analytics.ScreenType
+import com.oskhoj.swingplanner.ui.component.canHandleRatingIntent
+import com.oskhoj.swingplanner.ui.component.redirectToPlayStore
 import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_CHANGELOG_CLICK
 import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_OPEN_SOURCE_CLICK
+import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_RATE_CLICK
 import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_ABORT
 import com.oskhoj.swingplanner.util.ANALYTICS_ABOUT_SHARE_SUCCESSFUL
 import com.oskhoj.swingplanner.util.PROPERTY_INVITED_COUNT
@@ -47,7 +49,7 @@ class AboutActivity : MaterialAboutActivity() {
         val appInfoBuilder = MaterialAboutCard.Builder()
         appInfoBuilder.addItem(MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
-                .icon(R.mipmap.swingplanner_icon)
+                .icon(R.mipmap.swingplanner_icon_new_2)
                 .build())
 
         appInfoBuilder.addItem(ConvenienceBuilder.createVersionActionItem(this,
@@ -93,8 +95,13 @@ class AboutActivity : MaterialAboutActivity() {
                         .icon(CommunityMaterial.Icon.cmd_star)
                         .color(getCompatColor(iconColor))
                         .sizeDp(textSize),
-                getString(R.string.rate_app),
-                null))
+                getString(R.string.rate_app), null)
+                .setOnClickAction {
+                    AnalyticsHelper.logEvent(ANALYTICS_ABOUT_RATE_CLICK)
+                    if (canHandleRatingIntent(this)) {
+                        redirectToPlayStore()
+                    }
+                })
 
         appActionsBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text(getString(R.string.share_app))
@@ -105,6 +112,7 @@ class AboutActivity : MaterialAboutActivity() {
                 .setOnClickAction {
                     shareApp()
                 }
+                .subText(getString(R.string.share_app_subtext))
                 .build())
 
         appActionsBuilder.addItem(ConvenienceBuilder.createEmailItem(this,
@@ -118,8 +126,6 @@ class AboutActivity : MaterialAboutActivity() {
                 getString(R.string.about_swing_planner))
                 .setOnLongClickAction { copyEmailToClipboard() })
 
-        val toolbar = findViewById<Toolbar>(com.danielstone.materialaboutlibrary.R.id.mal_toolbar)
-//        toolbar.setTitleTextColor(getCompatColor(R.color.white))
         supportActionBar?.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back))
         return MaterialAboutList(appInfoBuilder.build(), appActionsBuilder.build())
     }

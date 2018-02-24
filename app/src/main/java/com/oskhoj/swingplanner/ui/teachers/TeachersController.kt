@@ -3,6 +3,7 @@ package com.oskhoj.swingplanner.ui.teachers
 import android.os.Bundle
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper.VERTICAL
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -24,7 +25,9 @@ import com.oskhoj.swingplanner.ui.base.ViewType.TEACHERS_VIEW
 import com.oskhoj.swingplanner.ui.component.TeacherAdapter
 import com.oskhoj.swingplanner.ui.component.TextChangedListener
 import com.oskhoj.swingplanner.ui.details.DetailsController
+import com.oskhoj.swingplanner.util.KEY_STATE_LIST_POSITION
 import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
+import com.oskhoj.swingplanner.util.NOT_SET
 import com.oskhoj.swingplanner.util.TeacherExpandedListener
 import com.oskhoj.swingplanner.util.ViewHolderList
 import com.oskhoj.swingplanner.util.animateToGone
@@ -59,6 +62,7 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     private lateinit var clearIcon: AppCompatImageView
 
     private var storedText: String = ""
+    private var firstVisibleItem = NOT_SET
 
     private val textListener = TextChangedListener {
         clearIcon.visibleIf { it.isNotEmpty() }
@@ -158,6 +162,9 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         super.onAttach(view)
         presenter.loadTeachers(storedText)
         activity?.run {
+            if (firstVisibleItem != NOT_SET) {
+                teacherRecyclerView.scrollToPosition(firstVisibleItem)
+            }
             backIcon = search_back.apply {
                 onClick { presenter.onSearchBack() }
             }
@@ -185,6 +192,8 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
 
     override fun onDetach(view: View) {
         super.onDetach(view)
+        firstVisibleItem = (teacherRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        storedText = searchText?.text?.toString().orEmpty()
         backIcon.removeClickListener()
         clearIcon.removeClickListener()
         searchText?.removeTextChangedListener(textListener)
@@ -194,10 +203,12 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
     override fun onSaveInstanceState(outState: Bundle) {
         Timber.d("Saving instance state... ${(searchText?.text)}")
         outState.putString(KEY_STATE_SEARCH_TEXT, (searchText?.text ?: "").toString())
+        outState.putInt(KEY_STATE_LIST_POSITION, firstVisibleItem)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         Timber.d("Restored $storedText")
         storedText = savedInstanceState.getString(KEY_STATE_SEARCH_TEXT)
+        firstVisibleItem = savedInstanceState.getInt(KEY_STATE_LIST_POSITION)
     }
 }
