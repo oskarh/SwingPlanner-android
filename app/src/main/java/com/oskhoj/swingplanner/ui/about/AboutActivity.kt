@@ -38,7 +38,6 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
-import timber.log.Timber
 
 class AboutActivity : MaterialAboutActivity() {
 
@@ -49,7 +48,7 @@ class AboutActivity : MaterialAboutActivity() {
         val appInfoBuilder = MaterialAboutCard.Builder()
         appInfoBuilder.addItem(MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
-                .icon(R.mipmap.swingplanner_icon_new_2)
+                .icon(R.mipmap.swingplanner_icon)
                 .build())
 
         appInfoBuilder.addItem(ConvenienceBuilder.createVersionActionItem(this,
@@ -122,11 +121,14 @@ class AboutActivity : MaterialAboutActivity() {
                         .sizeDp(textSize),
                 getString(R.string.contact_me),
                 true,
-                getString(R.string.contact_me_description),
-                getString(R.string.about_swing_planner))
+                getString(R.string.swing_planner_email),
+                getString(R.string.about_swing_planner),
+                getString(R.string.contact_me_description))
                 .setOnLongClickAction { copyEmailToClipboard() })
 
-        supportActionBar?.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back))
+        runOnUiThread {
+            supportActionBar?.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back))
+        }
         return MaterialAboutList(appInfoBuilder.build(), appActionsBuilder.build())
     }
 
@@ -148,7 +150,8 @@ class AboutActivity : MaterialAboutActivity() {
 
     override fun onStart() {
         super.onStart()
-        findViewById<RecyclerView>(R.id.mal_recyclerview).startAnimation(loadAnimation(R.anim.about_activity_enter_animation))
+        findViewById<RecyclerView>(R.id.mal_recyclerview)
+                .startAnimation(loadAnimation(R.anim.about_activity_enter_animation))
     }
 
     override fun onResume() {
@@ -163,10 +166,8 @@ class AboutActivity : MaterialAboutActivity() {
         if (requestCode == REQUEST_INVITE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val ids = AppInviteInvitation.getInvitationIds(resultCode, data)
-                Timber.d("Shared SwingPlanner to ${ids.size} people")
                 AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_SUCCESSFUL, PROPERTY_INVITED_COUNT to ids.size)
             } else {
-                Timber.d("Invite was failed or cancelled")
                 AnalyticsHelper.logEvent(ANALYTICS_ABOUT_SHARE_ABORT)
             }
         }

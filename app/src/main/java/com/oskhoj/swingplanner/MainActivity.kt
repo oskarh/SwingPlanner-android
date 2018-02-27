@@ -50,7 +50,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import okio.BufferedSource
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.excludeFromRecents
+import org.jetbrains.anko.intentFor
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), ToolbarProvider {
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isOnboardingNeeded()) {
-            startActivity<OnboardingActivity>()
+            startActivity(intentFor<OnboardingActivity>().excludeFromRecents())
             finish()
             return
         }
@@ -140,6 +141,10 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .refreshOnStale()
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventsPage::class.java))
+                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
+                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(3))
+                        .setExpireAfterTimeUnit(TimeUnit.SECONDS)
+                        .build())
                 .open()
     }
 
@@ -149,6 +154,10 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { eventApiManager.eventsByIds(it.favoritesParameters.ids).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), FavoritesResponse::class.java))
+                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
+                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(3))
+                        .setExpireAfterTimeUnit(TimeUnit.SECONDS)
+                        .build())
                 .open()
     }
 
@@ -158,6 +167,10 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
                 .fetcher { eventApiManager.eventDetailsById(it.key.toInt()).map { it.source() } }
                 .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventDetails::class.java))
+                .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
+                        .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(3))
+                        .setExpireAfterTimeUnit(TimeUnit.SECONDS)
+                        .build())
                 .open()
     }
 

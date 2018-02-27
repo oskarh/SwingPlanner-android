@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@drawable/rounded_corners_white_background"
+            android:paddingEnd="@dimen/card_margin"
+            android:paddingStart="@dimen/card_margin"
             android:text="@string/no_favorites_found"
             android:visibility="gone"
             tools:text="@string/no_favorites_found"/>

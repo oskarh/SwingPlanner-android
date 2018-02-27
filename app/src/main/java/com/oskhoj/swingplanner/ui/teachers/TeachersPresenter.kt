@@ -32,18 +32,15 @@ class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>,
                 .subscribe(object : SingleObserver<TeachersResponse> {
                     override fun onSubscribe(disposable: Disposable) {
                         compositeDisposable.add(disposable)
-                        view?.showLoading()
                     }
 
                     override fun onSuccess(response: TeachersResponse) {
                         Timber.d("Request succeeded, got [${response.teachers.size}] teachers")
-                        view?.hideLoading()
                         view?.displayTeachers(response.teachers.filter { it.name.contains(query.trim(), true) })
                     }
 
                     override fun onError(throwable: Throwable) {
                         Timber.w(throwable, "Request failed")
-                        view?.hideLoading()
                         view?.displayErrorView()
                     }
                 })
@@ -56,18 +53,15 @@ class TeachersPresenter(private val store: Store<TeachersResponse, BarCode>,
                 .subscribe(object : SingleObserver<TeacherEventsResponse> {
                     override fun onSubscribe(disposable: Disposable) {
                         compositeDisposable.add(disposable)
-                        view?.showLoading()
                     }
 
                     override fun onSuccess(response: TeacherEventsResponse) {
                         Timber.d("Request succeeded, got [$response]")
-                        view?.hideLoading()
                         view?.displayTeacherEvents(response)
                     }
 
                     override fun onError(throwable: Throwable) {
                         Timber.w(throwable, "Request failed ${throwable.message}")
-                        view?.hideLoading()
                         view?.displayErrorView()
                     }
                 })

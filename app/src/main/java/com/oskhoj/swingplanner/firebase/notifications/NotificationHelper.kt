@@ -1,11 +1,9 @@
 package com.oskhoj.swingplanner.firebase.notifications
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.support.v4.app.NotificationCompat
 import com.oskhoj.swingplanner.MainActivity
 import com.oskhoj.swingplanner.R
@@ -16,15 +14,6 @@ class NotificationHelper(context_: Context) {
     private val context: Context = context_.applicationContext
     private val notificationManager: NotificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
-
-    init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationType.values().forEach {
-                notificationManager.createNotificationChannel(
-                        NotificationChannel(it.channelName, context.getString(it.stringRes), NotificationManager.IMPORTANCE_DEFAULT))
-            }
-        }
     }
 
     fun notify(title: String, body: String, eventId: Int, notificationType: NotificationType) {

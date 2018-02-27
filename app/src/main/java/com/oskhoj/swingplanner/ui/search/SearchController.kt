@@ -264,6 +264,7 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
                 onClick { presenter.onSearchBack() }
             }
             clearIcon = search_clear.apply {
+                visibleIf { searchEventsPage?.query?.isNotEmpty() == true }
                 onClick { presenter.onSearchClear() }
             }
 

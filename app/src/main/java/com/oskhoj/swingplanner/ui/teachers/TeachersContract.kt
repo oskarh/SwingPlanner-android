@@ -4,11 +4,10 @@ import com.oskhoj.swingplanner.model.Teacher
 import com.oskhoj.swingplanner.model.TeacherEventsResponse
 import com.oskhoj.swingplanner.ui.base.Attachable
 import com.oskhoj.swingplanner.ui.base.BaseView
-import com.oskhoj.swingplanner.ui.base.Loadable
 
 object TeachersContract {
 
-    interface View : BaseView, Loadable {
+    interface View : BaseView {
         fun displayTeachers(teachers: List<Teacher>)
 
         fun displayTeacherEvents(teacherEventsResponse: TeacherEventsResponse)
