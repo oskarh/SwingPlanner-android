@@ -35,8 +35,8 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         multiDexEnabled true
         resConfigs "en", "de", "es", "fr", "it"
-        versionCode 1
-        versionName "0.1"
+        versionCode 2
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

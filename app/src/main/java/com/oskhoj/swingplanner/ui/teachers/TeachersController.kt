@@ -30,8 +30,6 @@ import com.oskhoj.swingplanner.util.KEY_STATE_SEARCH_TEXT
 import com.oskhoj.swingplanner.util.NOT_SET
 import com.oskhoj.swingplanner.util.TeacherExpandedListener
 import com.oskhoj.swingplanner.util.ViewHolderList
-import com.oskhoj.swingplanner.util.animateToGone
-import com.oskhoj.swingplanner.util.animateToVisible
 import com.oskhoj.swingplanner.util.closeKeyboard
 import com.oskhoj.swingplanner.util.invisible
 import com.oskhoj.swingplanner.util.loadLayoutAnimation
@@ -112,14 +110,6 @@ class TeachersController(args: Bundle = Bundle.EMPTY) : ToolbarController<Teache
         Timber.d("Opening event details...")
         activity?.closeKeyboard()
         router.pushController(RouterTransaction.with(DetailsController(eventSummary)))
-    }
-
-    override fun showLoading() {
-        view?.teachers_progressbar?.animateToVisible()
-    }
-
-    override fun hideLoading() {
-        view?.teachers_progressbar?.animateToGone()
     }
 
     private fun setUpRecyclerView(view: View) {

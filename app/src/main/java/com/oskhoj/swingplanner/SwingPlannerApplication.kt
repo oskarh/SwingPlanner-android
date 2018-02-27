@@ -1,7 +1,10 @@
 package com.oskhoj.swingplanner
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import com.chibatching.kotpref.Kotpref
 import com.crashlytics.android.Crashlytics
 import com.github.salomonbrys.kodein.Kodein.Module
@@ -13,7 +16,9 @@ import com.github.salomonbrys.kodein.singleton
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper
+import com.oskhoj.swingplanner.firebase.notifications.NotificationType
 import io.fabric.sdk.android.Fabric
+import org.jetbrains.anko.notificationManager
 import saschpe.android.customtabs.CustomTabsActivityLifecycleCallbacks
 import timber.log.Timber
 import java.io.File
@@ -27,6 +32,7 @@ class SwingPlannerApplication : Application(), KodeinAware {
         super.onCreate()
         Fabric.with(this, Crashlytics())
         Kotpref.init(this)
+        setupNotificationChannels()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
@@ -34,6 +40,15 @@ class SwingPlannerApplication : Application(), KodeinAware {
         resetInjection()
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallbacks())
         setupRemoteConfig()
+    }
+
+    private fun setupNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationType.values().forEach {
+                notificationManager.createNotificationChannel(
+                        NotificationChannel(it.channelName, getString(it.stringRes), NotificationManager.IMPORTANCE_DEFAULT))
+            }
+        }
     }
 
     private fun resetInjection() {

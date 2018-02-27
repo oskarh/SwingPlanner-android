@@ -2,13 +2,23 @@
 <changelog bulletedList="true">
 
     <changelogversion
-        changeDate="February 24, 2018"
+        changeDate="February 26, 2018"
         versionName="1.0">
         <changelogtext>[b]SwingPlanner released![/b]</changelogtext>
-        <changelogtext>Search for events by city, country, continent or event name</changelogtext>
-        <changelogtext>Find your favorite teacher or see who the teacher for your next event is
+        <changelogtext>Search for any Swing dancing event worldwide by city, country, continent or
+            event name
         </changelogtext>
-        <changelogtext>Be notified as new events are added by adding your own event subscriptions
+        <changelogtext>Filter to only show events with the dance styles you're interested in
+        </changelogtext>
+        <changelogtext>Easy access to each event's website or Facebook event</changelogtext>
+        <changelogtext>Like your favorite teacher to get immediate updates when they sign up for new
+            events
+        </changelogtext>
+        <changelogtext>Create your own subscriptions to get notifications when a new event is added
+            that matches your criteria
+        </changelogtext>
+        <changelogtext>If you like SwingPlanner please consider rating it in the Play Store to support the
+            development and share it with your friends to help spread the love!
         </changelogtext>
     </changelogversion>
 

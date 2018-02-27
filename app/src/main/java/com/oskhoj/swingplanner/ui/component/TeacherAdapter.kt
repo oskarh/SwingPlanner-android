@@ -6,7 +6,7 @@ import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.OvershootInterpolator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -98,7 +98,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
             this@ViewHolder.teacher = teacher
             teacher_name.text = teacher.name
             teacherHeader.setOnClickListener(this@ViewHolder)
-            expandableLayout.setInterpolator(OvershootInterpolator())
+            expandableLayout.setInterpolator(AccelerateDecelerateInterpolator())
             expandableLayout.setOnExpansionUpdateListener(this@ViewHolder)
             favoriteImage.visibleIf { AppPreferences.hasFavoriteTeacher(teacher.id) }
             favoriteButton.setOnClickListener {
