@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/large_margin"
             tools:text="@tools:sample/full_names"/>
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/favorite_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,12 +36,12 @@
             android:src="@drawable/ic_favorite_24dp"
             android:visibility="gone"/>
 
-        <android.support.v4.widget.Space
+        <androidx.legacy.widget.Space
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"/>
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/arrow_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/teacher_youtube_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     android:padding="16dp"
                     android:src="@drawable/ic_youtube_icon"/>
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/teacher_favorite_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,12 +120,12 @@
                     android:visibility="gone"
                     tools:text="Failed to retrieve events"/>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/teacher_events_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/event_row_small"/>
             </LinearLayout>
         </LinearLayout>

@@ -1,6 +1,5 @@
 package com.oskhoj.swingplanner.ui.component
 
-import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.transition.ChangeBounds
 import android.transition.ChangeClipBounds
 import android.transition.ChangeImageTransform
@@ -8,6 +7,7 @@ import android.transition.ChangeTransform
 import android.transition.TransitionSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.bluelinelabs.conductor.changehandler.TransitionChangeHandler
 
 class TransitionHandler : TransitionChangeHandler() {

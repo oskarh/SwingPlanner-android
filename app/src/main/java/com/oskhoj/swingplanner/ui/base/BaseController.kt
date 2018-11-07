@@ -1,12 +1,12 @@
 package com.oskhoj.swingplanner.ui.base
 
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Controller
 import com.github.salomonbrys.kodein.Kodein.Module
 import com.github.salomonbrys.kodein.KodeinInjected

@@ -3,7 +3,7 @@ package com.oskhoj.swingplanner.ui.component
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.net.toUri
+import androidx.core.net.toUri
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R

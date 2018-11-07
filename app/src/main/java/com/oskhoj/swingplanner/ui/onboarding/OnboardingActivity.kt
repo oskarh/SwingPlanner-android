@@ -2,9 +2,9 @@ package com.oskhoj.swingplanner.ui.onboarding
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.v4.app.Fragment
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro2
 import com.github.paolorotolo.appintro.AppIntroFragment
 import com.github.paolorotolo.appintro.model.SliderPage
@@ -24,6 +24,7 @@ class OnboardingActivity : AppIntro2() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_START)
+        AppPreferences.hasShownOnboarding = true
         setFlowAnimation()
         arrayOf(createPage(getString(R.string.onboarding_title_1), getString(R.string.onboarding_message_1), R.drawable.globe, Color.DKGRAY),
                 createPage(getString(R.string.onboarding_title_2), getString(R.string.onboarding_message_2), R.drawable.annie_happy, getCompatColor(R.color.blue_grey_300)),
@@ -47,13 +48,11 @@ class OnboardingActivity : AppIntro2() {
 
     override fun onSkipPressed(currentFragment: Fragment?) {
         AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_SKIP)
-        AppPreferences.hasShownOnboarding = true
         startActivity<MainActivity>()
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {
         AnalyticsHelper.logEvent(ANALYTICS_ONBOARDING_FINISH)
-        AppPreferences.hasShownOnboarding = true
         startActivity<MainActivity>()
     }
 }

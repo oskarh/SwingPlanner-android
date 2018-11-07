@@ -1,13 +1,13 @@
 package com.oskhoj.swingplanner.ui.teachers
 
 import android.os.Bundle
-import android.support.v7.widget.AppCompatImageView
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.OrientationHelper.VERTICAL
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.OrientationHelper.VERTICAL
+import androidx.recyclerview.widget.RecyclerView
 import com.bluelinelabs.conductor.RouterTransaction
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind

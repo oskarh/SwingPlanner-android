@@ -1,15 +1,15 @@
 package com.oskhoj.swingplanner.ui.component
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat.startActivity
-import android.support.v7.widget.AppCompatImageView
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.youtube.player.YouTubeIntents
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R

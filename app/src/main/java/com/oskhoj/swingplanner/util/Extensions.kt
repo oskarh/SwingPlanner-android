@@ -10,12 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.Settings
-import android.support.annotation.AnimRes
-import android.support.annotation.ColorRes
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +17,12 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.AnimRes
+import androidx.annotation.ColorRes
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.oskhoj.swingplanner.R

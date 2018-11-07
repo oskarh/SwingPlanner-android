@@ -4,12 +4,6 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.content.Context
 import android.net.Uri
-import android.support.annotation.AnimRes
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.IntegerRes
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
@@ -19,9 +13,15 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LayoutAnimationController
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.animation.doOnEnd
+import androidx.annotation.AnimRes
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IntegerRes
+import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.oskhoj.swingplanner.R
 
 fun View.visible() {

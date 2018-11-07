@@ -4,7 +4,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import com.oskhoj.swingplanner.MainActivity
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.AnalyticsHelper

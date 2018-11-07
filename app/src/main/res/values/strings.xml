@@ -70,6 +70,8 @@
     <string name="onboarding_title_4">Instant updates</string>
     <string name="open_source">Open source</string>
     <string name="open_source_licenses">Open source licenses</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_url">https://oskarh.github.io/SwingPlanner-android/</string>
     <string name="rate_app">Rate app</string>
     <string name="rate_app_message">If you enjoy using SwingPlanner, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
     <string name="rate_app_negative">No thanks</string>

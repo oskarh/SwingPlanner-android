@@ -1,10 +1,10 @@
 package com.oskhoj.swingplanner.ui.settings.notificationmanager
 
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.OrientationHelper
 import android.view.View
 import android.widget.EditText
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.OrientationHelper
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
@@ -61,7 +61,10 @@ class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
 
     private fun setUpRecyclerView(view: View) {
         view.notificationSubscriptionsRecyclerView.apply {
-            val dividerItemDecoration = DividerItemDecoration(context, OrientationHelper.VERTICAL)
+            val dividerItemDecoration = DividerItemDecoration(
+                context,
+                OrientationHelper.VERTICAL
+            )
             addItemDecoration(dividerItemDecoration)
             adapter = subscriptionAdapter
         }

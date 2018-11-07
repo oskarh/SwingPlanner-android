@@ -1,8 +1,8 @@
 package com.oskhoj.swingplanner.ui.component
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_EVENT_CLICK

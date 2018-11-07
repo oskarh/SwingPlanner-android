@@ -1,11 +1,11 @@
 package com.oskhoj.swingplanner.ui.base
 
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.CallSuper
+import androidx.core.content.ContextCompat
 import com.github.salomonbrys.kodein.instance
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
