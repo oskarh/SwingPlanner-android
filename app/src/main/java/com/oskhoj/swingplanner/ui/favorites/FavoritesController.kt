@@ -1,9 +1,9 @@
 package com.oskhoj.swingplanner.ui.favorites
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluelinelabs.conductor.RouterTransaction
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind

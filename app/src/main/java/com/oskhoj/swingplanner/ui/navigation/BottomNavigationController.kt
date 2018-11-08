@@ -1,7 +1,6 @@
 package com.oskhoj.swingplanner.ui.navigation
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.util.SparseArray
 import android.view.View
 import android.widget.LinearLayout
@@ -12,6 +11,7 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.ui.base.BaseController
 import com.oskhoj.swingplanner.ui.favorites.FavoritesController

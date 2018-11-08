@@ -1,7 +1,7 @@
 package com.oskhoj.swingplanner.ui.splash
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.oskhoj.swingplanner.MainActivity
 import org.jetbrains.anko.startActivity
 

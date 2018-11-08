@@ -3,8 +3,6 @@ package com.oskhoj.swingplanner.ui.component
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
-import android.support.design.widget.BottomSheetDialog
-import android.support.v7.widget.AppCompatImageView
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.Button
@@ -15,6 +13,8 @@ import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout.VERTICAL
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_LANGUAGE_CHANGE

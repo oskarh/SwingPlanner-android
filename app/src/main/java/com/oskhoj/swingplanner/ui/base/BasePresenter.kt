@@ -1,6 +1,6 @@
 package com.oskhoj.swingplanner.ui.base
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import timber.log.Timber
 
 open class BasePresenter<V : BaseView> : Attachable<V> {

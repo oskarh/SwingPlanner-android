@@ -1,10 +1,9 @@
 package com.oskhoj.swingplanner
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
 import android.view.Menu
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
@@ -45,13 +44,9 @@ import com.oskhoj.swingplanner.ui.onboarding.OnboardingActivity
 import com.oskhoj.swingplanner.util.find
 import com.oskhoj.swingplanner.util.gone
 import com.oskhoj.swingplanner.util.visible
-import it.gmariotti.changelibs.library.view.ChangeLogRecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import okio.BufferedSource
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.appcompat.v7.Appcompat
-import org.jetbrains.anko.excludeFromRecents
-import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivity
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), ToolbarProvider {
@@ -63,7 +58,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isOnboardingNeeded()) {
-            startActivity(intentFor<OnboardingActivity>().excludeFromRecents())
+            startActivity<OnboardingActivity>()
             finish()
             return
         }
@@ -125,11 +120,11 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
     private fun isAppUpdate(versionName: String?) = AppPreferences.currentVersion != versionName
 
     private fun showUpdateInformation() {
-        alert(Appcompat, getString(R.string.swingplanner_updated)) {
-            customView = LayoutInflater.from(this@MainActivity)
-                    .inflate(R.layout.updatelog_content, null) as ChangeLogRecyclerView
-            positiveButton(getString(R.string.dialog_ok)) { it.dismiss() }
-        }.show()
+//        alert(Appcompat, getString(R.string.swingplanner_updated)) {
+//            customView = LayoutInflater.from(this@MainActivity)
+//                    .inflate(R.layout.updatelog_content, null) as ChangeLogRecyclerView
+//            positiveButton(getString(R.string.dialog_ok)) { it.dismiss() }
+//        }.show()
     }
 
     private fun isOnboardingNeeded() = !AppPreferences.hasShownOnboarding

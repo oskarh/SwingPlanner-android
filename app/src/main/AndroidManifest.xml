@@ -28,7 +28,9 @@
         <activity
             android:name=".ui.about.AboutActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity"/>
-        <activity android:name=".ui.onboarding.OnboardingActivity"/>
+        <activity android:name=".ui.onboarding.OnboardingActivity"
+                  android:noHistory="true">
+        </activity>
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"

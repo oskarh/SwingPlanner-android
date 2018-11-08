@@ -1,7 +1,7 @@
 package com.oskhoj.swingplanner.firebase.notifications
 
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.oskhoj.swingplanner.R
 
 enum class NotificationType(val channelName: String, val id: Int, @StringRes val stringRes: Int, @DrawableRes val notificationIcon: Int) {

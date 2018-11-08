@@ -6,16 +6,16 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
-import android.support.customtabs.CustomTabsIntent
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.widget.NestedScrollView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.widget.NestedScrollView
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.R
 import com.oskhoj.swingplanner.firebase.analytics.ANALYTICS_EVENT_ADD_CALENDAR_CLICK
@@ -233,7 +233,7 @@ class DetailsController(args: Bundle = Bundle.EMPTY) :
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         eventSummary = savedInstanceState.getParcelable(KEY_STATE_EVENTS_SUMMARY) as EventSummary
-        eventDetails = savedInstanceState.getParcelable(KEY_STATE_EVENTS_DETAILS) as EventDetails
+        eventDetails = savedInstanceState.getParcelable(KEY_STATE_EVENTS_DETAILS) as EventDetails?
         Timber.d("Restored $eventSummary and $eventDetails")
     }
 
