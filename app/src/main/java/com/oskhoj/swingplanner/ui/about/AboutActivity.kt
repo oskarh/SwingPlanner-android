@@ -184,9 +184,8 @@ class AboutActivity : MaterialAboutActivity() {
             getString(R.string.swing_planner_label),
             getString(R.string.swing_planner_email)
         )
-        findViewById<CoordinatorLayout>(R.id.mal_material_about_activity_coordinator_layout)?.let {
-            snackbar(it, getString(R.string.email_copied))
-        }
+        findViewById<CoordinatorLayout>(R.id.mal_material_about_activity_coordinator_layout)?.
+            snackbar(getString(R.string.email_copied))
     }
 
     override fun onStart() {

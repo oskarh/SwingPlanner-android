@@ -94,10 +94,10 @@ class SearchController(args: Bundle = Bundle.EMPTY) : ToolbarController<SearchCo
 
     private lateinit var clearIcon: AppCompatImageView
 
-    private val eventAdapter: HeaderEventAdapter = HeaderEventAdapter(emptyList(), {
+    private val eventAdapter: HeaderEventAdapter = HeaderEventAdapter(emptyList()) {
         Timber.d("Clicked on event with id ${it.id}")
         openEvent(it)
-    })
+    }
 
     private var storedText: String = ""
 

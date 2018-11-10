@@ -2,6 +2,7 @@ package com.oskhoj.swingplanner.firebase.notifications.service
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.oskhoj.swingplanner.AppPreferences
 import com.oskhoj.swingplanner.firebase.notifications.NotificationHelper
 import com.oskhoj.swingplanner.firebase.notifications.NotificationType
 import com.oskhoj.swingplanner.util.BODY
@@ -11,6 +12,14 @@ import com.oskhoj.swingplanner.util.TITLE
 import timber.log.Timber
 
 class FirebaseMessageService : FirebaseMessagingService() {
+
+    override fun onNewToken(token: String?) {
+        super.onNewToken(token)
+        Timber.d("New Firebase token: [$token]")
+        token?.let {
+            AppPreferences.firebaseToken = token
+        }
+    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         super.onMessageReceived(remoteMessage)

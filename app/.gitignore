@@ -1,4 +1,5 @@
 /build
+google-services.json
 /src/main/res/raw/third_party_license_metadata
 /src/main/res/raw/third_party_licenses
 /fabric.properties

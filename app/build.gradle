@@ -70,26 +70,23 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-    implementation 'androidx.appcompat:appcompat:1.0.1'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.annotation:annotation:$jetpackAnnotation"
+    implementation "androidx.appcompat:appcompat:$jetpackAppcompat"
+    implementation "androidx.browser:browser:$jetpackBrowser"
+    implementation "androidx.cardview:cardview:$jetpackCardview"
+    implementation "androidx.core:core-ktx:$ktxVersion"
+    implementation "androidx.legacy:legacy-support-v4:$jetpackLegacySupport"
+    implementation "androidx.recyclerview:recyclerview:$jetpackRecyclerview"
+    implementation "com.google.android.material:material:$jetpackMaterial"
 
+    implementation "com.google.android.gms:play-services-oss-licenses:$firebaseOssLicenses"
+    implementation "com.google.firebase:firebase-config:$firebaseConfig"
     implementation "com.google.firebase:firebase-core:$firebaseCore"
     implementation "com.google.firebase:firebase-invites:$firebaseInvites"
     implementation "com.google.firebase:firebase-messaging:$firebaseMessaging"
     implementation "com.google.firebase:firebase-perf:$firebasePerformance"
-    implementation "com.google.firebase:firebase-config:$firebaseConfig"
-    implementation "com.google.android.gms:play-services-oss-licenses:$firebaseOssLicenses"
 
-    implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-        transitive = true
-    }
-
-    implementation "androidx.core:core-ktx:$ktxVersion"
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -135,8 +132,8 @@ dependencies {
 
     // test
     testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation "androidx.test:runner:$jetpackRunner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$jetpackEspressoCore"
 }
 
 apply plugin: 'com.google.gms.google-services'

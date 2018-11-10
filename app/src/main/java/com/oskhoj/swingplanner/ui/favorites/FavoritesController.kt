@@ -42,13 +42,13 @@ class FavoritesController(args: Bundle = Bundle.EMPTY) : ToolbarController<Favor
 
     private var firstVisibleItem = NOT_SET
 
-    private val eventAdapter: EventAdapter = EventAdapter(emptyList(), {
+    private val eventAdapter: EventAdapter = EventAdapter(emptyList()) {
         Timber.d("Clicked on event with id ${it.id}")
         val transitionHandler = TransitionHandler()
         router.pushController(RouterTransaction.with(DetailsController(it))
-                .pushChangeHandler(transitionHandler)
-                .popChangeHandler(transitionHandler))
-    })
+            .pushChangeHandler(transitionHandler)
+            .popChangeHandler(transitionHandler))
+    }
 
     override val controllerModule = Kodein.Module(allowSilentOverride = true) {
         bind<FavoritesContract.Presenter>() with provider { FavoritesPresenter(instance()) }

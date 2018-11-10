@@ -9,6 +9,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // TODO: Replace sleep
         Thread.sleep(1000)
         startActivity<MainActivity>()
         finish()
