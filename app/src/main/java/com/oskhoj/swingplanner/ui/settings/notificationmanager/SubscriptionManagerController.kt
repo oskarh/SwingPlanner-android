@@ -54,10 +54,11 @@ class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
     override val screenType: ScreenType = ScreenType.MANAGE_SUBSCRIPTIONS
 
     private val subscriptionAdapter: NotificationSubscriptionAdapter = NotificationSubscriptionAdapter(
-            AppPreferences.subscriptions.iterator().asSequence().toMutableList(), {
+            AppPreferences.subscriptions.iterator().asSequence().toMutableList()
+    ) {
         Timber.d("Clicked on subscription with name $it")
         presenter.removeSubscription(it)
-    })
+    }
 
     private fun setUpRecyclerView(view: View) {
         view.notificationSubscriptionsRecyclerView.apply {
@@ -73,7 +74,7 @@ class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
     override fun subscriptionAdded(query: String) {
         if (query.trim().length < SUBSCRIPTION_MIN_LENGTH) {
             view?.let {
-                longSnackbar(it, it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
+                it.longSnackbar(it.context.getString(R.string.subscription_validation_failed_message, SUBSCRIPTION_MIN_LENGTH))
             }
         } else {
             AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_ADD, PROPERTY_SUBSCRIPTION to query)
@@ -85,8 +86,9 @@ class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
         AnalyticsHelper.logEvent(ANALYTICS_SUBSCRIPTIONS_REMOVE, PROPERTY_SUBSCRIPTION to query)
         subscriptionAdapter.removeSubscription(query)
         view?.let {
-            longSnackbar(it, it.context.getString(R.string.deleted_message, query),
-                    it.context.getString(R.string.undo_action), { presenter.addSubscription(query) })
+            it.longSnackbar(it.context.getString(R.string.deleted_message, query),
+                it.context.getString(R.string.undo_action)
+            ) { presenter.addSubscription(query) }
         }
     }
 
@@ -118,7 +120,7 @@ class SubscriptionManagerController(args: Bundle = Bundle.EMPTY) :
                                 if (!AppPreferences.hasSubscription(subscription)) {
                                     presenter.addSubscription(subscription)
                                 } else {
-                                    snackbar(view, context.getString(R.string.subscription_already_present, subscription))
+                                    view.snackbar(context.getString(R.string.subscription_already_present, subscription))
                                 }
                             }
                         }

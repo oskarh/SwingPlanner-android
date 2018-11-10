@@ -86,10 +86,10 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
         private val progressBar: ProgressBar = itemView.teacher_events_progressbar
         private val teacherEvents: RecyclerView = itemView.teacher_events_recycler
         private lateinit var teacher: Teacher
-        private val teacherEventsAdapter: EventAdapter = EventAdapter(emptyList(), {
+        private val teacherEventsAdapter: EventAdapter = EventAdapter(emptyList()) {
             Timber.d("Clicked on event with id ${it.id}")
             onEventClick(it)
-        })
+        }
 
         val teacherNameView: TextView = itemView.teacher_name
         val expandableLayout: ExpandableLayout = itemView.expanded_teacher_layout
@@ -124,7 +124,7 @@ class TeacherAdapter(var teachers: List<Teacher>, private val viewHolderList: Vi
                     startActivity(context, YouTubeIntents.createSearchIntent(context, teacher.name), Bundle.EMPTY)
                 } else {
                     Timber.d("YouTube not installed on device")
-                    snackbar(this, context.getString(R.string.youtube_not_available))
+                    snackbar(context.getString(R.string.youtube_not_available))
                 }
             }
             teacherEvents.adapter = teacherEventsAdapter

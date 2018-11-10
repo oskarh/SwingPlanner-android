@@ -92,9 +92,9 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
     private fun fetchRemoteConfig() {
         FirebaseRemoteConfig.getInstance()
                 .fetch()
-                .addOnSuccessListener(this, {
+                .addOnSuccessListener(this) {
                     FirebaseRemoteConfig.getInstance().activateFetched()
-                })
+                }
     }
 
     private fun handleNewAppVersion() {
@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
     private fun isAppUpdate(versionName: String?) = AppPreferences.currentVersion != versionName
 
     private fun showUpdateInformation() {
+//        TODO: Re-enable after library is compatible with androidx
 //        alert(Appcompat, getString(R.string.swingplanner_updated)) {
 //            customView = LayoutInflater.from(this@MainActivity)
 //                    .inflate(R.layout.updatelog_content, null) as ChangeLogRecyclerView
@@ -133,7 +134,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         return StoreBuilder
                 .parsedWithKey<EventSearchBarcode, BufferedSource, EventsPage>()
                 .fetcher { eventApiManager.searchEvents(it.params).map { it.source() } }
-                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .persister(FileSystemPersisterFactory.create(cacheDir) { it.toString() })
                 .refreshOnStale()
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventsPage::class.java))
                 .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
@@ -147,7 +148,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         return StoreBuilder
                 .parsedWithKey<FavoritesBarcode, BufferedSource, FavoritesResponse>()
                 .fetcher { eventApiManager.eventsByIds(it.favoritesParameters.ids).map { it.source() } }
-                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .persister(FileSystemPersisterFactory.create(cacheDir) { it.toString() })
                 .parser(GsonParserFactory.createSourceParser(Gson(), FavoritesResponse::class.java))
                 .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
                         .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(3))
@@ -160,7 +161,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         return StoreBuilder
                 .parsedWithKey<BarCode, BufferedSource, EventDetails>()
                 .fetcher { eventApiManager.eventDetailsById(it.key.toInt()).map { it.source() } }
-                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .persister(FileSystemPersisterFactory.create(cacheDir) { it.toString() })
                 .parser(GsonParserFactory.createSourceParser(Gson(), EventDetails::class.java))
                 .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
                         .setExpireAfterWrite(TimeUnit.DAYS.toSeconds(3))
@@ -173,7 +174,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         return StoreBuilder
                 .parsedWithKey<BarCode, BufferedSource, TeachersResponse>()
                 .fetcher { teacherApiManager.allTeachers().map { it.source() } }
-                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .persister(FileSystemPersisterFactory.create(cacheDir) { it.toString() })
                 .parser(GsonParserFactory.createSourceParser(Gson(), TeachersResponse::class.java))
                 .networkBeforeStale()
                 .memoryPolicy(MemoryPolicy.MemoryPolicyBuilder()
@@ -187,7 +188,7 @@ class MainActivity : AppCompatActivity(), ToolbarProvider {
         return StoreBuilder
                 .parsedWithKey<BarCode, BufferedSource, TeacherEventsResponse>()
                 .fetcher { teacherApiManager.eventsByTeacher(it.key.toInt()).map { it.source() } }
-                .persister(FileSystemPersisterFactory.create(cacheDir, { it.toString() }))
+                .persister(FileSystemPersisterFactory.create(cacheDir) { it.toString() })
                 .parser(GsonParserFactory.createSourceParser(Gson(), TeacherEventsResponse::class.java))
                 .open()
     }

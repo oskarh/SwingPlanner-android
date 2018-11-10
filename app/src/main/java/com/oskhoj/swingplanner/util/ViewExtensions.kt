@@ -69,7 +69,7 @@ fun View.animateToVisible(animationDuration: Long = getLong(R.integer.anim_durat
 }
 
 fun View.animateToGone(animationDuration: Long = getLong(R.integer.anim_duration_very_long)) {
-    animateToSize(0f, animationDuration, { gone() })
+    animateToSize(0f, animationDuration) { gone() }
 }
 
 fun View.getLong(@IntegerRes id: Int) = resources.getInteger(id).toLong()

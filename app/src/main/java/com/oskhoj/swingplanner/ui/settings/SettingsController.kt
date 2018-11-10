@@ -53,7 +53,7 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
     override fun showThemesDialog() {
         AnalyticsHelper.logEvent(ANALYTICS_THEME_CLICK)
         view?.let {
-            longSnackbar(it, it.context.getString(R.string.themes_not_implemented))
+            it.longSnackbar(it.context.getString(R.string.themes_not_implemented))
         }
     }
 
@@ -73,7 +73,7 @@ class SettingsController(args: Bundle = Bundle.EMPTY) : ToolbarController<Settin
             subscriptions_text.onClick { presenter.onSubscriptionsClicked() }
             notification_window_text.onClick { presenter.onNotificationsWindowClicked() }
             language_text.onClick {
-                longSnackbar(this, context.getString(R.string.change_language_not_implemented))
+                longSnackbar(context.getString(R.string.change_language_not_implemented))
 //                showLanguageDialog(context)
             }
             theme_text.onClick { presenter.onThemeClicked() }
